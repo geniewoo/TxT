@@ -1,0 +1,22 @@
+package com.sungwoo.boostcamp.widgetgame.Repositories;
+
+/**
+ * Created by SungWoo on 2017-02-08.
+ */
+
+public class CommonRepo {
+
+    public class ResultCodeRepo{
+
+        private int code;
+        private String err_msg;
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getErr_msg() {
+            return err_msg;
+        }
+    }
+}

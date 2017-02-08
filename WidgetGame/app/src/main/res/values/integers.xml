@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="LENGTH_EMAIL">30</integer>
+    <integer name="LENGTH_PASSWORD">20</integer>
+    <integer name="LENGTH_NICKNAME">16</integer>
+</resources>
