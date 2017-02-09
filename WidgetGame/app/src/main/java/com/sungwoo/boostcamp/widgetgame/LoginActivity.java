@@ -28,13 +28,14 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
     @BindView(R.id.login_login_btn)
-    protected Button mLoginLoingBtn;
+    protected Button mLoginLoginBtn;
     @BindView(R.id.login_join_btn)
     protected Button mLoginJoinBtn;
 
     private String mEmail;
     private String mPassword;
     private String mNickname;
+    private String mImageUrl;
 
     private static final String TAG = "LoginActivity";
 
@@ -55,12 +56,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mLoginLoingBtn.setOnClickListener(new View.OnClickListener() {
+        mLoginLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testLoginServer(mLoginEmailEt.getText().toString(), mLoginPasswordEt.getText().toString());
             }
         });
+
     }
 
     private void testLoginServer(String email, String password) {
@@ -82,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (resultCodeRepo.getCode() == 100) {     //성공
                     Toast.makeText(LoginActivity.this, getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_SHORT).show();
                     mNickname = resultCodeRepo.getNickname();
-                    loginSucess();
+                    mImageUrl = resultCodeRepo.getImageUrl();
+                    loginSuccess();
                 } else if (resultCodeRepo.getCode() == 200) {    //이메일 or nickname 없음
                     Toast.makeText(LoginActivity.this, getString(R.string.LOGIN_FAIL), Toast.LENGTH_SHORT).show();
                 } else if (resultCodeRepo.getCode() == 500) { // 서버 내 오류
@@ -102,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loginSucess() {//TODO sharedPreference에 정보 넣기, 이미지 들고있는 방법 구상하기
+    private void loginSuccess() {//TODO sharedPreference에 정보 넣기, 이미지 들고있는 방법 구상하기
         updateLoginPreference();
 
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -112,17 +115,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateLoginPreference() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.PREF_EMAIL), mEmail);
         editor.putString(getString(R.string.PREF_NICKNAME), mNickname);
         editor.putString(getString(R.string.PREF_PASSWORD), mPassword);
+        editor.putString(getString(R.string.PREF_IMAGE_URL), mImageUrl);
         editor.apply();
-        int size = preferences.getAll().size();
     }
 
     private void testLoginPreference() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         if (preferences.contains(getString(R.string.PREF_EMAIL)) && preferences.contains(getString(R.string.PREF_PASSWORD))) {
             String email = preferences.getString(getString(R.string.PREF_EMAIL), "");
             String password = preferences.getString(getString(R.string.PREF_PASSWORD), "");
