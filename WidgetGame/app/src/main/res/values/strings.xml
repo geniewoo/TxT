@@ -38,6 +38,9 @@
     <string name="JOIN_EMAIL_EXISTS">이미 존재하는 이메일 입니다</string>
     <string name="JOIN_NICKNAME_EXISTS">이미 존재하는 닉네임 입니다</string>
 
+    <!-- activity_menu -->
+    <string name="MENU_BACK_PRESSED">한번 더 뒤로가기를 누르면 앱이 종료됩니다.</string>
+
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER">"http://121.137.62.163:3000"</string>
 </resources>

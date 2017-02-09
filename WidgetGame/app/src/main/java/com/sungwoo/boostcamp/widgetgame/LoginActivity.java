@@ -119,16 +119,11 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(getString(R.string.PREF_PASSWORD), mPassword);
         editor.apply();
         int size = preferences.getAll().size();
-        Log.d(TAG, "size1 : " + size);
     }
 
     private void testLoginPreference() {
-        Log.d(TAG, "testLoginPreference");
         SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
-        Log.d(TAG, "testLoginPreference0");
-        Log.d(TAG, "size1 : " + preferences.getAll().size());
         if (preferences.contains(getString(R.string.PREF_EMAIL)) && preferences.contains(getString(R.string.PREF_PASSWORD))) {
-            Log.d(TAG, "testLoginPreference1");
             String email = preferences.getString(getString(R.string.PREF_EMAIL), "");
             String password = preferences.getString(getString(R.string.PREF_PASSWORD), "");
             testLoginServer(email, password);
