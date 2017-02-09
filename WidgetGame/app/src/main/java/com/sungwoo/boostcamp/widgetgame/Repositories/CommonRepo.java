@@ -19,4 +19,22 @@ public class CommonRepo {
             return err_msg;
         }
     }
+    public class ResultNicknameRepo{
+
+        private int code;
+        private String nickname;
+        private String err_msg;
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getErr_msg() {
+            return err_msg;
+        }
+
+        public String getNickname(){
+            return nickname;
+        }
+    }
 }

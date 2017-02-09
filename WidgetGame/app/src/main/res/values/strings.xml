@@ -7,8 +7,10 @@
     <string name="COMMON_SERVER_ERROR">서버에 문제가 있습니다</string>
 
     <!-- sharedPreference -->
-    <string name="SP_EMAIL">SP_EMAIL</string>
-    <string name="SP_NICKNAME">SP_NICKNAME</string>
+    <string name="PREF_LOGIN">PREF_LOGIN</string>
+    <string name="PREF_EMAIL">PREF_EMAIL</string>
+    <string name="PREF_PASSWORD">PREF_PASSWORD</string>
+    <string name="PREF_NICKNAME">PREF_NICKNAME</string>
 
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>

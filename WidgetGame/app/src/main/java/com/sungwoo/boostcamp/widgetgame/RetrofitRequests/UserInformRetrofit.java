@@ -15,5 +15,5 @@ public interface UserInformRetrofit {
     Call<CommonRepo.ResultCodeRepo> testJoinServer(@Query("email") String email, @Query("password") String password, @Query("nickname") String nickname);
 
     @GET("login/test")
-    Call<CommonRepo.ResultCodeRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
+    Call<CommonRepo.ResultNicknameRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
 }
