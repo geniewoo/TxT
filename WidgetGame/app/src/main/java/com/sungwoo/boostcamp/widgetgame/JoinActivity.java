@@ -1,12 +1,15 @@
 package com.sungwoo.boostcamp.widgetgame;
 
+import android.nfc.FormatException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
 
@@ -30,9 +33,11 @@ public class JoinActivity extends AppCompatActivity {
     @BindView(R.id.join_join_btn)
     protected Button mJoinJoinBtn;
 
+    private static final String TAG = "JoinActivity";
+
     //회원가입 스트링 유효성 파악을 위한 패턴들
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{8,20}$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_NICKNAME_REGES = Pattern.compile("^[A-z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
 
     @Override
@@ -91,6 +96,9 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private void checkJoinServer(String email, String password, String nickname){   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
+        if(!CommonUtility.isNetworkAvailable(getApplicationContext())) {
+            return;
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -102,16 +110,26 @@ public class JoinActivity extends AppCompatActivity {
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
                 CommonRepo.ResultCodeRepo weatherGson = response.body();
                 if (weatherGson.getCode() == 100) {     //성공
-                    Toast.makeText(JoinActivity.this, "유효", Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                    Toast.makeText(JoinActivity.this, getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                    finish();
                 }else if (weatherGson.getCode() == 200){    //이메일 중복
                     Toast.makeText(JoinActivity.this, getString(R.string.JOIN_EMAIL_EXISTS), Toast.LENGTH_SHORT).show();
                 }else if (weatherGson.getCode() == 300){    //닉네임 중복
                     Toast.makeText(JoinActivity.this, getString(R.string.JOIN_NICKNAME_EXISTS), Toast.LENGTH_SHORT).show();
+                }else if (weatherGson.getCode() == 400){ // 형식오류 안드로이드 외에서 입력 들어왔을 확률 높음
+                    Log.e(TAG, weatherGson.getErr_msg());
+                }else if (weatherGson.getCode() == 500){ // 서버 내 오류
+                    Toast.makeText(JoinActivity.this, getString(R.string.COMMON_SERVER_ERROR), Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                Toast.makeText(JoinActivity.this, getString(R.string.COMMON_ERROR), Toast.LENGTH_SHORT).show();
+                CommonUtility.networkError(getApplicationContext());
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
         });
     }

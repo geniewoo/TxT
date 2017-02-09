@@ -13,4 +13,7 @@ import retrofit2.http.Query;
 public interface UserInformRetrofit {
     @GET("join/test")
     Call<CommonRepo.ResultCodeRepo> testJoinServer(@Query("email") String email, @Query("password") String password, @Query("nickname") String nickname);
+
+    @GET("login/test")
+    Call<CommonRepo.ResultCodeRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
 }
