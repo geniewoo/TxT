@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
-    long mDoubleTouch = 0;
+    long mFirstTapped = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,11 +15,11 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - mDoubleTouch < 700) {
+        if (System.currentTimeMillis() - mFirstTapped < 700) {
             super.onBackPressed();
         } else {
-            mDoubleTouch = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(), getString(R.string.MENU_BACK_PRESSED), Toast.LENGTH_LONG).show();
+            mFirstTapped = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), R.string.MENU_BACK_PRESSED, Toast.LENGTH_LONG).show();
         }
     }
 

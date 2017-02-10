@@ -11,16 +11,17 @@ import com.sungwoo.boostcamp.widgetgame.R;
  */
 
 public class CommonUtility {
-    public static boolean isNetworkAvailable(final Context context) {
-        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
-        if(connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()){
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
             return true;
-        }else{
-            Toast.makeText(context, context.getString(R.string.COMMON_NETWORK_IS_NOT_AVAILABLE), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, R.string.COMMON_NETWORK_IS_NOT_AVAILABLE, Toast.LENGTH_SHORT).show();
             return false;
         }
     }
-    public static void networkError(Context context){
-        Toast.makeText(context, context.getString(R.string.COMMON_NETWORK_ERROR), Toast.LENGTH_SHORT).show();
+
+    public static void networkError(Context context) {
+        Toast.makeText(context, R.string.COMMON_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
     }
 }

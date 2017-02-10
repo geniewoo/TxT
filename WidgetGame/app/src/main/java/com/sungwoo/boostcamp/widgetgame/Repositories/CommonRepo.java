@@ -6,7 +6,7 @@ package com.sungwoo.boostcamp.widgetgame.Repositories;
 
 public class CommonRepo {
 
-    public class ResultCodeRepo{
+    public class ResultCodeRepo {
 
         private int code;
         private String err_msg;
@@ -19,7 +19,8 @@ public class CommonRepo {
             return err_msg;
         }
     }
-    public class ResultNicknameRepo{
+
+    public class ResultNicknameRepo {
 
         private int code;
         private String nickname;
@@ -33,7 +34,7 @@ public class CommonRepo {
             return err_msg;
         }
 
-        public String getNickname(){
+        public String getNickname() {
             return nickname;
         }
     }

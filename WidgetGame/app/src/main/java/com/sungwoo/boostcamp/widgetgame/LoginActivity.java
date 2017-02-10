@@ -16,6 +16,7 @@ import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,16 +28,16 @@ public class LoginActivity extends AppCompatActivity {
     protected EditText mLoginEmailEt;
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
-    @BindView(R.id.login_login_btn)
-    protected Button mLoginLoingBtn;
-    @BindView(R.id.login_join_btn)
-    protected Button mLoginJoinBtn;
 
     private String mEmail;
     private String mPassword;
     private String mNickname;
 
     private static final String TAG = "LoginActivity";
+
+    private static final int LOGIN_SUCCESS = 100;
+    private static final int LOGIN_CAN_NOT_FIND_USER = 200;
+    private static final int LOGIN_SERVER_ERROR = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         testLoginPreference();
 
         ButterKnife.bind(this);
-
-        mLoginJoinBtn.setOnClickListener(new View.OnClickListener() { //회원가입 버튼 클릭시 회원가입 activity로 이동
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mLoginLoingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testLoginServer(mLoginEmailEt.getText().toString(), mLoginPasswordEt.getText().toString());
-            }
-        });
     }
 
     private void testLoginServer(String email, String password) {
@@ -79,14 +65,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {
                 CommonRepo.ResultNicknameRepo resultCodeRepo = response.body();
-                if (resultCodeRepo.getCode() == 100) {     //성공
-                    Toast.makeText(LoginActivity.this, getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_SHORT).show();
+                if (resultCodeRepo.getCode() == LOGIN_SUCCESS) {
+                    Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
                     mNickname = resultCodeRepo.getNickname();
                     loginSucess();
-                } else if (resultCodeRepo.getCode() == 200) {    //이메일 or nickname 없음
-                    Toast.makeText(LoginActivity.this, getString(R.string.LOGIN_FAIL), Toast.LENGTH_SHORT).show();
-                } else if (resultCodeRepo.getCode() == 500) { // 서버 내 오류
-                    Toast.makeText(LoginActivity.this, getString(R.string.COMMON_SERVER_ERROR), Toast.LENGTH_SHORT).show();
+                } else if (resultCodeRepo.getCode() == LOGIN_CAN_NOT_FIND_USER) {
+                    Toast.makeText(LoginActivity.this, R.string.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
+                } else if (resultCodeRepo.getCode() == LOGIN_SERVER_ERROR) {
+                    Toast.makeText(LoginActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -100,6 +86,17 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @OnClick(R.id.login_join_btn)
+    private void onLoginJoinBtnClick() {
+        Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.login_login_btn)
+    private void onLoginLoginBtnClick() {
+        testLoginServer(mLoginEmailEt.getText().toString(), mLoginPasswordEt.getText().toString());
     }
 
     private void loginSucess() {//TODO sharedPreference에 정보 넣기, 이미지 들고있는 방법 구상하기

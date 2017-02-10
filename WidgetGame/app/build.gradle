@@ -21,13 +21,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.jakewharton:butterknife:8.4.0'//ButterKnife
-
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'//Retrofit
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
-
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'//ButterKnife
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-
-    compile 'com.google.code.gson:gson:2.8.0'//gson
+    compile 'com.google.code.gson:gson:2.8.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
