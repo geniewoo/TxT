@@ -53,7 +53,7 @@ public class JoinActivity extends AppCompatActivity {
                 String email = mJoinEmailEt.getText().toString();
                 String password = mJoinPasswordEt.getText().toString();
                 String nickname = mJoinNickname_et.getText().toString();
-                if(!checkLocally(email, password, nickname)){   //각 값들을 로컬에서 테스트하고 이상이 있을 시 서버로 넘기지 않는다
+                if (!checkLocally(email, password, nickname)) {   //각 값들을 로컬에서 테스트하고 이상이 있을 시 서버로 넘기지 않는다
                     return;
                 }
                 checkJoinServer(email, password, nickname);     //각 값들을 서버에서 중복확인을 한다
@@ -61,42 +61,43 @@ public class JoinActivity extends AppCompatActivity {
         });
     }
 
-    private boolean checkLocally(String email, String password, String nickname){   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
+    private boolean checkLocally(String email, String password, String nickname) {   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
 
-        if(!checkEmail(email)){
+        if (!checkEmail(email)) {
             Toast.makeText(this, getString(R.string.JOIN_EMAIL_IS_WRONG), Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(!checkPassword(password)){
+        if (!checkPassword(password)) {
             Toast.makeText(this, getString(R.string.JOIN_PASSWORD_IS_WRONG), Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(!checkNickname(nickname)){
+        if (!checkNickname(nickname)) {
             Toast.makeText(this, getString(R.string.JOIN_NICKNAME_IS_WRONG), Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
-    private boolean checkEmail(String email){
-        if(!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
+
+    private boolean checkEmail(String email) {
+        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
             return false;
         return true;
     }
 
-    private boolean checkPassword(String password){
-        if(!VALID_PASSWORD_REGEX.matcher(password).find())
+    private boolean checkPassword(String password) {
+        if (!VALID_PASSWORD_REGEX.matcher(password).find())
             return false;
         return true;
     }
 
-    private boolean checkNickname(String nickname){
-        if(!VALID_NICKNAME_REGES.matcher(nickname).find())
+    private boolean checkNickname(String nickname) {
+        if (!VALID_NICKNAME_REGES.matcher(nickname).find())
             return false;
         return true;
     }
 
-    private void checkJoinServer(String email, String password, String nickname){   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
-        if(!CommonUtility.isNetworkAvailable(getApplicationContext())) {
+    private void checkJoinServer(String email, String password, String nickname) {   // 서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
+        if (!CommonUtility.isNetworkAvailable(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
@@ -109,19 +110,20 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
                 CommonRepo.ResultCodeRepo weatherGson = response.body();
-                if (weatherGson.getCode() == 100) {     //성공
-                    Toast.makeText(JoinActivity.this, getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                if (weatherGson.getCode() == 100) {     // 성공
+                    Toast.makeText(JoinActivity.this, getString(R.string.LOGIN_SUCCESS), Toast.LENGTH_SHORT).show();// TODO 후에 "가입성공", finish()로 바꿈
                     finish();
-                }else if (weatherGson.getCode() == 200){    //이메일 중복
+                } else if (weatherGson.getCode() == 200) {    //이메일 중복
                     Toast.makeText(JoinActivity.this, getString(R.string.JOIN_EMAIL_EXISTS), Toast.LENGTH_SHORT).show();
-                }else if (weatherGson.getCode() == 300){    //닉네임 중복
+                } else if (weatherGson.getCode() == 300) {    //닉네임 중복
                     Toast.makeText(JoinActivity.this, getString(R.string.JOIN_NICKNAME_EXISTS), Toast.LENGTH_SHORT).show();
-                }else if (weatherGson.getCode() == 400){ // 형식오류 안드로이드 외에서 입력 들어왔을 확률 높음
+                } else if (weatherGson.getCode() == 400) { // 형식오류 안드로이드 외에서 입력 들어왔을 확률 높음
                     Log.e(TAG, weatherGson.getErr_msg());
-                }else if (weatherGson.getCode() == 500){ // 서버 내 오류
+                } else if (weatherGson.getCode() == 500) { // 서버 내 오류
                     Toast.makeText(JoinActivity.this, getString(R.string.COMMON_SERVER_ERROR), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
                 CommonUtility.networkError(getApplicationContext());

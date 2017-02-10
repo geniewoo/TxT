@@ -52,4 +52,7 @@
 
     <!-- server response -->
     <string name="none">none</string>
+
+    <!-- local storage -->
+    <string name="LOCAL_STORAGE_USER_DIR">TxT/User</string>
 </resources>
