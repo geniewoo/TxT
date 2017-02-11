@@ -128,7 +128,7 @@ public class JoinActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.networkError(getApplicationContext());
+                CommonUtility.displayNetworkError(getApplicationContext());
                 try {
                     throw t;
                 } catch (Throwable throwable) {

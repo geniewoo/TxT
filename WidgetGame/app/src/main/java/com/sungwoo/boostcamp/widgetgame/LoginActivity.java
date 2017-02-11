@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CommonRepo.ResultNicknameRepo> call, Throwable t) {
-                CommonUtility.networkError(getApplicationContext());
+                CommonUtility.displayNetworkError(getApplicationContext());
                 try {
                     throw t;
                 } catch (Throwable throwable) {

@@ -21,7 +21,7 @@ public class CommonUtility {
         }
     }
 
-    public static void networkError(Context context) {
+    public static void displayNetworkError(Context context) {
         Toast.makeText(context, R.string.COMMON_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
     }
 }
