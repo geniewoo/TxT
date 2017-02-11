@@ -9,14 +9,14 @@ public class CommonRepo {
     public class ResultCodeRepo {
 
         private int code;
-        private String err_msg;
+        private String errorMessage;
 
         public int getCode() {
             return code;
         }
 
-        public String getErr_msg() {
-            return err_msg;
+        public String getErrorMessage() {
+            return errorMessage;
         }
     }
 

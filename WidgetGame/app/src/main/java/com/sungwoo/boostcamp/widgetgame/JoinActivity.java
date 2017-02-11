@@ -56,13 +56,13 @@ public class JoinActivity extends AppCompatActivity {
 
     private boolean validateCredentialLocallyDisplayErrorMessageIfNeeded(String email, String password, String nickname) {   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
 
-        if (!validateEmail(email)) {
+        if (!isValidEmail(email)) {
             Toast.makeText(this, R.string.JOIN_EMAIL_IS_WRONG, Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!validatePassword(password)) {
+        } else if (!isValidPassword(password)) {
             Toast.makeText(this, R.string.JOIN_PASSWORD_IS_WRONG, Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!validateNickname(nickname)) {
+        } else if (!isValidNickname(nickname)) {
             Toast.makeText(this, R.string.JOIN_NICKNAME_IS_WRONG, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -80,19 +80,19 @@ public class JoinActivity extends AppCompatActivity {
         checkJoinServer(email, password, nickname);     // 각 값들을 서버에서 중복확인을 한다
     }
 
-    private boolean validateEmail(String email) {
+    private boolean isValidEmail(String email) {
         if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
             return false;
         return true;
     }
 
-    private boolean validatePassword(String password) {
+    private boolean isValidPassword(String password) {
         if (!VALID_PASSWORD_REGEX.matcher(password).find())
             return false;
         return true;
     }
 
-    private boolean validateNickname(String nickname) {
+    private boolean isValidNickname(String nickname) {
         if (!VALID_NICKNAME_REGEX.matcher(nickname).find())
             return false;
         return true;
@@ -120,7 +120,7 @@ public class JoinActivity extends AppCompatActivity {
                 } else if (codeRepo.getCode() == JOIN_DUPLICATE_NICKNAME) {
                     Toast.makeText(JoinActivity.this, R.string.JOIN_NICKNAME_EXISTS, Toast.LENGTH_SHORT).show();
                 } else if (codeRepo.getCode() == JOIN_FORMAT_ERROR) {
-                    Log.e(TAG, codeRepo.getErr_msg());
+                    Log.e(TAG, codeRepo.getErrorMessage());
                 } else if (codeRepo.getCode() == JOIN_SERVER_ERROR) {
                     Toast.makeText(JoinActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
                 }
