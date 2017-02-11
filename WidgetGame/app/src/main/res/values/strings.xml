@@ -1,3 +1,51 @@
 <resources>
-    <string name="app_name">WidgetGame</string>
+    <!-- common -->
+    <string name="app_name">T x T</string>
+    <string name="COMMON_ERROR">error</string>
+    <string name="COMMON_NETWORK_IS_NOT_AVAILABLE">wifi 혹은 data가 꺼져있습니다</string>
+    <string name="COMMON_NETWORK_ERROR">인터넷 접속이 불가능 하거나 서버에 이상이 있습니다 잠시후에 다시 시도해 주세요</string>
+    <string name="COMMON_SERVER_ERROR">서버에 문제가 있습니다</string>
+
+    <!-- sharedPreference -->
+    <string name="PREF_LOGIN"
+        translatable="false">PREF_LOGIN</string>
+    <string name="PREF_EMAIL"
+        translatable="false">PREF_EMAIL</string>
+    <string name="PREF_PASSWORD"
+        translatable="false">PREF_PASSWORD</string>
+    <string name="PREF_NICKNAME"
+        translatable="false">PREF_NICKNAME</string>
+
+    <!-- activity_login -->
+    <string name="LOGIN_LOGIN">로그인</string>
+    <string name="LOGIN_JOIN">회원가입</string>
+    <string name="LOGIN_JOIN_PRE">계정이 없으세요? 간단한</string>
+    <string name="LOGIN_JOIN_POST">후에 즐길 수 있습니다</string>
+    <string name="LOGIN_PASSWORD_HINT">password</string>
+    <string name="LOGIN_EMAIL_HINT">abcd1234@efgc.com</string>
+
+    <string name="LOGIN_SUCCESS">로그인 성공</string>
+    <string name="LOGIN_FAIL">이메일이나 비밀번호가 맞지 않습니다</string>
+
+    <!-- activity_join -->
+    <string name="JOIN_EMAIL">이메일</string>
+    <string name="JOIN_PASSWORD">비밀번호</string>
+    <string name="JOIN_NICKNAME">닉네임</string>
+    <string name="JOIN_SECTIONBAR">|</string>
+    <string name="JOIN_JOIN">회원가입</string>
+
+    <string name="JOIN_EMAIL_IS_WRONG">유효하지 않은 이메일 형식입니다</string>
+    <string name="JOIN_PASSWORD_IS_WRONG">영문 + 숫자 /"!@#$%/"의 특수문자 로 6~20자로 작성해 주세요</string>
+    <string name="JOIN_NICKNAME_IS_WRONG">영문 + 한글 + 숫자 + /"_/"의 특수문자로 2~16자로 작성해 주세요</string>
+    <string name="JOIN_SUCCESS">회원가입 성공</string>
+
+    <string name="JOIN_EMAIL_EXISTS">이미 존재하는 이메일 입니다</string>
+    <string name="JOIN_NICKNAME_EXISTS">이미 존재하는 닉네임 입니다</string>
+
+    <!-- activity_menu -->
+    <string name="MENU_BACK_PRESSED">한번 더 뒤로가기를 누르면 앱이 종료됩니다.</string>
+
+    <!-- URL -->
+    <string name="URL_WIDGET_GAME_SERVER"
+        translatable="false">"http://121.137.62.163:3000"</string>
 </resources>
