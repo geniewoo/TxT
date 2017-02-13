@@ -50,10 +50,10 @@ public class CommonRepo {
         private String password;
         private String imageUrl;
 
-        public UserRepo(String email, String nickname, String password, String imageUrl) {
+        public UserRepo(String email, String password, String nickname, String imageUrl) {
             this.email = email;
-            this.nickname = nickname;
             this.password = password;
+            this.nickname = nickname;
             this.imageUrl = imageUrl;
         }
 

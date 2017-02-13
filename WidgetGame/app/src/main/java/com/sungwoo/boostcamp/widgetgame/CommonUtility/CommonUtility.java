@@ -51,6 +51,13 @@ public class CommonUtility {
         return new CommonRepo.UserRepo(email, password, nickname, imageUrl);
     }
 
+    public static void deleteAllUserPreference(Context context){
+        SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.PREF_USER), MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+    }
+
     public static boolean saveBitmapToFile(File dir, String fileName, Bitmap bm, Bitmap.CompressFormat format, int quality) {
         dir.getParentFile().mkdir();
         dir.mkdir();

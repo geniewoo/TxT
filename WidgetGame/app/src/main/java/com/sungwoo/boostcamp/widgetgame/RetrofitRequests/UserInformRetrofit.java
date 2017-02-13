@@ -16,13 +16,13 @@ import retrofit2.http.Query;
  */
 
 public interface UserInformRetrofit {
-    @GET("join/test")
+    @GET("user/join/test")
     Call<CommonRepo.ResultCodeRepo> testJoinServer(@Query("email") String email, @Query("password") String password, @Query("nickname") String nickname);
 
-    @GET("login/test")
+    @GET("user/login/test")
     Call<CommonRepo.ResultNicknameRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
 
     @Multipart
     @POST("upload/userImageFile")
-    Call<CommonRepo.ResultCodeRepo> uploadUserImage(@Part("file\"; filename=\"name.png\" ") RequestBody file);
+    Call<CommonRepo.ResultCodeRepo> uploadUserImage(@Part("file\"; filename=\"name.png\" ") RequestBody file, @Part("fileNames") RequestBody name);
 }

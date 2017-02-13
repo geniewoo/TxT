@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     case LOGIN_SUCCESS:
                         Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
                         mNickname = resultCodeRepo.getNickname();
+                        mImageUrl = resultCodeRepo.getImageUrl();
                         loginSuccess();
                         break;
                     case LOGIN_CAN_NOT_FIND_USER:
