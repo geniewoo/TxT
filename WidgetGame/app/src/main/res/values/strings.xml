@@ -7,14 +7,11 @@
     <string name="COMMON_SERVER_ERROR">서버에 문제가 있습니다</string>
 
     <!-- sharedPreference -->
-    <string name="PREF_LOGIN"
-        translatable="false">PREF_LOGIN</string>
-    <string name="PREF_EMAIL"
-        translatable="false">PREF_EMAIL</string>
-    <string name="PREF_PASSWORD"
-        translatable="false">PREF_PASSWORD</string>
-    <string name="PREF_NICKNAME"
-        translatable="false">PREF_NICKNAME</string>
+    <string name="PREF_USER" translatable="false">PREF_USER</string>
+    <string name="PREF_EMAIL" translatable="false">PREF_EMAIL</string>
+    <string name="PREF_PASSWORD" translatable="false">PREF_PASSWORD</string>
+    <string name="PREF_NICKNAME" translatable="false">PREF_NICKNAME</string>
+    <string name="PREF_IMAGE_URL" translatable="false">PREF_IMAGE_URL</string>
 
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>
@@ -44,8 +41,19 @@
 
     <!-- activity_menu -->
     <string name="MENU_BACK_PRESSED">한번 더 뒤로가기를 누르면 앱이 종료됩니다.</string>
-
+    <string name="MENU_FIND_GAME">게임 찾기</string>
+    <string name="MENU_MAKE_GAME">게임 제작</string>
+    <string name="MENU_PLAYED_GAME">플레이한 게임</string>
+    <string name="MENU_REPORT">리포트 / 문의</string>
+    <string name="MENU_LOGOUT">로그아웃</string>
     <!-- URL -->
-    <string name="URL_WIDGET_GAME_SERVER"
-        translatable="false">"http://121.137.62.163:3000"</string>
+    <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
+    <string name="URL_IMAGE_SERVER_FOLDER">http://121.137.62.163:3000/images/</string>
+
+    <!-- server response -->
+    <string name="none">none</string>
+
+    <!-- local storage -->
+    <string name="LOCAL_STORAGE_USER_DIR">TxT/User</string>
+
 </resources>

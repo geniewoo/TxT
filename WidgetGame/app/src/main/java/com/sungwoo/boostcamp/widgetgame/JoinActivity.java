@@ -112,17 +112,23 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
-                if (codeRepo.getCode() == JOIN_SUCCESS) {
-                    Toast.makeText(JoinActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
-                    finish();
-                } else if (codeRepo.getCode() == JOIN_DUPLICATE_EMAIL) {
-                    Toast.makeText(JoinActivity.this, R.string.JOIN_EMAIL_EXISTS, Toast.LENGTH_SHORT).show();
-                } else if (codeRepo.getCode() == JOIN_DUPLICATE_NICKNAME) {
-                    Toast.makeText(JoinActivity.this, R.string.JOIN_NICKNAME_EXISTS, Toast.LENGTH_SHORT).show();
-                } else if (codeRepo.getCode() == JOIN_FORMAT_ERROR) {
-                    Log.e(TAG, codeRepo.getErrorMessage());
-                } else if (codeRepo.getCode() == JOIN_SERVER_ERROR) {
-                    Toast.makeText(JoinActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                switch (codeRepo.getCode()) {
+                    case JOIN_SUCCESS:
+                        Toast.makeText(JoinActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                        finish();
+                        break;
+                    case JOIN_DUPLICATE_EMAIL:
+                        Toast.makeText(JoinActivity.this, R.string.JOIN_EMAIL_EXISTS, Toast.LENGTH_SHORT).show();
+                        break;
+                    case JOIN_DUPLICATE_NICKNAME:
+                        Toast.makeText(JoinActivity.this, R.string.JOIN_NICKNAME_EXISTS, Toast.LENGTH_SHORT).show();
+                        break;
+                    case JOIN_FORMAT_ERROR:
+                        Log.e(TAG, codeRepo.getErrorMessage());
+                        break;
+                    case JOIN_SERVER_ERROR:
+                        Toast.makeText(JoinActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
 
@@ -137,5 +143,4 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
     }
-
 }

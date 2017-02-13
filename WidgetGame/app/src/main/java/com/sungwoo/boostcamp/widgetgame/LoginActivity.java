@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private String mEmail;
     private String mPassword;
     private String mNickname;
+    private String mImageUrl;
 
     private static final String TAG = "LoginActivity";
 
@@ -65,14 +66,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {
                 CommonRepo.ResultNicknameRepo resultCodeRepo = response.body();
-                if (resultCodeRepo.getCode() == LOGIN_SUCCESS) {
-                    Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
-                    mNickname = resultCodeRepo.getNickname();
-                    loginSucess();
-                } else if (resultCodeRepo.getCode() == LOGIN_CAN_NOT_FIND_USER) {
-                    Toast.makeText(LoginActivity.this, R.string.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
-                } else if (resultCodeRepo.getCode() == LOGIN_SERVER_ERROR) {
-                    Toast.makeText(LoginActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                switch (resultCodeRepo.getCode()) {
+                    case LOGIN_SUCCESS:
+                        Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
+                        mNickname = resultCodeRepo.getNickname();
+                        loginSuccess();
+                        break;
+                    case LOGIN_CAN_NOT_FIND_USER:
+                        Toast.makeText(LoginActivity.this, R.string.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOGIN_SERVER_ERROR:
+                        Toast.makeText(LoginActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
 
@@ -89,17 +94,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.login_join_btn)
-    private void onLoginJoinBtnClick() {
+    public void onLoginJoinBtnClick() {
         Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.login_login_btn)
-    private void onLoginLoginBtnClick() {
+    public void onLoginLoginBtnClick() {
         testLoginServer(mLoginEmailEt.getText().toString(), mLoginPasswordEt.getText().toString());
     }
 
-    private void loginSucess() {//TODO sharedPreference에 정보 넣기, 이미지 들고있는 방법 구상하기
+    private void loginSuccess() {
+
         updateLoginPreference();
 
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -109,17 +115,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateLoginPreference() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.PREF_EMAIL), mEmail);
         editor.putString(getString(R.string.PREF_NICKNAME), mNickname);
         editor.putString(getString(R.string.PREF_PASSWORD), mPassword);
+        editor.putString(getString(R.string.PREF_IMAGE_URL), mImageUrl);
         editor.apply();
-        int size = preferences.getAll().size();
     }
 
     private void testLoginPreference() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         if (preferences.contains(getString(R.string.PREF_EMAIL)) && preferences.contains(getString(R.string.PREF_PASSWORD))) {
             String email = preferences.getString(getString(R.string.PREF_EMAIL), "");
             String password = preferences.getString(getString(R.string.PREF_PASSWORD), "");
