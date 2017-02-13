@@ -27,12 +27,14 @@ import static android.content.Context.MODE_PRIVATE;
 public class CommonUtility {
     public static final int SAVE_BITMAP_TO_FILE_QUALITY = 100;
 
-    public static boolean isNetworkAvailable(Context context) {
+    private static final String TAG = "CommonUtility";
+
+    public static boolean isNetworkAvailableShowErrorMessageIfNeeded(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
             return true;
         } else {
-            Toast.makeText(context, context.getString(R.string.COMMON_NETWORK_IS_NOT_AVAILABLE), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.COMMON_NETWORK_IS_NOT_AVAILABLE, Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -51,33 +53,28 @@ public class CommonUtility {
         return new CommonRepo.UserRepo(email, password, nickname, imageUrl);
     }
 
-    public static void deleteAllUserPreference(Context context){
+    public static void deleteAllUserPreference(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.apply();
     }
 
-    public static boolean saveBitmapToFile(File dir, String fileName, Bitmap bm, Bitmap.CompressFormat format, int quality) {
+    public static boolean saveBitmapToFile(File dir, String fileName, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
         dir.getParentFile().mkdir();
         dir.mkdir();
         File imageFile = new File(dir, fileName);
-
-
-        FileOutputStream fos = null;
+        FileOutputStream fileOutputStream = null;
         try {
-            fos = new FileOutputStream(imageFile);
-
-            bm.compress(format, quality, fos);
-
-            fos.close();
-
+            fileOutputStream = new FileOutputStream(imageFile);
+            bitmap.compress(format, quality, fileOutputStream);
+            fileOutputStream.close();
             return true;
         } catch (IOException e) {
-            Log.e("app", e.getMessage());
-            if (fos != null) {
+            Log.e(TAG, e.getMessage());
+            if (fileOutputStream != null) {
                 try {
-                    fos.close();
+                    fileOutputStream.close();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

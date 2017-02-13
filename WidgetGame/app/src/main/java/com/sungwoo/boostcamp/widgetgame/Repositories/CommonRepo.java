@@ -50,6 +50,10 @@ public class CommonRepo {
         private String password;
         private String imageUrl;
 
+        public  UserRepo(){
+
+        }
+
         public UserRepo(String email, String password, String nickname, String imageUrl) {
             this.email = email;
             this.password = password;
@@ -71,6 +75,22 @@ public class CommonRepo {
 
         public String getImageUrl() {
             return imageUrl;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
         }
     }
 }

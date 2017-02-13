@@ -29,10 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
 
-    private String mEmail;
-    private String mPassword;
-    private String mNickname;
-    private String mImageUrl;
+    private CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
     private static final String TAG = "LoginActivity";
 
@@ -51,9 +48,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void testLoginServer(String email, String password) {
-        mEmail = email;
-        mPassword = password;
-        if (!CommonUtility.isNetworkAvailable(getApplicationContext())) {
+        mUserRepo.setEmail(email);
+        mUserRepo.setPassword(password);
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
@@ -61,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformRetrofit.testLoginServer(mEmail, mPassword);
+        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultNicknameRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {
@@ -69,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                 switch (resultCodeRepo.getCode()) {
                     case LOGIN_SUCCESS:
                         Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
-                        mNickname = resultCodeRepo.getNickname();
-                        mImageUrl = resultCodeRepo.getImageUrl();
+                        mUserRepo.setNickname(resultCodeRepo.getNickname());
+                        mUserRepo.setImageUrl(resultCodeRepo.getImageUrl());
                         loginSuccess();
                         break;
                     case LOGIN_CAN_NOT_FIND_USER:
@@ -118,10 +115,10 @@ public class LoginActivity extends AppCompatActivity {
     private void updateLoginPreference() {
         SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.PREF_EMAIL), mEmail);
-        editor.putString(getString(R.string.PREF_NICKNAME), mNickname);
-        editor.putString(getString(R.string.PREF_PASSWORD), mPassword);
-        editor.putString(getString(R.string.PREF_IMAGE_URL), mImageUrl);
+        editor.putString(getString(R.string.PREF_EMAIL), mUserRepo.getEmail());
+        editor.putString(getString(R.string.PREF_PASSWORD), mUserRepo.getPassword());
+        editor.putString(getString(R.string.PREF_NICKNAME), mUserRepo.getNickname());
+        editor.putString(getString(R.string.PREF_IMAGE_URL), mUserRepo.getImageUrl());
         editor.apply();
     }
 

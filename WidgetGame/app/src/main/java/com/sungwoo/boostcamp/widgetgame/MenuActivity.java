@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,7 +55,7 @@ public class MenuActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         mUserInfo = CommonUtility.getUserRepoFromPreference(getApplicationContext());
-        setUserInfo();
+        initUserInfo();
     }
 
     @OnClick(R.id.menu_find_game_btn)
@@ -89,12 +88,12 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.menu_user_iv)
+    @OnClick(R.id.menu_user_iv) // 사진, 닉네임 변경하기
     public void onMenuUserIvClicked() {
         startSelectImageForUploadUserImage();
     }
 
-    private void setUserInfo() {
+    private void initUserInfo() {
 
         mMenuUserTv.setText(mUserInfo.getNickname());
 
@@ -107,31 +106,25 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void startSelectImageForUploadUserImage() {
-
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
         intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
-        //overridePendingTransition(R.anim.hold,R.anim.hold);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult");
         if (resultCode != RESULT_OK) {
-            Log.d(TAG, "result_error");
             return;
         }
-        Log.d(TAG, "result_ok");
-
-        if (requestCode == REQ_CODE_SELECT_IMAGE) {
-            Log.d(TAG, data.getData().toString());
-            Uri imageUri = data.getData();
-
-            Picasso.with(getApplicationContext()).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
-            saveUserImageInLocalStorage(imageUri);
-            uploadUserImageToServer();
+        switch (requestCode){
+            case REQ_CODE_SELECT_IMAGE :
+                Uri imageUri = data.getData();
+                Picasso.with(getApplicationContext()).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
+                saveUserImageInLocalStorage(imageUri);
+                uploadUserImageToServer();
+                break;
         }
     }
 
@@ -153,9 +146,8 @@ public class MenuActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (userImageBitmap != null) {
-            Log.d(TAG, "directory : " + Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR));
             File dir = new File(Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR));
-            CommonUtility.saveBitmapToFile(dir, "userImage.png", userImageBitmap, Bitmap.CompressFormat.PNG, CommonUtility.SAVE_BITMAP_TO_FILE_QUALITY);
+            CommonUtility.saveBitmapToFile(dir, getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), userImageBitmap, Bitmap.CompressFormat.PNG, CommonUtility.SAVE_BITMAP_TO_FILE_QUALITY);
         }
     }
 
@@ -165,16 +157,13 @@ public class MenuActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        File file = new File(Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR) + File.separator + "userImage.png");
-        if (file.isFile()) {
-            Log.e(TAG, "IMAGE IS FILE" + file.getPath());
-        }
+        File file = new File(Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR) + File.separator + getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
         if (file == null) {
-            Log.e(TAG, "IMAGE IS NOT EXISTS");
+            Log.e(TAG, getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));
             return;
         }
-        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
-        RequestBody fileNameBody = RequestBody.create(MediaType.parse("string"), mUserInfo.getNickname() + ".png");
+        RequestBody fileBody = RequestBody.create(MediaType.parse(getString(R.string.RETROFIT_FILE_FORMAT_IMAGE)), file);
+        RequestBody fileNameBody = RequestBody.create(MediaType.parse(getString(R.string.RETROFIT_FILE_FORMAT_STRING)), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG));
 
         UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
         Call<CommonRepo.ResultCodeRepo> codeRepoCall = userInformRetrofit.uploadUserImage(fileBody, fileNameBody);
@@ -182,12 +171,16 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
-                Log.d(TAG, String.valueOf(resultCodeRepo.getCode()));
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-
+                CommonUtility.displayNetworkError(getApplicationContext());
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
         });
     }

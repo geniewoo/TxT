@@ -5,6 +5,7 @@
     <string name="COMMON_NETWORK_IS_NOT_AVAILABLE">wifi 혹은 data가 꺼져있습니다</string>
     <string name="COMMON_NETWORK_ERROR">인터넷 접속이 불가능 하거나 서버에 이상이 있습니다 잠시후에 다시 시도해 주세요</string>
     <string name="COMMON_SERVER_ERROR">서버에 문제가 있습니다</string>
+    <string name="FILE_EXPANDER_PNG" translatable="false">.png</string>
 
     <!-- sharedPreference -->
     <string name="PREF_USER" translatable="false">PREF_USER</string>
@@ -46,14 +47,22 @@
     <string name="MENU_PLAYED_GAME">플레이한 게임</string>
     <string name="MENU_REPORT">리포트 / 문의</string>
     <string name="MENU_LOGOUT">로그아웃</string>
+
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
-    <string name="URL_IMAGE_SERVER_FOLDER">http://121.137.62.163:3000/images/</string>
+    <string name="URL_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/</string>
 
     <!-- server response -->
     <string name="none">none</string>
 
     <!-- local storage -->
-    <string name="LOCAL_STORAGE_USER_DIR">TxT/User</string>
+    <string name="LOCAL_STORAGE_USER_DIR" translatable="false">TxT/User</string>
+    <string name="LOCAL_USER_IMAGE_FILE_NAME" translatable="false">userImage.png</string>
 
+    <!-- Retrofit -->
+    <string name="RETROFIT_FILE_FORMAT_IMAGE" translatable="false">image/*</string>
+    <string name="RETROFIT_FILE_FORMAT_STRING" translatable="false">string</string>
+
+    <!-- error message -->
+    <string name="ERROR_IMAGE_IS_NOT_EXISTS">IMAGE IS NOT EXISTS</string>
 </resources>
