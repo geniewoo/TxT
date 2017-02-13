@@ -22,8 +22,6 @@ exports.insertUser = function(insertJson, next) {
 }
 
 exports.updateUser = function(findJson, updateJson, next) {
-    console.log("updateUser", findJson);
-    console.log("updateUser", updateJson);
     db.users.update(findJson, {
         $set: updateJson
     }, function(error, data) {

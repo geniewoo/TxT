@@ -1,6 +1,5 @@
 var crypto = require('crypto');
 
-
 exports.getCrypto = function(data) {
 	console.log('getCrypto');
     if (typeof data === 'string') {
@@ -8,7 +7,6 @@ exports.getCrypto = function(data) {
         shasum.update(data);
         return shasum.digest('hex');
     } else {
-        console.log('crypto : not string');
 		return false;
     }
 };
