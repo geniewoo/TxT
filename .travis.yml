@@ -19,7 +19,7 @@ before_script:
   - adb shell input keyevent 82 &
   - chmod +x WidgetGame/gradlew
 
-script: ./gradlew assemble
+script: ./WidgetGame/gradlew assemble
 
 licenses:
   - 'android-sdk-preview-license-.+'
