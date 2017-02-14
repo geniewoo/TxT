@@ -1,17 +1,14 @@
-package com.sungwoo.boostcamp.widgetgame.MakeGame;
+package com.sungwoo.boostcamp.widgetgame.make_game;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.R;
 

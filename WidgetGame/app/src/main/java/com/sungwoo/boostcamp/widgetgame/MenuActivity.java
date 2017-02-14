@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
-import com.sungwoo.boostcamp.widgetgame.MakeGame.MakeGameMenuActivity;
+import com.sungwoo.boostcamp.widgetgame.make_game.MakeGameMenuActivity;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
 
@@ -98,7 +98,7 @@ public class MenuActivity extends AppCompatActivity {
         mMenuUserTv.setText(mUserInfo.getNickname());
 
         String imageUrl = mUserInfo.getImageUrl();
-        if (imageUrl == getString(R.string.none) || imageUrl == "") {
+        if (imageUrl.equals(getString(R.string.none)) || imageUrl.equals("")) {
             Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
         } else {
             Picasso.with(getApplicationContext()).load(getString(R.string.URL_IMAGE_SERVER_FOLDER) + imageUrl).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
@@ -158,7 +158,7 @@ public class MenuActivity extends AppCompatActivity {
                 .build();
 
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR) + File.separator + getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
-        if (file == null) {
+        if (!file.canRead()) {
             Log.e(TAG, getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));
             return;
         }

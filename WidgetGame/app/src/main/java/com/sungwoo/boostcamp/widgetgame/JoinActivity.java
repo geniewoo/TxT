@@ -1,11 +1,8 @@
 package com.sungwoo.boostcamp.widgetgame;
 
-import android.nfc.FormatException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -81,21 +78,15 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private boolean isValidEmail(String email) {
-        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
-            return false;
-        return true;
+        return !VALID_EMAIL_ADDRESS_REGEX.matcher(email).find();
     }
 
     private boolean isValidPassword(String password) {
-        if (!VALID_PASSWORD_REGEX.matcher(password).find())
-            return false;
-        return true;
+        return !VALID_PASSWORD_REGEX.matcher(password).find();
     }
 
     private boolean isValidNickname(String nickname) {
-        if (!VALID_NICKNAME_REGEX.matcher(nickname).find())
-            return false;
-        return true;
+        return !VALID_NICKNAME_REGEX.matcher(nickname).find();
     }
 
     private void checkJoinServer(String email, String password, String nickname) {   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
@@ -114,7 +105,7 @@ public class JoinActivity extends AppCompatActivity {
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
-                        Toast.makeText(JoinActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                        Toast.makeText(JoinActivity.this, R.string.JOIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
                         finish();
                         break;
                     case JOIN_DUPLICATE_EMAIL:

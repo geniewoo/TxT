@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
 
-    private CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
+    private final CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
     private static final String TAG = "LoginActivity";
 
@@ -115,21 +112,19 @@ public class LoginActivity extends AppCompatActivity {
     private void updateLoginPreference() {
         SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.PREF_EMAIL), mUserRepo.getEmail());
-        editor.putString(getString(R.string.PREF_PASSWORD), mUserRepo.getPassword());
-        editor.putString(getString(R.string.PREF_NICKNAME), mUserRepo.getNickname());
-        editor.putString(getString(R.string.PREF_IMAGE_URL), mUserRepo.getImageUrl());
+        editor.putString(getString(R.string.PREF_USER_EMAIL), mUserRepo.getEmail());
+        editor.putString(getString(R.string.PREF_USER_PASSWORD), mUserRepo.getPassword());
+        editor.putString(getString(R.string.PREF_USER_NICKNAME), mUserRepo.getNickname());
+        editor.putString(getString(R.string.PREF_USER_IMAGE_URL), mUserRepo.getImageUrl());
         editor.apply();
     }
 
     private void testLoginPreference() {
         SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
-        if (preferences.contains(getString(R.string.PREF_EMAIL)) && preferences.contains(getString(R.string.PREF_PASSWORD))) {
-            String email = preferences.getString(getString(R.string.PREF_EMAIL), "");
-            String password = preferences.getString(getString(R.string.PREF_PASSWORD), "");
+        if (preferences.contains(getString(R.string.PREF_USER_EMAIL)) && preferences.contains(getString(R.string.PREF_USER_PASSWORD))) {
+            String email = preferences.getString(getString(R.string.PREF_USER_EMAIL), "");
+            String password = preferences.getString(getString(R.string.PREF_USER_PASSWORD), "");
             testLoginServer(email, password);
-        } else {
-            return;
         }
     }
 }

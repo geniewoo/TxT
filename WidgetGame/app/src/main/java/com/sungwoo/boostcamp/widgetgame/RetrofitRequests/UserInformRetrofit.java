@@ -2,7 +2,6 @@ package com.sungwoo.boostcamp.widgetgame.RetrofitRequests;
 
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
