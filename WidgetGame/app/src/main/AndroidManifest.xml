@@ -23,7 +23,9 @@
         </activity>
         <activity android:name=".JoinActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".MakeGame.MakeGameMenuActivity"></activity>
+        <activity android:name=".MakeGame.MakeGameMenuActivity" />
+        <activity android:name=".MakeGame.MakeGamePageActivity" />
+        <activity android:name=".MakeGame.MakeGameInfoActivity"></activity>
     </application>
 
 </manifest>

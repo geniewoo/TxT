@@ -9,18 +9,19 @@ import com.sungwoo.boostcamp.widgetgame.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MakeGameMenuActivity extends AppCompatActivity {
+public class MakeGameInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_game_menu);
+        setContentView(R.layout.activity_make_game_info);
 
         ButterKnife.bind(this);
     }
-    @OnClick(R.id.make_new_game_btn)
-    public void onMakeNewGameBtnClicked(){
-        Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
+
+    @OnClick(R.id.make_game_start_btn)
+    public void makeGameStartBtn(){
+        Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
         startActivity(intent);
     }
 }

@@ -48,6 +48,38 @@
     <string name="MENU_REPORT">리포트 / 문의</string>
     <string name="MENU_LOGOUT">로그아웃</string>
 
+    <!-- activity_make_game -->
+    <string name="MAKE_NEW_GAME">새 게임 만들기</string>
+    <string name="MAKE_CONTINUE_GAME">이어 만들기</string>
+    <string name="MAKE_SHARE_GAME">게임 공유하기</string>
+
+    <string name="SPINNER_PAGE_1">Choice</string>
+    <string name="SPINNER_PAGE_2">Story</string>
+    <string name="SPINNER_PAGE_3">Game Over</string>
+    <string name="SPINNER_PAGE_4">Game Clear</string>
+
+    <string name="SPINNER_SOUND_1">coins</string>
+    <string name="SPINNER_SOUND_2">crash</string>
+    <string name="SPINNER_SOUND_3">doorbell</string>
+    <string name="SPINNER_SOUND_4">glass</string>
+    <string name="SPINNER_SOUND_5">gun</string>
+    <string name="SPINNER_SOUND_6">laugh</string>
+    <string name="SPINNER_SOUND_7">open</string>
+    <string name="SPINNER_SOUND_8">opendoor</string>
+    <string name="SPINNER_SOUND_9">ring</string>
+    <string name="SPINNER_SOUND_10">shotgun</string>
+    <string name="SPINNER_SOUND_11">sword</string>
+    <string name="SPINNER_SOUND_12">wind</string>
+    <string name="SPINNER_SOUND_13">witchlaugh</string>
+
+    <string name="SPINNER_VIBRATE_ON">vibrate on</string>
+    <string name="SPINNER_VIBRATE_OFF">vibrate off</string>
+
+    <string name="MAKE_TITLE">PAGE TITLE : </string>
+    <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>
+    <string name="MAKE_CONFIRM">완료</string>
+    <string name="MAKE_DELETE">취소</string>
+
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
     <string name="URL_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/</string>
