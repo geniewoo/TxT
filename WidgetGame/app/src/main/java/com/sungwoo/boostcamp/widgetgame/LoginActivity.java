@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final int LOGIN_SUCCESS = 100;
     private static final int LOGIN_CAN_NOT_FIND_USER = 200;
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private void testLoginServer(String email, String password) {
         mUserRepo.setEmail(email);
         mUserRepo.setPassword(password);
-        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableAndShowErrorMessageIfNeeded(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()

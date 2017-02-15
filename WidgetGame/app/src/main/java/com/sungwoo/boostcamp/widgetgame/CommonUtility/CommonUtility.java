@@ -27,9 +27,9 @@ import static android.content.Context.MODE_PRIVATE;
 public class CommonUtility {
     public static final int SAVE_BITMAP_TO_FILE_QUALITY = 100;
 
-    private static final String TAG = "CommonUtility";
+    private static final String TAG = CommonUtility.class.getSimpleName();
 
-    public static boolean isNetworkAvailableShowErrorMessageIfNeeded(Context context) {
+    public static boolean isNetworkAvailableAndShowErrorMessageIfNeeded(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
             return true;

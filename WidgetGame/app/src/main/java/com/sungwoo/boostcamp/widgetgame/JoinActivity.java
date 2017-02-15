@@ -39,7 +39,7 @@ public class JoinActivity extends AppCompatActivity {
     @BindView(R.id.join_nickname_et)
     protected EditText mJoinNickname_et;
 
-    private static final String TAG = "JoinActivity";
+    private static final String TAG = JoinActivity.class.getSimpleName();
 
     //회원가입 스트링 유효성 파악을 위한 패턴들
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -99,7 +99,7 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private void checkJoinServer(String email, String password, String nickname) {   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
-        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableAndShowErrorMessageIfNeeded(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()

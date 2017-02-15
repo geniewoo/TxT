@@ -34,7 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MenuActivity extends AppCompatActivity {
-    private static final String TAG = "MenuActivity";
+    private static final String TAG = MenuActivity.class.getSimpleName();
     private static final int REQ_CODE_SELECT_IMAGE = 100;
 
     @BindView(R.id.menu_user_tv)
