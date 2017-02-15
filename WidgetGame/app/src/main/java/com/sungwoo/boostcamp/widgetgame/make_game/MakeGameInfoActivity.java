@@ -10,11 +10,13 @@ import android.widget.EditText;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.GameInfo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.MakeGameRepo;
+import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class MakeGameInfoActivity extends AppCompatActivity {
 
@@ -33,8 +35,8 @@ public class MakeGameInfoActivity extends AppCompatActivity {
 
         mRealm = Realm.getDefaultInstance();
     }
-    @OnClick(R.id.make_game_start_btn)
-    public void makeGameStartBtn() {
+    @OnClick(R.id.make_game_info_start_btn)
+    public void makeGameInfoStartBtn() {
         setMakeGamePreference();
         GameInfo gameInfo = getNewMakeGameInfo();
         saveNewMakeGameRepo(gameInfo);
@@ -54,8 +56,9 @@ public class MakeGameInfoActivity extends AppCompatActivity {
     private GameInfo getNewMakeGameInfo() {
         String titleStr = mMakeGameInfoTitleEt.getText().toString();
         String descriptionStr = mMakeGameInfoDescriptionEt.getText().toString();
-        GameInfo.Page[] pages = {};
-        return new GameInfo(titleStr, getString(R.string.GAME_GENRE_SELECTIONS), descriptionStr, 0, pages);
+        RealmList<Page> pages = new RealmList<>();
+
+        return new GameInfo(titleStr, getString(R.string.GAME_GENRE_SELECTIONS), "", descriptionStr, 0, pages);
     }
 
     private void setMakeGamePreference() {

@@ -146,7 +146,8 @@ public class MenuActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (userImageBitmap != null) {
-            File dir = new File(Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR));
+            File dir = new File(getApplicationContext().getFilesDir() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR));
+            Log.d(TAG, getApplicationContext().getFilesDir() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR));
             CommonUtility.saveBitmapToFile(dir, getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), userImageBitmap, Bitmap.CompressFormat.PNG, CommonUtility.SAVE_BITMAP_TO_FILE_QUALITY);
         }
     }
@@ -157,7 +158,7 @@ public class MenuActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        File file = new File(Environment.getExternalStorageDirectory() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR) + File.separator + getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
+        File file = new File(getApplicationContext().getFilesDir() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR) + File.separator + getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
         if (!file.canRead()) {
             Log.e(TAG, getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));
             return;

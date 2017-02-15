@@ -1,21 +1,25 @@
 package com.sungwoo.boostcamp.widgetgame.Repositories;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
 
 /**
- * Created by SungWoo on 2017-02-14.
+ * Created by SungWoo on 2017-02-15.
  */
-
-
-public class GameInfo {
+@RealmClass
+public class GameInfo extends RealmObject{
     private String gameTitle; // 게임제목
     private String gameTheme; // 게임 장르
     private String gameDescription; // 게임 설명
     private String gameImagePath; // 이미지 경로
     private int pagesNum; // 페이지 총 수
-    private Page[] pages; // 각 페이지 정보
+    private RealmList<Page> pages; // 각 페이지 정보
 
-    public GameInfo(String gameTitle, String gameTheme, String gameDescription, String gameImagePath, int pagesNum, Page[] pages) {
+    public GameInfo() {
+    }
+
+    public GameInfo(String gameTitle, String gameTheme, String gameDescription, String gameImagePath, int pagesNum, RealmList<Page> pages) {
         this.gameTitle = gameTitle;
         this.gameTheme = gameTheme;
         this.gameDescription = gameDescription;
@@ -24,60 +28,6 @@ public class GameInfo {
         this.pages = pages;
     }
 
-    public class Page {
-        private int index; // 페이지 번호
-        private String title; // 페이지 제목
-        private String description; // 페이지 내용
-        private String page; // GAMEOVER, GAMECLEAR, SELECTION, SORY
-        private String imagePath;
-        private int selectionNum; //선택지 개수
-        private Select[] selects; // 페이지 선택지
-
-        public Page(int index, String title, String description, String page, String imagePath, int selectionNum, Select[] selects) {
-            this.index = index;
-            this.title = title;
-            this.description = description;
-            this.page = page;
-            this.imagePath = imagePath;
-            this.selectionNum = selectionNum;
-            this.selects = selects;
-        }
-
-        public class Select {
-            private boolean isSelected; // 클릭된 선택지인지 아닌지
-            private int NextIndex; // 선택했을 때 갈 페이지번호
-            private String selectionText; // 선택지 내용
-        }
-
-        public int getIndex() {
-            return index;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getPage() {
-            return page;
-        }
-
-        public String getImagePath(){
-            return imagePath;
-        }
-
-        public int getSelectionNum() {
-            return selectionNum;
-        }
-
-        public Select[] getSelects() {
-            return selects;
-        }
-
-    }
 
     public String getGameTitle() {
         return gameTitle;
@@ -99,11 +49,11 @@ public class GameInfo {
         return pagesNum;
     }
 
-    public Page[] getPages() {
+    public RealmList<Page> getPages() {
         return pages;
     }
 
-    public void setPages(Page[] pages) {
+    public void setPages(RealmList<Page> pages) {
         this.pages = pages;
     }
 

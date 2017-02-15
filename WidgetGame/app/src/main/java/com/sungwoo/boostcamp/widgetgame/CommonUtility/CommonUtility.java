@@ -63,7 +63,7 @@ public class CommonUtility {
         File imageFile = new File(dir, fileName);
         FileOutputStream fileOutputStream = null;
         try {
-            fileOutputStream = new FileOutputStream(imageFile);
+            fileOutputStream = new FileOutputStream(imageFile, false);
             bitmap.compress(format, quality, fileOutputStream);
             fileOutputStream.close();
         } catch (IOException e) {
