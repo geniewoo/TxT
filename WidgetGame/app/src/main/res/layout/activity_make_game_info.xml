@@ -11,35 +11,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.sungwoo.boostcamp.widgetgame.make_game.MakeGameInfoActivity">
     <EditText
-        android:id="@+id/make_game_title_et"
+        android:id="@+id/make_game_info_title_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/MAKE_GAME_INFO_TITLE"/>
     <EditText
-        android:id="@+id/make_game_description_et"
+        android:id="@+id/make_game_info_description_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="180dp"
         android:hint="@string/MAKE_GAME_INFO_DESC"/>
     <FrameLayout
-        android:id="@+id/make_game_image_fl"
+        android:id="@+id/make_game_info_image_fl"
         android:layout_width="108dp"
         android:layout_height="108dp"
         android:layout_gravity="center_horizontal">
         <TextView
-            android:id="@+id/make_game_image_tx"
+            android:id="@+id/make_game_info_image_tx"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/MAKE_GAME_INFO_IMAGE"/>
 
         <ImageView
-            android:id="@+id/make_game_image_iv"
+            android:id="@+id/make_game_info_image_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/DESC_MAKE_GAME_INFO_IV"/>
     </FrameLayout>
     <Button
-        android:id="@+id/make_game_start_btn"
+        android:id="@+id/make_game_info_start_btn"
         android:layout_width="162dp"
         android:layout_height="wrap_content"
         android:text="@string/MAKE_GAME_INFO_START"/>

@@ -111,4 +111,7 @@
 
     <!-- error message -->
     <string name="ERROR_IMAGE_IS_NOT_EXISTS">IMAGE IS NOT EXISTS</string>
+    
+    <!-- game info values -->
+    <string name="GAME_GENRE_SELECTIONS">SELECTIONS</string>
 </resources>
