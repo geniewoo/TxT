@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.login_join_btn)
     public void onLoginJoinBtnClick() {
         Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 

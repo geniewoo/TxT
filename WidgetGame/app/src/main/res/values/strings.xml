@@ -64,15 +64,22 @@
     <string name="MAKE_GAME_INFO_IMAGE">게임 대표 이미지</string>
     <string name="MAKE_GAME_INFO_START">제작 시작하기</string>
 
+    <string name="MAKE_GAME_INFO_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_INFO_DESCRIPTION_IS_WRONG">설명은 6 이상 400 이하의 문자로 작성해 주세요</string>
+
     <!-- activity_make_game_page -->
     <string name="DESC_MAKE_GAME_PAGE_IV">현재 페이지의 이미지를 넣으세요</string>
     <string name="MAKE_GAME_PAGE_TITLE">페이지 이름</string>
+
+    <string name="MAKE_GAME_PAGE_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_PAGE_DESCRIPTION_IS_WRONG">내용은 1 이상 400 이하의 문자로 작성해 주세요</string>
 
     <string name="SPINNER_PAGE_1">Choice</string>
     <string name="SPINNER_PAGE_2">Story</string>
     <string name="SPINNER_PAGE_3">Game Over</string>
     <string name="SPINNER_PAGE_4">Game Clear</string>
 
+    <string name="SPINNER_SOUND_DEFAULT">none</string>
     <string name="SPINNER_SOUND_1">coins</string>
     <string name="SPINNER_SOUND_2">crash</string>
     <string name="SPINNER_SOUND_3">doorbell</string>
@@ -87,8 +94,8 @@
     <string name="SPINNER_SOUND_12">wind</string>
     <string name="SPINNER_SOUND_13">witchlaugh</string>
 
-    <string name="SPINNER_VIBRATE_ON">vibrate on</string>
     <string name="SPINNER_VIBRATE_OFF">vibrate off</string>
+    <string name="SPINNER_VIBRATE_ON">vibrate on</string>
 
     <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>
     <string name="MAKE_CONFIRM">완료</string>
@@ -99,13 +106,14 @@
     <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/profile/</string>
 
     <!-- server response -->
-    <string name="none">none</string>
+    <string name="none" translatable="false">none</string>
 
     <!-- local storage -->
     <string name="LOCAL_STORAGE_MAKE_GAME_DIR" translatable="false">TxT/MakeGame</string>
     <string name="LOCAL_STORAGE_USER_DIR" translatable="false">TxT/User</string>
     <string name="LOCAL_USER_IMAGE_FILE_NAME" translatable="false">userImage.png</string>
     <string name="LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME" translatable="false">gameInfoImage.png</string>
+    <string name="LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME" translatable="false">gamePageImage</string>
 
     <!-- Retrofit -->
     <string name="RETROFIT_FILE_FORMAT_IMAGE" translatable="false">image/*</string>
@@ -116,4 +124,8 @@
     
     <!-- game info values -->
     <string name="GAME_GENRE_SELECTIONS">SELECTIONS</string>
+
+    <!-- intent extras -->
+    <string name="INTENT_MAKE_NEW_GAME_PAGE">IS_NEW_GAME</string>
+    <string name="INTENT_MAKE_GAME_PAGE_INDEX">PAGE_INDEX</string>
 </resources>

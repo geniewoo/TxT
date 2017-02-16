@@ -32,13 +32,18 @@ public class MakeGameMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_make_game_menu);
 
         ButterKnife.bind(this);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         initMakeGamePreference();
 
         if (mMakeGamePreference == null) {
             setUnClickableMakeGameContinueBtn();
+        } else {
+            setClickableMakeGameContinueBtn();
         }
-
     }
 
     @OnClick(R.id.make_menu_new_btn)
@@ -48,6 +53,7 @@ public class MakeGameMenuActivity extends AppCompatActivity {
         }
         Log.d(TAG, "New game button clicked");
         Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
@@ -55,6 +61,9 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     public void onMakeMenuContinueBtnClicked() {
         if(mMakeGamePreference != null){
             Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
+            intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
+            intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mMakeGamePreference.getMaxIndex() + 1);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
     }
@@ -71,5 +80,9 @@ public class MakeGameMenuActivity extends AppCompatActivity {
 
     private void setUnClickableMakeGameContinueBtn() {
         mMakeMenuContinueBtn.setEnabled(false);
+    }
+
+    private void setClickableMakeGameContinueBtn() {
+        mMakeMenuContinueBtn.setEnabled(true);
     }
 }

@@ -46,7 +46,7 @@ public class ImageUtility {
         appCompatActivity.startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
     }
 
-    public static void saveImageInFilesDirectory(Context context, Uri uri, String dirPath, String fileName) {
+    public static void saveImageInFilesDirectory(Context context, Uri uri, String dirPath, String fileName) {//TODO Picasso를 이용하여 Bitmap을 인자로 받기
         Bitmap userImageBitmap = null;
         try {
             userImageBitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);

@@ -14,18 +14,22 @@ public class Page extends RealmObject {
     private String description; // 페이지 내용
     private String page; // GAMEOVER, GAMECLEAR, SELECTION, SORY
     private String imagePath;
+    private String sound;
+    private boolean isVibrateOn;
     private int selectionNum; //선택지 개수
     private RealmList<Selection> selections; // 페이지 선택지
 
     public Page() {
     }
 
-    public Page(int index, String title, String description, String page, String imagePath, int selectionNum, RealmList<Selection> selections) {
+    public Page(int index, String title, String description, String page, String imagePath, String sound, Boolean isVibrateOn, int selectionNum, RealmList<Selection> selections) {
         this.index = index;
         this.title = title;
         this.description = description;
         this.page = page;
         this.imagePath = imagePath;
+        this.sound = sound;
+        this.isVibrateOn = isVibrateOn;
         this.selectionNum = selectionNum;
         this.selections = selections;
     }

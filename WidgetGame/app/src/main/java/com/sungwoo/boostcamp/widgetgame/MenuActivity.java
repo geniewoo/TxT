@@ -37,7 +37,6 @@ import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.UPLOAD
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
 
-
     @BindView(R.id.menu_user_tv)
     protected TextView mMenuUserTv;
     @BindView(R.id.menu_user_iv)

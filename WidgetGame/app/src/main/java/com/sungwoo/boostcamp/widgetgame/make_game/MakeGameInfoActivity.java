@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
@@ -18,6 +19,8 @@ import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.GameInfo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.MakeGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
+
+import java.util.regex.Pattern;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -29,7 +32,6 @@ import io.realm.RealmList;
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.REQ_CODE_SELECT_IMAGE;
 
 public class MakeGameInfoActivity extends AppCompatActivity {
-
     private static final String TAG = MakeGameInfoActivity.class.getSimpleName();
 
     Realm mRealm;
@@ -62,12 +64,21 @@ public class MakeGameInfoActivity extends AppCompatActivity {
     public void onMakeGameInfoStartBtnClicked() {
         setMakeGamePreference();
 
-        Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
-        if(mGameInfoImageUri != null){
+        if (mGameInfoImageUri != null) {
             ImageUtility.saveImageInFilesDirectory(this, mGameInfoImageUri, getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR), getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
         }
+
+        if (!checkValuesAreValidateAndShowMessage()){
+            return;
+        }
+
         GameInfo gameInfo = getNewMakeGameInfo();
         deleteOldAndSaveNewMakeGameRepo(gameInfo);
+
+        Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
+        intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
+        intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), 1);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
@@ -98,7 +109,7 @@ public class MakeGameInfoActivity extends AppCompatActivity {
     private void setMakeGamePreference() {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.PREF_MAKE_GAME), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.PREF_MAKE_GAME_MAX_INDEX), 1);
+        editor.putInt(getString(R.string.PREF_MAKE_GAME_MAX_INDEX), 0);
         editor.putBoolean(getString(R.string.PREF_MAKE_GAME_IS_EXISTS), true);
         editor.apply();
     }
@@ -116,5 +127,34 @@ public class MakeGameInfoActivity extends AppCompatActivity {
                 mMakeGameInfoImageTv.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    private boolean isValidateTitle() {
+        String titleStr = mMakeGameInfoTitleEt.getText().toString();
+        if ( 0 < titleStr.length() && titleStr.length() < 16 ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isValidateDescription() {
+        String descriptionStr = mMakeGameInfoDescriptionEt.getText().toString();
+        if( 5 < descriptionStr.length() && descriptionStr.length() <= 400 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkValuesAreValidateAndShowMessage() {
+        if (!isValidateTitle()) {
+            Toast.makeText(this, R.string.MAKE_GAME_INFO_TITLE_IS_WRONG, Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!isValidateDescription()){
+            Toast.makeText(this, R.string.MAKE_GAME_INFO_DESCRIPTION_IS_WRONG, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

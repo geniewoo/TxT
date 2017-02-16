@@ -39,9 +39,9 @@ public class JoinActivity extends AppCompatActivity {
     private static final String TAG = "JoinActivity";
 
     //회원가입 스트링 유효성 파악을 위한 패턴들
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_NICKNAME_REGEX = Pattern.compile("^[A-z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NICKNAME_REGEX = Pattern.compile("^[A-Z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +78,15 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private boolean isValidEmail(String email) {
-        return !VALID_EMAIL_ADDRESS_REGEX.matcher(email).find();
+        return VALID_EMAIL_ADDRESS_REGEX.matcher(email).find();
     }
 
     private boolean isValidPassword(String password) {
-        return !VALID_PASSWORD_REGEX.matcher(password).find();
+        return VALID_PASSWORD_REGEX.matcher(password).find();
     }
 
     private boolean isValidNickname(String nickname) {
-        return !VALID_NICKNAME_REGEX.matcher(nickname).find();
+        return VALID_NICKNAME_REGEX.matcher(nickname).find();
     }
 
     private void checkJoinServer(String email, String password, String nickname) {   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.

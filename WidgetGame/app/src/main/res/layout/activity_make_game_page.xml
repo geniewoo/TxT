@@ -10,6 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.sungwoo.boostcamp.widgetgame.make_game.MakeGamePageActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -30,184 +31,178 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <Spinner
+                        android:id="@+id/make_page_sp"
+                        android:layout_width="216dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:entries="@array/SPINNER_PAGES"></Spinner>
 
-                        <Spinner
-                            android:id="@+id/make_index_sp"
-                            android:layout_width="108dp"
-                            android:layout_height="wrap_content"></Spinner>
+                    <Spinner
+                        android:id="@+id/make_index_sp"
+                        android:layout_width="216dp"
+                        android:layout_height="wrap_content"></Spinner>
 
-                        <Spinner
-                            android:id="@+id/make_page_sp"
-                            android:layout_width="108dp"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/SPINNER_PAGES"></Spinner>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <Spinner
+                        android:id="@+id/make_sound_sp"
+                        android:layout_width="216dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:entries="@array/SPINNER_SOUNDS"></Spinner>
 
-                        <Spinner
-                            android:id="@+id/make_sound_sp"
-                            android:layout_width="108dp"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/SPINNER_SOUNDS"></Spinner>
-
-                        <Spinner
-                            android:id="@+id/make_vibrate_sp"
-                            android:layout_width="108dp"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/SPINNER_VIBRATES"></Spinner>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:hint="@string/MAKE_GAME_PAGE_TITLE"
-                            android:id="@+id/make_page_title_et"
-                            android:layout_width="216dp"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                    <CheckBox
+                        android:id="@+id/make_vibrate_cb"
+                        android:layout_width="216dp"
+                        android:layout_height="wrap_content"></CheckBox>
                 </LinearLayout>
+
                 <FrameLayout
                     android:id="@+id/make_page_image_fl"
-                    android:layout_width="wrap_content"
+                    android:layout_width="108dp"
                     android:layout_height="match_parent">
+
                     <ImageView
                         android:id="@+id/make_page_image_iv"
                         android:layout_width="108dp"
                         android:layout_height="match_parent"
-                        android:contentDescription="@string/DESC_MAKE_GAME_PAGE_IV"/>
+                        android:contentDescription="@string/DESC_MAKE_GAME_PAGE_IV" />
+
                     <TextView
                         android:id="@+id/make_page_image_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="108dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/MAKE_IMAGE_SELECT"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:text="@string/MAKE_IMAGE_SELECT" />
                 </FrameLayout>
             </LinearLayout>
+
+            <EditText
+                android:id="@+id/make_page_title_et"
+                android:layout_width="216dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/MAKE_GAME_PAGE_TITLE" />
 
             <EditText
                 android:id="@+id/make_page_description_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="start"
                 android:inputType="textMultiLine"
                 android:minHeight="180dp"
-                android:gravity="start"
-                android:textAlignment="textStart"/>
+                android:textAlignment="textStart" />
 
             <LinearLayout
+                android:id="@+id/make_page_selections_lo"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <CheckBox
-                    android:id="@+id/make_choice_cb1"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:inputType="text"
-                    android:id="@+id/make_choice_et1"
-                    android:layout_width="198dp"
-                    android:layout_height="wrap_content" />
+                    <CheckBox
+                        android:id="@+id/make_choice_cb1"
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content" />
 
-                <EditText
-                    android:inputType="number"
-                    android:id="@+id/make_target_et1"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/make_choice_et1"
+                        android:layout_width="198dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/make_target_et1"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/make_choice_cb2"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:inputType="text"
-                    android:id="@+id/make_choice_et2"
-                    android:layout_width="198dp"
-                    android:layout_height="wrap_content" />
+                    <CheckBox
+                        android:id="@+id/make_choice_cb2"
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content" />
 
-                <EditText
-                    android:inputType="number"
-                    android:id="@+id/make_target_et2"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/make_choice_et2"
+                        android:layout_width="198dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/make_target_et2"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/make_choice_cb3"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:inputType="text"
-                    android:id="@+id/make_choice_et3"
-                    android:layout_width="198dp"
-                    android:layout_height="wrap_content" />
+                    <CheckBox
+                        android:id="@+id/make_choice_cb3"
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content" />
 
-                <EditText
-                    android:inputType="number"
-                    android:id="@+id/make_target_et3"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/make_choice_et3"
+                        android:layout_width="198dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/make_target_et3"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/make_choice_cb4"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:inputType="text"
-                    android:id="@+id/make_choice_et4"
-                    android:layout_width="198dp"
-                    android:layout_height="wrap_content" />
+                    <CheckBox
+                        android:id="@+id/make_choice_cb4"
+                        android:layout_width="36dp"
+                        android:layout_height="wrap_content" />
 
-                <EditText
-                    android:inputType="number"
-                    android:id="@+id/make_target_et4"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content" />
+                    <EditText
+                        android:id="@+id/make_choice_et4"
+                        android:layout_width="198dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/make_target_et4"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-        <LinearLayout
-            android:layout_width="match_parent"
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/make_page_confirm_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="162dp"
             android:layout_height="wrap_content"
-            style="?android:attr/buttonBarStyle">
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:id="@+id/make_page_confirm_btn"
-                android:layout_width="162dp"
-                android:layout_height="wrap_content"
-                android:text="@string/MAKE_CONFIRM"/>
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:id="@+id/make_page_cancel_btn"
-                android:layout_width="162dp"
-                android:layout_height="wrap_content"
-                android:text="@string/MAKE_DELETE"/>
-        </LinearLayout>
+            android:text="@string/MAKE_CONFIRM" />
+
+        <Button
+            android:id="@+id/make_page_cancel_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:text="@string/MAKE_DELETE" />
+    </LinearLayout>
 </LinearLayout>
