@@ -1,2 +1,2 @@
-./WidgetGameServer/node_modules
-./WidgetGameServer/node_modules/public/images
+/WidgetGameServer/node_modules
+/WidgetGameServer/public/images
