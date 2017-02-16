@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
+import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import java.util.regex.Pattern;
 
@@ -97,8 +97,8 @@ public class JoinActivity extends AppCompatActivity {
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultCodeRepo> testJoinServerCall = userInformRetrofit.testJoinServer(email, password, nickname);
+        UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
+        Call<CommonRepo.ResultCodeRepo> testJoinServerCall = userInformationRetrofit.testJoinServer(email, password, nickname);
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {

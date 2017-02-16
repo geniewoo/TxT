@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -45,9 +46,17 @@ public class MakeGameMenuActivity extends AppCompatActivity {
         if (mMakeGamePreference != null) {  //TODO alert다이얼로그 만들어서 여부 묻기
             Toast.makeText(this, "제작중인 게임이 있습니다", Toast.LENGTH_SHORT).show();
         }
-
+        Log.d(TAG, "New game button clicked");
         Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.make_menu_continue_btn)
+    public void onMakeMenuContinueBtnClicked() {
+        if(mMakeGamePreference != null){
+            Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initMakeGamePreference() {

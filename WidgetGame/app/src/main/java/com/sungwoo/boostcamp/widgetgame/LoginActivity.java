@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
+import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ButterKnife.bind(this);
+
         testLoginPreference();
 
-        ButterKnife.bind(this);
     }
 
     private void testLoginServer(String email, String password) {
@@ -54,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
+        UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
+        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformationRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultNicknameRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {

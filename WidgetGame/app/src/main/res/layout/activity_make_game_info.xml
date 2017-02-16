@@ -27,7 +27,7 @@
         android:layout_height="108dp"
         android:layout_gravity="center_horizontal">
         <TextView
-            android:id="@+id/make_game_info_image_tx"
+            android:id="@+id/make_game_info_image_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/MAKE_GAME_INFO_IMAGE"/>

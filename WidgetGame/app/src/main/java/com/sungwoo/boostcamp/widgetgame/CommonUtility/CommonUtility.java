@@ -1,9 +1,11 @@
 package com.sungwoo.boostcamp.widgetgame.CommonUtility;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,7 +24,6 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class CommonUtility {
-    public static final int SAVE_BITMAP_TO_FILE_QUALITY = 100;
 
     private static final String TAG = "CommonUtility";
 
@@ -57,24 +58,4 @@ public class CommonUtility {
         editor.apply();
     }
 
-    public static void saveBitmapToFile(File dir, String fileName, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
-        if(!dir.getParentFile().mkdir()) return;
-        if(!dir.mkdir()) return;
-        File imageFile = new File(dir, fileName);
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(imageFile, false);
-            bitmap.compress(format, quality, fileOutputStream);
-            fileOutputStream.close();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-    }
 }
