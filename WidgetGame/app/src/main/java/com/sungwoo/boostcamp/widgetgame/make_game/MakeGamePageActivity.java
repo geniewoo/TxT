@@ -126,13 +126,18 @@ public class MakeGamePageActivity extends AppCompatActivity {
         if (!checkValuesAreValidateAndShowMessage()) {
             return;
         }
-
         insertThisPageInLocalDataBase();
 
-        countUpPreferenceMaxIndex();
+        if (mIsNewPage){
+            countUpPreferenceMaxIndex();
+        }
         Intent intent = new Intent(this, MakeGamePageActivity.class);
         intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
-        intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mPageIndex + 1);
+        if (mIsNewPage){
+            intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mPageIndex + 1);
+        } else {
+            intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mMaxPageIndex + 1);
+        }
         intent.setFlags(FLAG_ACTIVITY_NO_ANIMATION);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -161,17 +166,23 @@ public class MakeGamePageActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load(mGamePageImageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMakePageImageIv);
         mMakePageImageTv.setVisibility(View.GONE);
     }
+
+    private void showMakePageImageWithFile(File file) {
+        Picasso.with(getApplicationContext()).load(file).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMakePageImageIv);
+        mMakePageImageTv.setVisibility(View.GONE);
+    }
     private void setButtonsText(){
         mMakePageConfirmBtn.setText(R.string.MAKE_GAME_PAGE_CHANGE_BTN_TEXT);
     }
 
     private void setViewValues() {
         MakeGameRepo makeGameRepo = mRealm.where(MakeGameRepo.class).findAll().get(0);
-        Page page = makeGameRepo.getGameInfo().getPages().get(mPageIndex);
+        Page page = makeGameRepo.getGameInfo().getPages().get(mPageIndex - 1);
 
         mMakePageTitleEt.setText(page.getTitle());
         mMakePageDescriptionEt.setText(page.getDescription());
-        mMakeIndexSp.setSelection(mPageIndex);
+        mMakeIndexSp.setSelection(mPageIndex - 1);
+        mMakeVibrateCb.setEnabled(page.isVibrateOn());
 
         for (int i = 0 ; i < mMakePageSp.getAdapter().getCount() ; i ++){
             if (mMakePageSp.getItemAtPosition(i).toString().equals(page.getPage())) {
@@ -197,10 +208,15 @@ public class MakeGamePageActivity extends AppCompatActivity {
         }
 
         if (!page.getImagePath().equals("none")) {
-            File file = new File(getFilesDir() + File.separator + getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR) + File.separator + getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME) + mPageIndex + getString(R.string.FILE_EXPANDER_PNG));
-            Log.d(TAG, "file : " + file.toString());
-            mGamePageImageUri = Uri.parse(file.toString());
+            File file = new File(getFilesDir().toString(), File.separator + getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR) + File.separator + getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME) + mPageIndex + getString(R.string.FILE_EXPANDER_PNG));
+            mGamePageImageUri = Uri.parse(file.toString()); // Set this value to do not save "none" when click confirmBtn
+            showMakePageImageWithFile(file);
         }
+    }
+
+    @OnClick(R.id.make_page_cancel_btn)
+    public void onMakePageCancelBtnClicked(){
+        finish();
     }
 
     private void setIndexView(String[] indexStringArr) {
@@ -312,7 +328,14 @@ public class MakeGamePageActivity extends AppCompatActivity {
         if (position < mMaxPageIndex) {
             Intent intent = new Intent(this, MakeGamePageActivity.class);
             intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), false);
-            intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), position);
+            intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), position + 1);
+            intent.setFlags(FLAG_ACTIVITY_NO_ANIMATION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else if (position + 1 != mPageIndex && position == mMaxPageIndex) {
+            Intent intent = new Intent(this, MakeGamePageActivity.class);
+            intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
+            intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mMaxPageIndex + 1);
             intent.setFlags(FLAG_ACTIVITY_NO_ANIMATION);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -350,12 +373,15 @@ public class MakeGamePageActivity extends AppCompatActivity {
         MakeGameRepo makeGameRepo = mRealm.where(MakeGameRepo.class).findAll().get(0);
 
         RealmList<Page> pages = makeGameRepo.getGameInfo().getPages();
-        if (pages.size() == mPageIndex - 1) {
+        if (mIsNewPage) {
             mRealm.beginTransaction();
             pages.add(page);
             mRealm.commitTransaction();
         } else {
-            Log.e(TAG, "pages.size is not match with index");
+            mRealm.beginTransaction();
+            pages.remove(mPageIndex - 1);
+            pages.add(mPageIndex - 1, page);
+            mRealm.commitTransaction();
         }
         Log.d(TAG, "pages size : " + pages.size());
     }
