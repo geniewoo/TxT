@@ -17,6 +17,7 @@ import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import io.realm.RealmList;
 import okhttp3.MediaType;
@@ -48,19 +49,19 @@ public class Upload {
     public static void uploadGameImages(final Context context, FullGameRepo fullGameRepo) {
         HashMap<String, RequestBody> uploadGameMap = new HashMap<>();
         GameInfo gameInfo = fullGameRepo.getGameInfo();
-        if (gameInfo.getGameImagePath() != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+        if (!gameInfo.getGameImagePath().equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
             File file = ImageUtility.getInfoImageFromLocal(context);
             RequestBody requestBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_IMAGE)), file);
-            uploadGameMap.put(gameInfo.getGameImagePath(), requestBody);
+            uploadGameMap.put("file\"; filename=\"" + gameInfo.getGameImagePath() + "\" ", requestBody);
         }
 
         RealmList<Page> pages = gameInfo.getPages();
         Log.d(TAG, "here?");
         for (Page page : pages) {
-            if (page.getImagePath() != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!page.getImagePath().equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPageImageFromLocal(context, page.getIndex());
                 RequestBody requestBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_IMAGE)), file);
-                uploadGameMap.put(page.getImagePath(), requestBody);
+                uploadGameMap.put("file\"; filename=\"" + page.getImagePath() + "\" ", requestBody);
             }
         }
 
@@ -96,7 +97,9 @@ public class Upload {
             }
         });
 
-        Call<CommonRepo.ResultCodeRepo> uploadGameImagesCodeRepoCall = gameInformationRetrofit.uploadGameImages(uploadGameMap);
+        String nickname = fullGameRepo.getMaker().getNickName();
+        String gameTitle = gameInfo.getGameTitle();
+        Call<CommonRepo.ResultCodeRepo> uploadGameImagesCodeRepoCall = gameInformationRetrofit.uploadGameImages(uploadGameMap, nickname, gameTitle);
         uploadGameImagesCodeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call,

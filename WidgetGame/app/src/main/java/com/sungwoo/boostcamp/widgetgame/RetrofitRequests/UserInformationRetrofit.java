@@ -21,6 +21,9 @@ public interface UserInformationRetrofit {
     @GET("user/login/test")
     Call<CommonRepo.ResultNicknameRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
 
+    @GET("user/update/imageUrl")
+    Call<CommonRepo.ResultCodeRepo> updateUserImage(@Query("email") String email, @Query("password") String password, @Query("imageUrl") String imageUrl);
+
     @Multipart
     @POST("upload/userImageFile")
     Call<CommonRepo.ResultCodeRepo> uploadUserImage(@Part("file\"; filename=\"name.png\" ") RequestBody file, @Part("fileNames") RequestBody name);

@@ -13,6 +13,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 
 /**
  * Created by SungWoo on 2017-02-17.
@@ -20,9 +21,9 @@ import retrofit2.http.PartMap;
 
 public interface GameInformationRetrofit {
     @Multipart
-    @POST("upload/game/Images")
-    Call<CommonRepo.ResultCodeRepo> uploadGameImages(@PartMap Map<String, RequestBody> map);
+    @POST("upload/game/images")
+    Call<CommonRepo.ResultCodeRepo> uploadGameImages(@PartMap Map<String, RequestBody> map, @Query("nickname") String nickname, @Query("gameTitle") String gameTitle);
 
-    @POST("upload/game/FullGameRepo")
+    @POST("upload/game/fullGameRepo")
     Call<CommonRepo.ResultCodeRepo> uploadGameRepo(@Body FullGameRepo fullGameRepo);
 }

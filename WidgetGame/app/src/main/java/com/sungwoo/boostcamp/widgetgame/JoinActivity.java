@@ -105,7 +105,7 @@ public class JoinActivity extends AppCompatActivity {
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
-                        Toast.makeText(JoinActivity.this, R.string.JOIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                        Toast.makeText(JoinActivity.this, R.string.JOIN_SUCCESS, Toast.LENGTH_SHORT).show();
                         finish();
                         break;
                     case JOIN_DUPLICATE_EMAIL:
