@@ -32,15 +32,15 @@
                     android:orientation="vertical">
 
                     <Spinner
+                        android:id="@+id/make_index_sp"
+                        android:layout_width="216dp"
+                        android:layout_height="wrap_content"></Spinner>
+
+                    <Spinner
                         android:id="@+id/make_page_sp"
                         android:layout_width="216dp"
                         android:layout_height="wrap_content"
                         android:entries="@array/SPINNER_PAGES"></Spinner>
-
-                    <Spinner
-                        android:id="@+id/make_index_sp"
-                        android:layout_width="216dp"
-                        android:layout_height="wrap_content"></Spinner>
 
                     <Spinner
                         android:id="@+id/make_sound_sp"
@@ -49,6 +49,7 @@
                         android:entries="@array/SPINNER_SOUNDS"></Spinner>
 
                     <CheckBox
+                        android:text="@string/SPINNER_VIBRATE_ON"
                         android:id="@+id/make_vibrate_cb"
                         android:layout_width="216dp"
                         android:layout_height="wrap_content"></CheckBox>
@@ -76,7 +77,7 @@
 
             <EditText
                 android:id="@+id/make_page_title_et"
-                android:layout_width="216dp"
+                android:layout_width="324dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/MAKE_GAME_PAGE_TITLE" />
 
@@ -100,12 +101,12 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
-                        android:id="@+id/make_choice_cb1"
+                        android:id="@+id/make_selections_cb1"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content" />
 
                     <EditText
-                        android:id="@+id/make_choice_et1"
+                        android:id="@+id/make_selections_et1"
                         android:layout_width="198dp"
                         android:layout_height="wrap_content"
                         android:inputType="text" />
@@ -122,12 +123,12 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
-                        android:id="@+id/make_choice_cb2"
+                        android:id="@+id/make_selections_cb2"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content" />
 
                     <EditText
-                        android:id="@+id/make_choice_et2"
+                        android:id="@+id/make_selections_et2"
                         android:layout_width="198dp"
                         android:layout_height="wrap_content"
                         android:inputType="text" />
@@ -144,12 +145,12 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
-                        android:id="@+id/make_choice_cb3"
+                        android:id="@+id/make_selections_cb3"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content" />
 
                     <EditText
-                        android:id="@+id/make_choice_et3"
+                        android:id="@+id/make_selections_et3"
                         android:layout_width="198dp"
                         android:layout_height="wrap_content"
                         android:inputType="text" />
@@ -166,12 +167,12 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
-                        android:id="@+id/make_choice_cb4"
+                        android:id="@+id/make_selections_cb4"
                         android:layout_width="36dp"
                         android:layout_height="wrap_content" />
 
                     <EditText
-                        android:id="@+id/make_choice_et4"
+                        android:id="@+id/make_selections_et4"
                         android:layout_width="198dp"
                         android:layout_height="wrap_content"
                         android:inputType="text" />

@@ -65,7 +65,6 @@ public class ImageUtility {
                 .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         File file = new File(context.getFilesDir() + File.separator + dirPath + File.separator + localFileName);
         if (!file.canRead()) {
             Log.e(TAG, context.getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));

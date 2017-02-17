@@ -62,4 +62,11 @@ public class Page extends RealmObject {
         return selections;
     }
 
+    public String getSound() {
+        return sound;
+    }
+
+    public boolean isVibrateOn() {
+        return isVibrateOn;
+    }
 }

@@ -68,11 +68,15 @@
     <string name="MAKE_GAME_INFO_DESCRIPTION_IS_WRONG">설명은 6 이상 400 이하의 문자로 작성해 주세요</string>
 
     <!-- activity_make_game_page -->
+    <string name="MAKE_GAME_PAGE_CHANGE_BTN_TEXT">변경</string>
     <string name="DESC_MAKE_GAME_PAGE_IV">현재 페이지의 이미지를 넣으세요</string>
     <string name="MAKE_GAME_PAGE_TITLE">페이지 이름</string>
 
     <string name="MAKE_GAME_PAGE_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
     <string name="MAKE_GAME_PAGE_DESCRIPTION_IS_WRONG">내용은 1 이상 400 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 2개이상 선택해 주세요</string>
+    <string name="MAKE_GAME_PAGE_NO_SELECTIONS_INDEX">선택지 index가 지정되어있지 않습니다</string>
+    <string name="MAKE_GAME_PAGE_NO_SELECTIONS_TEXT">선택지 내용이 없습니다</string>
 
     <string name="SPINNER_PAGE_1">Choice</string>
     <string name="SPINNER_PAGE_2">Story</string>
@@ -94,7 +98,6 @@
     <string name="SPINNER_SOUND_12">wind</string>
     <string name="SPINNER_SOUND_13">witchlaugh</string>
 
-    <string name="SPINNER_VIBRATE_OFF">vibrate off</string>
     <string name="SPINNER_VIBRATE_ON">vibrate on</string>
 
     <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>

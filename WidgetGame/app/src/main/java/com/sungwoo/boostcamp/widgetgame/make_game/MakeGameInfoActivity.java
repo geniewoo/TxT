@@ -78,7 +78,7 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
         intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
         intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), 1);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -112,6 +112,12 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         editor.putInt(getString(R.string.PREF_MAKE_GAME_MAX_INDEX), 0);
         editor.putBoolean(getString(R.string.PREF_MAKE_GAME_IS_EXISTS), true);
         editor.apply();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 
     @Override

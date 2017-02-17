@@ -33,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.REQ_CODE_SELECT_IMAGE;
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.UPLOAD_IMAGE_FAIL;
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.UPLOAD_IMAGE_SUCCESS;
+import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.USER_INFORMATION;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -117,7 +118,7 @@ public class MenuActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 Picasso.with(getApplicationContext()).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
                 ImageUtility.saveImageInFilesDirectory(this, imageUri, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
-                uploadUserImageToServer();
+                ImageUtility.uploadUserImageToServer(getApplicationContext(), getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG), USER_INFORMATION);
                 break;
         }
     }
@@ -130,47 +131,5 @@ public class MenuActivity extends AppCompatActivity {
             mFirstTapped = System.currentTimeMillis();
             Toast.makeText(getApplicationContext(), R.string.MENU_BACK_PRESSED, Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void uploadUserImageToServer() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        File file = new File(getApplicationContext().getFilesDir() + File.separator + getString(R.string.LOCAL_STORAGE_USER_DIR) + File.separator + getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
-        if (!file.canRead()) {
-            Log.e(TAG, getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));
-            return;
-        }
-        Log.d(TAG, file.getName());
-        RequestBody fileBody = RequestBody.create(MediaType.parse(getString(R.string.RETROFIT_FILE_FORMAT_IMAGE)), file);
-        RequestBody fileNameBody = RequestBody.create(MediaType.parse(getString(R.string.RETROFIT_FILE_FORMAT_STRING)), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG));
-
-        UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
-        Call<CommonRepo.ResultCodeRepo> codeRepoCall = userInformationRetrofit.uploadUserImage(fileBody, fileNameBody);
-        codeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
-            @Override
-            public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
-                CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
-                switch (resultCodeRepo.getCode()) {
-                    case UPLOAD_IMAGE_SUCCESS:
-                        break;
-                    case UPLOAD_IMAGE_FAIL:
-                        Toast.makeText(MenuActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        });
     }
 }

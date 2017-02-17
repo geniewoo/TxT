@@ -53,17 +53,18 @@ public class MakeGameMenuActivity extends AppCompatActivity {
         }
         Log.d(TAG, "New game button clicked");
         Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
     @OnClick(R.id.make_menu_continue_btn)
     public void onMakeMenuContinueBtnClicked() {
         if(mMakeGamePreference != null){
+            Log.d(TAG, "here right?");
             Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
             intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
             intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mMakeGamePreference.getMaxIndex() + 1);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }
