@@ -9,15 +9,15 @@ import io.realm.RealmObject;
 
 
 public class Page extends RealmObject {
-    private int index; // 페이지 번호
-    private String title; // 페이지 제목
-    private String description; // 페이지 내용
-    private String page; // GAMEOVER, GAMECLEAR, SELECTION, SORY
+    private int index;
+    private String title;
+    private String description;
+    private String page;
     private String imagePath;
     private String sound;
     private boolean isVibrateOn;
-    private int selectionNum; //선택지 개수
-    private RealmList<Selection> selections; // 페이지 선택지
+    private int selectionNum;
+    private RealmList<Selection> selections;
 
     public Page() {
     }

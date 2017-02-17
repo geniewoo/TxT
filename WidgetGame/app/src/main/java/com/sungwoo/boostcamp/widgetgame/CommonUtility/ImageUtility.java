@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
+import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import java.io.File;
@@ -35,10 +36,6 @@ public class ImageUtility {
     private static final int SAVE_BITMAP_TO_FILE_QUALITY = 100;
     public static final int REQ_CODE_SELECT_IMAGE = 100;
 
-    public static final int USER_INFORMATION = 100;
-    public static final int UPLOAD_IMAGE_SUCCESS = 100;
-    public static final int UPLOAD_IMAGE_FAIL = 500;
-
     public static void startSelectImageActivity(AppCompatActivity appCompatActivity) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
@@ -60,55 +57,6 @@ public class ImageUtility {
         }
     }
 
-    public static void uploadUserImageToServer(final Context context, String dirPath, String localFileName, String serverFileName, int uploadCode) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        File file = new File(context.getFilesDir() + File.separator + dirPath + File.separator + localFileName);
-        if (!file.canRead()) {
-            Log.e(TAG, context.getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));
-            return;
-        }
-        Log.d(TAG, file.getName());
-        RequestBody fileBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_IMAGE)), file);
-        RequestBody fileNameBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_STRING)), serverFileName);
-
-        Call<CommonRepo.ResultCodeRepo> codeRepoCall = null;
-
-        switch (uploadCode){
-            case USER_INFORMATION :
-                UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
-                codeRepoCall = userInformationRetrofit.uploadUserImage(fileBody, fileNameBody);
-                break;
-            default:
-                Log.e(TAG, "there is wrong uploadCode");
-                return;
-        }
-        codeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
-            @Override
-            public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
-                CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
-                switch (resultCodeRepo.getCode()) {
-                    case UPLOAD_IMAGE_SUCCESS:
-                        break;
-                    case UPLOAD_IMAGE_FAIL:
-                        Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(context);
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        });
-    }
     private static void saveBitmapToFile(File dir, String fileName, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
         Log.d(TAG, "mkdir1");
         if(!dir.getParentFile().isDirectory()){
@@ -136,5 +84,26 @@ public class ImageUtility {
                 }
             }
         }
+    }
+    public static File getPageImageFromLocal(Context context, int index) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR));
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME));
+        stringBuffer.append(index);
+        stringBuffer.append(context.getString(R.string.FILE_EXPANDER_PNG));
+
+        return new File(context.getFilesDir().toString(), stringBuffer.toString());
+    }
+
+    public static File getInfoImageFromLocal(Context context) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR));
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
+
+        return new File(context.getFilesDir().toString(), stringBuffer.toString());
     }
 }

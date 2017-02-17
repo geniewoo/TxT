@@ -9,8 +9,8 @@ import io.realm.RealmObject;
 
 public class Selection extends RealmObject {
     private boolean isSelected; // 클릭된 선택지인지 아닌지
-    private int NextIndex; // 선택했을 때 갈 페이지번호
-    private String selectionText; // 선택지 내용
+    private int NextIndex;
+    private String selectionText;
 
     public Selection() {
     }

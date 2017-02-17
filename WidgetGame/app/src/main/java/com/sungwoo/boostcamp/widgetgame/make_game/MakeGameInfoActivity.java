@@ -3,7 +3,6 @@ package com.sungwoo.boostcamp.widgetgame.make_game;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -98,7 +97,7 @@ public class MakeGameInfoActivity extends AppCompatActivity {
     private GameInfo getNewMakeGameInfo() {
         String titleStr = mMakeGameInfoTitleEt.getText().toString();
         String descriptionStr = mMakeGameInfoDescriptionEt.getText().toString();
-        String imagePath = "none";
+        String imagePath = getString(R.string.LOCAL_NO_IMAGE_FILE);
         if(mGameInfoImageUri != null){
             imagePath = getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME);
         }

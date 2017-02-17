@@ -8,7 +8,7 @@ import io.realm.annotations.RealmClass;
  * Created by SungWoo on 2017-02-15.
  */
 @RealmClass
-public class GameInfo extends RealmObject{
+public class GameInfo extends RealmObject {
     private String gameTitle; // 게임제목
     private String gameTheme; // 게임 장르
     private String gameDescription; // 게임 설명

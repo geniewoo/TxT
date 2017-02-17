@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,13 +20,11 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
-import com.sungwoo.boostcamp.widgetgame.Repositories.GameInfo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.MakeGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Selection;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindDimen;
@@ -35,9 +32,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import butterknife.OnItemSelected;
-import butterknife.OnTextChanged;
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -75,6 +70,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
     protected List<EditText> mMakeTargetEts;
     @BindDimen(R.dimen.user_circle_iv)
     protected int USER_CIRCLE_IV;
+
     private boolean isFirstMakeIndexSpItemSelected = true;
     private int mPageIndex;
     private int mMaxPageIndex;
@@ -207,8 +203,8 @@ public class MakeGamePageActivity extends AppCompatActivity {
             }
         }
 
-        if (!page.getImagePath().equals("none")) {
-            File file = new File(getFilesDir().toString(), File.separator + getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR) + File.separator + getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME) + mPageIndex + getString(R.string.FILE_EXPANDER_PNG));
+        if (!page.getImagePath().equals(getString(R.string.LOCAL_NO_IMAGE_FILE))) {
+            File file = ImageUtility.getPageImageFromLocal(getApplicationContext(), mPageIndex);
             mGamePageImageUri = Uri.parse(file.toString()); // Set this value to do not save "none" when click confirmBtn
             showMakePageImageWithFile(file);
         }
@@ -348,7 +344,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
         String pageStr = mMakePageSp.getSelectedItem().toString();
         String soundStr = mMakeSoundSp.getSelectedItem().toString();
         Boolean isVibrateOn = mMakeVibrateCb.isChecked();
-        String imagePath = "none";
+        String imagePath = getString(R.string.LOCAL_NO_IMAGE_FILE);
 
         if(mGamePageImageUri != null){
             imagePath = getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME) + mPageIndex + getString(R.string.FILE_EXPANDER_PNG);

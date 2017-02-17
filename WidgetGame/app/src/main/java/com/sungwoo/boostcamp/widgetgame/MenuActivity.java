@@ -13,27 +13,15 @@ import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.make_game.MakeGameMenuActivity;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
-
-import java.io.File;
+import com.sungwoo.boostcamp.widgetgame.upload.Upload;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.REQ_CODE_SELECT_IMAGE;
-import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.UPLOAD_IMAGE_FAIL;
-import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.UPLOAD_IMAGE_SUCCESS;
-import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.USER_INFORMATION;
+import static com.sungwoo.boostcamp.widgetgame.upload.Upload.USER_INFORMATION;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -100,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
 
         String imageUrl = mUserInfo.getImageUrl();
         Log.d(TAG, "imageUrl : " + imageUrl);
-        if (imageUrl.equals(getString(R.string.none)) || imageUrl.equals("")) {
+        if (imageUrl.equals(getString(R.string.SERVER_NO_IMAGE_FILE)) || imageUrl.equals("")) {
             Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
         } else {
             Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + imageUrl).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
@@ -118,7 +106,7 @@ public class MenuActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 Picasso.with(getApplicationContext()).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
                 ImageUtility.saveImageInFilesDirectory(this, imageUri, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
-                ImageUtility.uploadUserImageToServer(getApplicationContext(), getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG), USER_INFORMATION);
+                Upload.uploadUserImageToServer(getApplicationContext(), getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG), USER_INFORMATION);
                 break;
         }
     }
