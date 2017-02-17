@@ -38,7 +38,14 @@ public class Upload {
 
     public static final int USER_INFORMATION = 100;
 
-    public static void uploadGame(final Context context, FullGameRepo fullGameRepo) {
+    public static void uploadGameRepo(final Context context, FullGameRepo fullGameRepo) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    public static void uploadGameImages(final Context context, FullGameRepo fullGameRepo) {
         HashMap<String, RequestBody> uploadGameMap = new HashMap<>();
         GameInfo gameInfo = fullGameRepo.getGameInfo();
         if (gameInfo.getGameImagePath() != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
@@ -56,26 +63,17 @@ public class Upload {
                 uploadGameMap.put(page.getImagePath(), requestBody);
             }
         }
-        Log.d(TAG, "here??");
-        Gson gson = new Gson();
-        Log.d(TAG, "here???");
-        String fullGameRepoJsonStr = gson.toJson(fullGameRepo);
-
-        Log.d(TAG, "here????");
-        RequestBody fullGameRepoRequestBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_STRING)), fullGameRepoJsonStr);
-
-        Log.d(TAG, fullGameRepoJsonStr);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         GameInformationRetrofit gameInformationRetrofit = retrofit.create(GameInformationRetrofit.class);
-        Call<CommonRepo.ResultCodeRepo> codeRepoCall = gameInformationRetrofit.uploadGame(uploadGameMap, fullGameRepoRequestBody);
-        codeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
+        Call<CommonRepo.ResultCodeRepo> uploadGameRepoCodeRepoCall = gameInformationRetrofit.uploadGameRepo(fullGameRepo);
+        uploadGameRepoCodeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call,
-                    Response<CommonRepo.ResultCodeRepo> response) {
+                                   Response<CommonRepo.ResultCodeRepo> response) {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
@@ -98,6 +96,32 @@ public class Upload {
             }
         });
 
+        Call<CommonRepo.ResultCodeRepo> uploadGameImagesCodeRepoCall = gameInformationRetrofit.uploadGameImages(uploadGameMap);
+        uploadGameImagesCodeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
+            @Override
+            public void onResponse(Call<CommonRepo.ResultCodeRepo> call,
+                                   Response<CommonRepo.ResultCodeRepo> response) {
+                CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
+                switch (resultCodeRepo.getCode()) {
+                    case UPLOAD_SUCCESS:
+                        Toast.makeText(context, "업로드 성공!!", Toast.LENGTH_LONG).show();
+                        break;
+                    case UPLOAD_FAIL:
+                        Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
+                CommonUtility.displayNetworkError(context);
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        });
     }
     public static void uploadUserImageToServer(final Context context, String dirPath, String localFileName, String serverFileName, int uploadCode) {
         Retrofit retrofit = new Retrofit.Builder()

@@ -141,7 +141,7 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     }
     private void postGameToServer() {
         FullGameRepo fullGameRepo = makeFullGameRepoWithMakeGameRepo();
-        Upload.uploadGame(getApplicationContext(), fullGameRepo);
+        Upload.uploadGameImages(getApplicationContext(), fullGameRepo);
     }
 
     private FullGameRepo makeFullGameRepoWithMakeGameRepo() {
