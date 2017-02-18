@@ -29,11 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
 
-    private String mEmail;
-    private String mPassword;
-    private String mNickname;
+    private CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final int LOGIN_SUCCESS = 100;
     private static final int LOGIN_CAN_NOT_FIND_USER = 200;
@@ -50,9 +48,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void testLoginServer(String email, String password) {
-        mEmail = email;
-        mPassword = password;
-        if (!CommonUtility.isNetworkAvailable(getApplicationContext())) {
+        mUserRepo.setEmail(email);
+        mUserRepo.setPassword(password);
+        if (!CommonUtility.isNetworkAvailableAndShowErrorMessageIfNeeded(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
@@ -60,19 +58,24 @@ public class LoginActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformRetrofit.testLoginServer(mEmail, mPassword);
+        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultNicknameRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {
                 CommonRepo.ResultNicknameRepo resultCodeRepo = response.body();
-                if (resultCodeRepo.getCode() == LOGIN_SUCCESS) {
-                    Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
-                    mNickname = resultCodeRepo.getNickname();
-                    loginSucess();
-                } else if (resultCodeRepo.getCode() == LOGIN_CAN_NOT_FIND_USER) {
-                    Toast.makeText(LoginActivity.this, R.string.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
-                } else if (resultCodeRepo.getCode() == LOGIN_SERVER_ERROR) {
-                    Toast.makeText(LoginActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                switch (resultCodeRepo.getCode()) {
+                    case LOGIN_SUCCESS:
+                        Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
+                        mUserRepo.setNickname(resultCodeRepo.getNickname());
+                        mUserRepo.setImageUrl(resultCodeRepo.getImageUrl());
+                        loginSuccess();
+                        break;
+                    case LOGIN_CAN_NOT_FIND_USER:
+                        Toast.makeText(LoginActivity.this, R.string.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
+                        break;
+                    case LOGIN_SERVER_ERROR:
+                        Toast.makeText(LoginActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
 
@@ -89,17 +92,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.login_join_btn)
-    private void onLoginJoinBtnClick() {
+    public void onLoginJoinBtnClick() {
         Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.login_login_btn)
-    private void onLoginLoginBtnClick() {
+    public void onLoginLoginBtnClick() {
         testLoginServer(mLoginEmailEt.getText().toString(), mLoginPasswordEt.getText().toString());
     }
 
-    private void loginSucess() {//TODO sharedPreference에 정보 넣기, 이미지 들고있는 방법 구상하기
+    private void loginSuccess() {
+
         updateLoginPreference();
 
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -109,17 +113,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateLoginPreference() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.PREF_EMAIL), mEmail);
-        editor.putString(getString(R.string.PREF_NICKNAME), mNickname);
-        editor.putString(getString(R.string.PREF_PASSWORD), mPassword);
+        editor.putString(getString(R.string.PREF_EMAIL), mUserRepo.getEmail());
+        editor.putString(getString(R.string.PREF_PASSWORD), mUserRepo.getPassword());
+        editor.putString(getString(R.string.PREF_NICKNAME), mUserRepo.getNickname());
+        editor.putString(getString(R.string.PREF_IMAGE_URL), mUserRepo.getImageUrl());
         editor.apply();
-        int size = preferences.getAll().size();
     }
 
     private void testLoginPreference() {
-        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_LOGIN), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         if (preferences.contains(getString(R.string.PREF_EMAIL)) && preferences.contains(getString(R.string.PREF_PASSWORD))) {
             String email = preferences.getString(getString(R.string.PREF_EMAIL), "");
             String password = preferences.getString(getString(R.string.PREF_PASSWORD), "");

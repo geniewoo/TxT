@@ -5,4 +5,5 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
     <dimen name="vertical_margin1">180dp</dimen>
     <dimen name="vertical_margin2">90dp</dimen>
+    <dimen name="user_circle_iv">144dp</dimen>
 </resources>
