@@ -36,9 +36,9 @@
     <string name="JOIN_SECTIONBAR">|</string>
     <string name="JOIN_JOIN">회원가입</string>
 
-    <string name="JOIN_EMAIL_IS_WRONG">유효하지 않은 이메일 형식입니다</string>
-    <string name="JOIN_PASSWORD_IS_WRONG">영문 + 숫자 /"!@#$%/"의 특수문자 로 6~20자로 작성해 주세요</string>
-    <string name="JOIN_NICKNAME_IS_WRONG">영문 + 한글 + 숫자 + /"_/"의 특수문자로 2~16자로 작성해 주세요</string>
+    <string name="INVALID_JOIN_EMAIL">유효하지 않은 이메일 형식입니다</string>
+    <string name="INVALID_JOIN_PASSWORD">영문 + 숫자 /"!@#$%/"의 특수문자 로 6~20자로 작성해 주세요</string>
+    <string name="INVALID_JOIN_NICKNAME">영문 + 한글 + 숫자 + /"_/"의 특수문자로 2~16자로 작성해 주세요</string>
     <string name="JOIN_SUCCESS">회원가입 성공</string>
 
     <string name="JOIN_EMAIL_EXISTS">이미 존재하는 이메일 입니다</string>
@@ -64,16 +64,16 @@
     <string name="MAKE_GAME_INFO_IMAGE">게임 대표 이미지</string>
     <string name="MAKE_GAME_INFO_START">제작 시작하기</string>
 
-    <string name="MAKE_GAME_INFO_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
-    <string name="MAKE_GAME_INFO_DESCRIPTION_IS_WRONG">설명은 6 이상 400 이하의 문자로 작성해 주세요</string>
+    <string name="INVALID_MAKE_GAME_INFO_TITLE">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
+    <string name="INVALID_MAKE_GAME_INFO_DESCRIPTION">설명은 6 이상 400 이하의 문자로 작성해 주세요</string>
 
     <!-- activity_make_game_page -->
     <string name="MAKE_GAME_PAGE_CHANGE_BTN_TEXT">변경</string>
     <string name="DESC_MAKE_GAME_PAGE_IV">현재 페이지의 이미지를 넣으세요</string>
     <string name="MAKE_GAME_PAGE_TITLE">페이지 이름</string>
 
-    <string name="MAKE_GAME_PAGE_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
-    <string name="MAKE_GAME_PAGE_DESCRIPTION_IS_WRONG">내용은 1 이상 400 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_PAGE_TITLE_IS_INVALID">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID">내용은 1 이상 400 이하의 문자로 작성해 주세요</string>
     <string name="MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 2개이상 선택해 주세요</string>
     <string name="MAKE_GAME_PAGE_NO_SELECTIONS_INDEX">선택지 index가 지정되어있지 않습니다</string>
     <string name="MAKE_GAME_PAGE_NO_SELECTIONS_TEXT">선택지 내용이 없습니다</string>
@@ -124,13 +124,22 @@
     <string name="RETROFIT_FILE_FORMAT_STRING" translatable="false">string</string>
 
     <!-- error message -->
-    <string name="ERROR_IMAGE_IS_NOT_EXISTS">IMAGE IS NOT EXISTS</string>
+    <string name="ERROR_IMAGE_IS_NOT_EXISTS">이미지가 존재하지 않습니다</string>
+    <string name="INVALID_UPLOAD_CODE">there is invalid upload code</string>
+    <string name="PAGE_INDEX_ERROR">page index error</string>
+    <string name="MAX_INDEX_ERROR">max index error</string>
     
     <!-- game info values -->
     <string name="GAME_GENRE_SELECTIONS">SELECTIONS</string>
+    <string name="GAME_IS_ALREADY_EXIST">이미 작성중인 게임이 있습니다</string>
 
     <!-- intent extras -->
     <string name="INTENT_MAKE_NEW_GAME_PAGE">IS_NEW_GAME</string>
     <string name="INTENT_MAKE_GAME_PAGE_INDEX">PAGE_INDEX</string>
 
+    <!-- upload test -->
+    <string name="UPLOAD_SELECTION_TARGETS_ARE_OVER_PAGE_INDEX">최대 페이지를 넘어가는 선택지가 있습니다</string>
+    <string name="UPLOAD_NO_GAME_CLEAR_PAGE">게임클리어페이지가 존재하지 않습니다</string>
+    <string name="UPLOAD_GAME_NO_PROBLEM">게임공유하기에 문제가 없습니다</string>
+    <string name="UPLOAD_SUCCESS">게임 업로드 성공</string>
 </resources>

@@ -91,10 +91,10 @@ public class MakeGamePageActivity extends AppCompatActivity {
         mPageIndex = intent.getIntExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), -1);
         mMaxPageIndex = getPreferenceMaxIndex();
         if (mPageIndex == -1) {
-            Log.e(TAG, "index error");
+            Log.e(TAG, getString(R.string.PAGE_INDEX_ERROR));
             finish();
         } else if (mMaxPageIndex == -1){
-            Log.e(TAG, "max index error");
+            Log.e(TAG, getString(R.string.MAX_INDEX_ERROR));
             finish();
         }
 
@@ -240,10 +240,10 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
     private boolean checkValuesAreValidateAndShowMessage() {
         if (!isValidateTitle()) {
-            Toast.makeText(this, R.string.MAKE_GAME_PAGE_TITLE_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.MAKE_GAME_PAGE_TITLE_IS_INVALID, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isValidateDescription()){
-            Toast.makeText(this, R.string.MAKE_GAME_PAGE_DESCRIPTION_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID, Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -375,6 +375,14 @@ public class MakeGamePageActivity extends AppCompatActivity {
             pages.add(mPageIndex - 1, page);
             mRealm.commitTransaction();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MakeGameMenuActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

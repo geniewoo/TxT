@@ -64,10 +64,9 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     @OnClick(R.id.make_menu_new_btn)
     public void onMakeNewGameBtnClicked() {
         if (mMakeGamePreference != null) {  //TODO alert다이얼로그 만들어서 여부 묻기
-            Toast.makeText(this, "제작중인 게임이 있습니다", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.GAME_IS_ALREADY_EXIST, Toast.LENGTH_SHORT).show();
         }
         Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -77,7 +76,6 @@ public class MakeGameMenuActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
             intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
             intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mMakeGamePreference.getMaxIndex() + 1);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }
@@ -104,13 +102,13 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     public void onMakeMenuShareBtnClicked() {
         switch (checkValidateGame()) {
             case OVER_PAGE_INDEX:
-                Toast.makeText(this, "OVER_PAGE_INDEX", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.UPLOAD_SELECTION_TARGETS_ARE_OVER_PAGE_INDEX, Toast.LENGTH_SHORT).show();
                 return;
             case NO_GAME_CLEAR_PAGE:
-                Toast.makeText(this, "NO_GAME_CLEAR_PAGE", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.UPLOAD_NO_GAME_CLEAR_PAGE, Toast.LENGTH_SHORT).show();
                 return;
             case VALID_GAME:
-                Toast.makeText(this, "isValid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.UPLOAD_GAME_NO_PROBLEM, Toast.LENGTH_SHORT).show();
                 postGameToServer();
         }
     }

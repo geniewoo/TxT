@@ -152,10 +152,10 @@ public class MakeGameInfoActivity extends AppCompatActivity {
 
     private boolean checkValuesAreValidateAndShowMessage() {
         if (!isValidateTitle()) {
-            Toast.makeText(this, R.string.MAKE_GAME_INFO_TITLE_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_MAKE_GAME_INFO_TITLE, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isValidateDescription()){
-            Toast.makeText(this, R.string.MAKE_GAME_INFO_DESCRIPTION_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_MAKE_GAME_INFO_DESCRIPTION, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

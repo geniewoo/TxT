@@ -54,13 +54,13 @@ public class JoinActivity extends AppCompatActivity {
     private boolean validateCredentialLocallyDisplayErrorMessageIfNeeded(String email, String password, String nickname) {   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
 
         if (!isValidEmail(email)) {
-            Toast.makeText(this, R.string.JOIN_EMAIL_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_JOIN_EMAIL, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isValidPassword(password)) {
-            Toast.makeText(this, R.string.JOIN_PASSWORD_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_JOIN_PASSWORD, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isValidNickname(nickname)) {
-            Toast.makeText(this, R.string.JOIN_NICKNAME_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_JOIN_NICKNAME, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

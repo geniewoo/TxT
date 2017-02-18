@@ -15,16 +15,23 @@ import retrofit2.http.Query;
  */
 
 public interface UserInformationRetrofit {
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
+    public static final String IMAGE_URL = "imageUrl";
+    public static final String NICKNAME = "nickname";
+    public static final String RETROFIT_FILE_DESCRIPTION = "file\"; filename=\"name.png\" ";
+    public static final String FILE_NAMES = "fileNames";
+
     @GET("user/join/test")
-    Call<CommonRepo.ResultCodeRepo> testJoinServer(@Query("email") String email, @Query("password") String password, @Query("nickname") String nickname);
+    Call<CommonRepo.ResultCodeRepo> testJoinServer(@Query(EMAIL) String email, @Query(PASSWORD) String password, @Query(NICKNAME) String nickname);
 
     @GET("user/login/test")
-    Call<CommonRepo.ResultNicknameRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
+    Call<CommonRepo.ResultNicknameRepo> testLoginServer(@Query(EMAIL) String email, @Query(PASSWORD) String password);
 
     @GET("user/update/imageUrl")
-    Call<CommonRepo.ResultCodeRepo> updateUserImage(@Query("email") String email, @Query("password") String password, @Query("imageUrl") String imageUrl);
+    Call<CommonRepo.ResultCodeRepo> updateUserImage(@Query(EMAIL) String email, @Query(PASSWORD) String password, @Query(IMAGE_URL) String imageUrl);
 
     @Multipart
     @POST("upload/userImageFile")
-    Call<CommonRepo.ResultCodeRepo> uploadUserImage(@Part("file\"; filename=\"name.png\" ") RequestBody file, @Part("fileNames") RequestBody name);
+    Call<CommonRepo.ResultCodeRepo> uploadUserImage(@Part(RETROFIT_FILE_DESCRIPTION) RequestBody file, @Part(FILE_NAMES) RequestBody name);
 }

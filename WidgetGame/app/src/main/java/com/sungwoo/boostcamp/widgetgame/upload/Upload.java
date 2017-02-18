@@ -68,7 +68,7 @@ public class Upload {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
-                        Toast.makeText(context, "업로드 성공!!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.UPLOAD_SUCCESS, Toast.LENGTH_LONG).show();
                         break;
                     case UPLOAD_FAIL:
                         Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
@@ -97,7 +97,6 @@ public class Upload {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
-                        Toast.makeText(context, "업로드 성공!!", Toast.LENGTH_LONG).show();
                         break;
                     case UPLOAD_FAIL:
                         Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
@@ -137,7 +136,7 @@ public class Upload {
                 codeRepoCall = userInformationRetrofit.uploadUserImage(fileBody, fileNameBody);
                 break;
             default:
-                Log.e(TAG, "there is wrong uploadCode");
+                Log.e(TAG, context.getString(R.string.INVALID_UPLOAD_CODE));
                 return;
         }
         codeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {

@@ -20,9 +20,13 @@ import retrofit2.http.Query;
  */
 
 public interface GameInformationRetrofit {
+
+    public static final String NICKNAME = "nickname";
+    public static final String GAME_TITLE = "gameTitle";
+
     @Multipart
     @POST("upload/game/images")
-    Call<CommonRepo.ResultCodeRepo> uploadGameImages(@PartMap Map<String, RequestBody> map, @Query("nickname") String nickname, @Query("gameTitle") String gameTitle);
+    Call<CommonRepo.ResultCodeRepo> uploadGameImages(@PartMap Map<String, RequestBody> map, @Query(NICKNAME) String nickname, @Query(GAME_TITLE) String gameTitle);
 
     @POST("upload/game/fullGameRepo")
     Call<CommonRepo.ResultCodeRepo> uploadGameRepo(@Body FullGameRepo fullGameRepo);

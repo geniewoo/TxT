@@ -73,7 +73,7 @@ public class ImageUtility {
             bitmap.compress(format, quality, fileOutputStream);
             fileOutputStream.close();
         } catch (IOException e) {
-            Log.e(TAG, "error : " + e.getMessage());
+            Log.e(TAG, e.getMessage());
             if (fileOutputStream != null) {
                 try {
                     fileOutputStream.close();
