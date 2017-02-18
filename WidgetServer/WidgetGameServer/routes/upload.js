@@ -34,8 +34,7 @@ function uploadImage(filesArr, fileNames, index, filesLength, fileFolder, fs, ne
     fileName = fileNames[index];
     var forTime = new Date();
 
-    fs.rename(file.path, __dirname + '\\..\\public\\images\\' + fileFolder + fileName, function(err) {
-
+    fs.rename(file.path, __dirname + path.sep + '..' + path.sep + 'public' + path.sep + 'images' + path.sep + fileFolder + fileName, function(err) {
         if (err) {
             throw err;
         } else {
