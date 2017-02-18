@@ -25,7 +25,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CommonUtility {
 
-    private static final String TAG = "CommonUtility";
+    private static final String TAG = CommonUtility.class.getSimpleName();
 
     public static boolean isNetworkAvailableShowErrorMessageIfNeeded(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
