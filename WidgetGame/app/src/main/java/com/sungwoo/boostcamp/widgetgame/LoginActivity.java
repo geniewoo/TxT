@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
+import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
 
-    private CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
+    private final CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -42,23 +39,25 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ButterKnife.bind(this);
+
         testLoginPreference();
 
-        ButterKnife.bind(this);
     }
 
     private void testLoginServer(String email, String password) {
         mUserRepo.setEmail(email);
         mUserRepo.setPassword(password);
-        if (!CommonUtility.isNetworkAvailableAndShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
+
+        UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
+        Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformationRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultNicknameRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {
@@ -94,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.login_join_btn)
     public void onLoginJoinBtnClick() {
         Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
@@ -115,21 +115,19 @@ public class LoginActivity extends AppCompatActivity {
     private void updateLoginPreference() {
         SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.PREF_EMAIL), mUserRepo.getEmail());
-        editor.putString(getString(R.string.PREF_PASSWORD), mUserRepo.getPassword());
-        editor.putString(getString(R.string.PREF_NICKNAME), mUserRepo.getNickname());
-        editor.putString(getString(R.string.PREF_IMAGE_URL), mUserRepo.getImageUrl());
+        editor.putString(getString(R.string.PREF_USER_EMAIL), mUserRepo.getEmail());
+        editor.putString(getString(R.string.PREF_USER_PASSWORD), mUserRepo.getPassword());
+        editor.putString(getString(R.string.PREF_USER_NICKNAME), mUserRepo.getNickname());
+        editor.putString(getString(R.string.PREF_USER_IMAGE_URL), mUserRepo.getImageUrl());
         editor.apply();
     }
 
     private void testLoginPreference() {
         SharedPreferences preferences = getSharedPreferences(getString(R.string.PREF_USER), MODE_PRIVATE);
-        if (preferences.contains(getString(R.string.PREF_EMAIL)) && preferences.contains(getString(R.string.PREF_PASSWORD))) {
-            String email = preferences.getString(getString(R.string.PREF_EMAIL), "");
-            String password = preferences.getString(getString(R.string.PREF_PASSWORD), "");
+        if (preferences.contains(getString(R.string.PREF_USER_EMAIL)) && preferences.contains(getString(R.string.PREF_USER_PASSWORD))) {
+            String email = preferences.getString(getString(R.string.PREF_USER_EMAIL), "");
+            String password = preferences.getString(getString(R.string.PREF_USER_PASSWORD), "");
             testLoginServer(email, password);
-        } else {
-            return;
         }
     }
 }

@@ -2,17 +2,21 @@
     <!-- common -->
     <string name="app_name">T x T</string>
     <string name="COMMON_ERROR">error</string>
-    <string name="COMMON_NETWORK_IS_NOT_AVAILABLE">wifi 혹은 data가 꺼져있습니다</string>
+    <string name="COMMON_NETWORK_IS_NOT_AVAILABLE">wifi 혹은 data 가 꺼져있습니다</string>
     <string name="COMMON_NETWORK_ERROR">인터넷 접속이 불가능 하거나 서버에 이상이 있습니다 잠시후에 다시 시도해 주세요</string>
     <string name="COMMON_SERVER_ERROR">서버에 문제가 있습니다</string>
     <string name="FILE_EXPANDER_PNG" translatable="false">.png</string>
 
     <!-- sharedPreference -->
     <string name="PREF_USER" translatable="false">PREF_USER</string>
-    <string name="PREF_EMAIL" translatable="false">PREF_EMAIL</string>
-    <string name="PREF_PASSWORD" translatable="false">PREF_PASSWORD</string>
-    <string name="PREF_NICKNAME" translatable="false">PREF_NICKNAME</string>
-    <string name="PREF_IMAGE_URL" translatable="false">PREF_IMAGE_URL</string>
+    <string name="PREF_USER_EMAIL" translatable="false">PREF_EMAIL</string>
+    <string name="PREF_USER_PASSWORD" translatable="false">PREF_PASSWORD</string>
+    <string name="PREF_USER_NICKNAME" translatable="false">PREF_NICKNAME</string>
+    <string name="PREF_USER_IMAGE_URL" translatable="false">PREF_IMAGE_URL</string>
+
+    <string name="PREF_MAKE_GAME" translatable="false">PREF_MAKE_GAME</string>
+    <string name="PREF_MAKE_GAME_MAX_INDEX" translatable="false">PREF_MAKE_GAME_MAX_INDEX</string>
+    <string name="PREF_MAKE_GAME_IS_EXISTS" translatable="false">PREF_MAKE_GAME_IS_EXISTS</string>
 
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>
@@ -48,16 +52,72 @@
     <string name="MENU_REPORT">리포트 / 문의</string>
     <string name="MENU_LOGOUT">로그아웃</string>
 
+    <!-- activity_make_game_menu -->
+    <string name="MAKE_NEW_GAME">새 게임 만들기</string>
+    <string name="MAKE_CONTINUE_GAME">이어 만들기</string>
+    <string name="MAKE_SHARE_GAME">게임 공유하기</string>
+
+    <!-- activity_make_game_info -->
+    <string name="DESC_MAKE_GAME_INFO_IV">게임 대표 이미지를 넣으세요</string>
+    <string name="MAKE_GAME_INFO_TITLE">게임 이름</string>
+    <string name="MAKE_GAME_INFO_DESC">게임 설명</string>
+    <string name="MAKE_GAME_INFO_IMAGE">게임 대표 이미지</string>
+    <string name="MAKE_GAME_INFO_START">제작 시작하기</string>
+
+    <string name="MAKE_GAME_INFO_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_INFO_DESCRIPTION_IS_WRONG">설명은 6 이상 400 이하의 문자로 작성해 주세요</string>
+
+    <!-- activity_make_game_page -->
+    <string name="MAKE_GAME_PAGE_CHANGE_BTN_TEXT">변경</string>
+    <string name="DESC_MAKE_GAME_PAGE_IV">현재 페이지의 이미지를 넣으세요</string>
+    <string name="MAKE_GAME_PAGE_TITLE">페이지 이름</string>
+
+    <string name="MAKE_GAME_PAGE_TITLE_IS_WRONG">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_PAGE_DESCRIPTION_IS_WRONG">내용은 1 이상 400 이하의 문자로 작성해 주세요</string>
+    <string name="MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 2개이상 선택해 주세요</string>
+    <string name="MAKE_GAME_PAGE_NO_SELECTIONS_INDEX">선택지 index가 지정되어있지 않습니다</string>
+    <string name="MAKE_GAME_PAGE_NO_SELECTIONS_TEXT">선택지 내용이 없습니다</string>
+
+    <string name="SPINNER_PAGE_1">Choice</string>
+    <string name="SPINNER_PAGE_2">Story</string>
+    <string name="SPINNER_PAGE_3">Game Over</string>
+    <string name="SPINNER_PAGE_4">Game Clear</string>
+
+    <string name="SPINNER_SOUND_DEFAULT">none</string>
+    <string name="SPINNER_SOUND_1">coins</string>
+    <string name="SPINNER_SOUND_2">crash</string>
+    <string name="SPINNER_SOUND_3">doorbell</string>
+    <string name="SPINNER_SOUND_4">glass</string>
+    <string name="SPINNER_SOUND_5">gun</string>
+    <string name="SPINNER_SOUND_6">laugh</string>
+    <string name="SPINNER_SOUND_7">open</string>
+    <string name="SPINNER_SOUND_8">opendoor</string>
+    <string name="SPINNER_SOUND_9">ring</string>
+    <string name="SPINNER_SOUND_10">shotgun</string>
+    <string name="SPINNER_SOUND_11">sword</string>
+    <string name="SPINNER_SOUND_12">wind</string>
+    <string name="SPINNER_SOUND_13">witchlaugh</string>
+
+    <string name="SPINNER_VIBRATE_ON">vibrate on</string>
+
+    <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>
+    <string name="MAKE_CONFIRM">완료</string>
+    <string name="MAKE_DELETE">취소</string>
+
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
-    <string name="URL_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/</string>
+    <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/profile/</string>
 
     <!-- server response -->
-    <string name="none">none</string>
+    <string name="SERVER_NO_IMAGE_FILE" translatable="false">none</string>
 
     <!-- local storage -->
+    <string name="LOCAL_STORAGE_MAKE_GAME_DIR" translatable="false">TxT/MakeGame</string>
     <string name="LOCAL_STORAGE_USER_DIR" translatable="false">TxT/User</string>
     <string name="LOCAL_USER_IMAGE_FILE_NAME" translatable="false">userImage.png</string>
+    <string name="LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME" translatable="false">gameInfoImage.png</string>
+    <string name="LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME" translatable="false">gamePageImage</string>
+    <string name="LOCAL_NO_IMAGE_FILE" translatable="false">none</string>
 
     <!-- Retrofit -->
     <string name="RETROFIT_FILE_FORMAT_IMAGE" translatable="false">image/*</string>
@@ -65,4 +125,12 @@
 
     <!-- error message -->
     <string name="ERROR_IMAGE_IS_NOT_EXISTS">IMAGE IS NOT EXISTS</string>
+    
+    <!-- game info values -->
+    <string name="GAME_GENRE_SELECTIONS">SELECTIONS</string>
+
+    <!-- intent extras -->
+    <string name="INTENT_MAKE_NEW_GAME_PAGE">IS_NEW_GAME</string>
+    <string name="INTENT_MAKE_GAME_PAGE_INDEX">PAGE_INDEX</string>
+
 </resources>

@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_make_game"
+    android:id="@+id/activity_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.sungwoo.boostcamp.widgetgame.MakeGame.MakeGameMenuActivity">
+    tools:context="com.sungwoo.boostcamp.widgetgame.MenuActivity">
+    <Button
+        android:id="@+id/make_menu_new_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vertical_margin1"
+        android:layout_marginRight="@dimen/vertical_margin1"
+        android:text="@string/MAKE_NEW_GAME"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/make_menu_continue_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vertical_margin1"
+        android:layout_marginRight="@dimen/vertical_margin1"
+        android:text="@string/MAKE_CONTINUE_GAME"/>
+
+    <Button
+        android:id="@+id/make_menu_share_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vertical_margin1"
+        android:layout_marginRight="@dimen/vertical_margin1"
+        android:text="@string/MAKE_SHARE_GAME"/>
+
+</LinearLayout>

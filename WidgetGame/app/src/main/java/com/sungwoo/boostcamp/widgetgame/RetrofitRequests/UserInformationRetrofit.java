@@ -2,7 +2,6 @@ package com.sungwoo.boostcamp.widgetgame.RetrofitRequests;
 
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -15,12 +14,15 @@ import retrofit2.http.Query;
  * Created by SungWoo on 2017-02-08.
  */
 
-public interface UserInformRetrofit {
+public interface UserInformationRetrofit {
     @GET("user/join/test")
     Call<CommonRepo.ResultCodeRepo> testJoinServer(@Query("email") String email, @Query("password") String password, @Query("nickname") String nickname);
 
     @GET("user/login/test")
     Call<CommonRepo.ResultNicknameRepo> testLoginServer(@Query("email") String email, @Query("password") String password);
+
+    @GET("user/update/imageUrl")
+    Call<CommonRepo.ResultCodeRepo> updateUserImage(@Query("email") String email, @Query("password") String password, @Query("imageUrl") String imageUrl);
 
     @Multipart
     @POST("upload/userImageFile")
