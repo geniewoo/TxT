@@ -90,8 +90,6 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
         mPageIndex = intent.getIntExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), -1);
         mMaxPageIndex = getPreferenceMaxIndex();
-        Log.d(TAG, "pageIndex : " + mPageIndex);
-        Log.d(TAG, "MaxPage : " + mMaxPageIndex);
         if (mPageIndex == -1) {
             Log.e(TAG, "index error");
             finish();
@@ -102,7 +100,6 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
         String[] indexStringArr = getIndexStringArr();
         setIndexView(indexStringArr);
-        Log.d(TAG, String.valueOf(intent.hasExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE))));
         if (intent.getBooleanExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), false)) {
             mIsNewPage = true;
         } else {
@@ -313,7 +310,6 @@ public class MakeGamePageActivity extends AppCompatActivity {
                 }
             }
         }
-        Log.d(TAG, mMakePageSp.getSelectedItem().toString());
     }
     @OnItemSelected(R.id.make_index_sp)
     public void onMakeIndexSpItemSelected(int position) {
@@ -379,7 +375,6 @@ public class MakeGamePageActivity extends AppCompatActivity {
             pages.add(mPageIndex - 1, page);
             mRealm.commitTransaction();
         }
-        Log.d(TAG, "pages size : " + pages.size());
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
@@ -17,7 +16,6 @@ import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 
 import io.realm.RealmList;
 import okhttp3.MediaType;
@@ -39,13 +37,6 @@ public class Upload {
 
     public static final int USER_INFORMATION = 100;
 
-    public static void uploadGameRepo(final Context context, FullGameRepo fullGameRepo) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
     public static void uploadGameImages(final Context context, FullGameRepo fullGameRepo) {
         HashMap<String, RequestBody> uploadGameMap = new HashMap<>();
         GameInfo gameInfo = fullGameRepo.getGameInfo();
@@ -56,7 +47,6 @@ public class Upload {
         }
 
         RealmList<Page> pages = gameInfo.getPages();
-        Log.d(TAG, "here?");
         for (Page page : pages) {
             if (!page.getImagePath().equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPageImageFromLocal(context, page.getIndex());
@@ -136,7 +126,6 @@ public class Upload {
             Log.e(TAG, context.getString(R.string.ERROR_IMAGE_IS_NOT_EXISTS));
             return;
         }
-        Log.d(TAG, file.getName());
         RequestBody fileBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_IMAGE)), file);
         RequestBody fileNameBody = RequestBody.create(MediaType.parse(context.getString(R.string.RETROFIT_FILE_FORMAT_STRING)), serverFileName);
 

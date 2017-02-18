@@ -66,7 +66,6 @@ public class MakeGameMenuActivity extends AppCompatActivity {
         if (mMakeGamePreference != null) {  //TODO alert다이얼로그 만들어서 여부 묻기
             Toast.makeText(this, "제작중인 게임이 있습니다", Toast.LENGTH_SHORT).show();
         }
-        Log.d(TAG, "New game button clicked");
         Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -75,7 +74,6 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     @OnClick(R.id.make_menu_continue_btn)
     public void onMakeMenuContinueBtnClicked() {
         if (mMakeGamePreference != null) {
-            Log.d(TAG, "here right?");
             Intent intent = new Intent(getApplicationContext(), MakeGamePageActivity.class);
             intent.putExtra(getString(R.string.INTENT_MAKE_NEW_GAME_PAGE), true);
             intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), mMakeGamePreference.getMaxIndex() + 1);

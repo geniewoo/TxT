@@ -94,7 +94,6 @@ public class MenuActivity extends AppCompatActivity {
         mMenuUserTv.setText(mUserInfo.getNickname());
 
         String imageUrl = mUserInfo.getImageUrl();
-        Log.d(TAG, "imageUrl : " + imageUrl);
         if (imageUrl.equals(getString(R.string.SERVER_NO_IMAGE_FILE)) || imageUrl.equals("")) {
             Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
         } else {

@@ -52,23 +52,21 @@ public class ImageUtility {
         }
         if (userImageBitmap != null) {
             File dir = new File(context.getFilesDir() + File.separator + dirPath);
-            Log.d(TAG, context.getFilesDir() + File.separator + dirPath + fileName);
             saveBitmapToFile(dir, fileName, userImageBitmap, Bitmap.CompressFormat.PNG, SAVE_BITMAP_TO_FILE_QUALITY);
         }
     }
 
     private static void saveBitmapToFile(File dir, String fileName, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
-        Log.d(TAG, "mkdir1");
         if(!dir.getParentFile().isDirectory()){
             dir.getParentFile().mkdir();
         }
-        Log.d(TAG, "mkdir2");
+
         if(!dir.isDirectory()){
             dir.mkdir();
         }
-        Log.d(TAG, "mkdir3");
+
         File imageFile = new File(dir, fileName);
-        Log.d(TAG, "imageFile : " + imageFile.getName());
+
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(imageFile);

@@ -56,8 +56,6 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mRealm = Realm.getDefaultInstance();
-
-        Log.d(TAG, "onCreate");
     }
     @OnClick(R.id.make_game_info_start_btn)
     public void onMakeGameInfoStartBtnClicked() {
