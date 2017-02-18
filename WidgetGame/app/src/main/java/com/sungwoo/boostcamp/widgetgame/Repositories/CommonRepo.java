@@ -23,8 +23,13 @@ public class CommonRepo {
     public class ResultNicknameRepo {
 
         private int code;
-        private String nickname;
         private String err_msg;
+        private String nickname;
+        private String imageUrl;
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
 
         public int getCode() {
             return code;
@@ -36,6 +41,56 @@ public class CommonRepo {
 
         public String getNickname() {
             return nickname;
+        }
+    }
+
+    static public class UserRepo {
+        private String email;
+        private String nickname;
+        private String password;
+        private String imageUrl;
+
+        public  UserRepo(){
+
+        }
+
+        public UserRepo(String email, String password, String nickname, String imageUrl) {
+            this.email = email;
+            this.password = password;
+            this.nickname = nickname;
+            this.imageUrl = imageUrl;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
         }
     }
 }
