@@ -19,6 +19,7 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,7 +27,9 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".make_game.MakeGameMenuActivity" />
         <activity android:name=".make_game.MakeGamePageActivity" />
-        <activity android:name=".make_game.MakeGameInfoActivity"/>
+        <activity android:name=".make_game.MakeGameInfoActivity" />
+        <activity android:name=".find_game.FindGameActivity" />
+        <activity android:name=".find_game.DownloadGameActivity"></activity>
     </application>
 
 </manifest>

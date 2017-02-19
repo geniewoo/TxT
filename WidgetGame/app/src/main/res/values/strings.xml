@@ -107,6 +107,7 @@
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
     <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/profile/</string>
+    <string name="URL_GAME_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images</string>
 
     <!-- server response -->
     <string name="SERVER_NO_IMAGE_FILE" translatable="false">none</string>
@@ -128,7 +129,7 @@
     <string name="INVALID_UPLOAD_CODE">there is invalid upload code</string>
     <string name="PAGE_INDEX_ERROR">page index error</string>
     <string name="MAX_INDEX_ERROR">max index error</string>
-    
+
     <!-- game info values -->
     <string name="GAME_GENRE_SELECTIONS">SELECTIONS</string>
     <string name="GAME_IS_ALREADY_EXIST">이미 작성중인 게임이 있습니다</string>
@@ -142,4 +143,11 @@
     <string name="UPLOAD_NO_GAME_CLEAR_PAGE">게임클리어페이지가 존재하지 않습니다</string>
     <string name="UPLOAD_GAME_NO_PROBLEM">게임공유하기에 문제가 없습니다</string>
     <string name="UPLOAD_SUCCESS">게임 업로드 성공</string>
+
+    <!-- find games intent keys -->
+    <string name="INTENT_FIND_GAME_TITLE">FIND_GAME_TITLE</string>
+    <string name="INTENT_FIND_GAME_DESCRIPTION">FIND_GAME_DESCRIPTION</string>
+    <string name="INTENT_FIND_GAME_NICKNAME">FIND_GAME_NICKNAME</string>
+    <string name="INTENT_FIND_GAME_STARS">FIND_GAME_STARS</string>
+    <string name="INTENT_FIND_GAME_IMAGEPATH">FIND_GAME_IMAGEPATH</string>
 </resources>

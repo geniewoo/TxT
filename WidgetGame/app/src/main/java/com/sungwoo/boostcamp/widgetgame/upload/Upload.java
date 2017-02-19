@@ -33,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Upload {
     private static final String TAG = Upload.class.getSimpleName();
     public static final int UPLOAD_SUCCESS = 100;
+    public static final int UPLOAD_NOFILE = 200;
     public static final int UPLOAD_FAIL = 500;
 
     public static final int USER_INFORMATION = 100;
@@ -97,6 +98,8 @@ public class Upload {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
+                        break;
+                    case UPLOAD_NOFILE:
                         break;
                     case UPLOAD_FAIL:
                         Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();

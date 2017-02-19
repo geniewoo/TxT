@@ -9,12 +9,12 @@ import io.realm.annotations.RealmClass;
  */
 @RealmClass
 public class GameInfo extends RealmObject {
-    private String gameTitle; // 게임제목
-    private String gameTheme; // 게임 장르
-    private String gameDescription; // 게임 설명
-    private String gameImagePath; // 이미지 경로
-    private int pagesNum; // 페이지 총 수
-    private RealmList<Page> pages; // 각 페이지 정보
+    private String gameTitle;
+    private String gameTheme;
+    private String gameDescription;
+    private String gameImagePath;
+    private int pagesNum;
+    private RealmList<Page> pages;
 
     public GameInfo() {
     }

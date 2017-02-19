@@ -1,8 +1,10 @@
 package com.sungwoo.boostcamp.widgetgame.RetrofitRequests;
 
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
+import com.sungwoo.boostcamp.widgetgame.Repositories.FindGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.RequestBody;
@@ -30,4 +32,7 @@ public interface GameInformationRetrofit {
 
     @POST("upload/game/fullGameRepo")
     Call<CommonRepo.ResultCodeRepo> uploadGameRepo(@Body FullGameRepo fullGameRepo);
+
+    @GET("game/get/gameList")
+    Call<FindGameRepo> getGameList(@Query("skip") int skip, @Query("num") int num, @Query("sort") String sort);
 }
