@@ -11,8 +11,8 @@ exports.findGame = function(findJson, exJson, next) {
     });
 }
 
-exports.findGames = function(findJson, exJson, next) {
-    db.games.find(findJson, exJson, function(error, data) {
+exports.findGames = function(findJson, exJson, sortJson, skip, limitNum, next) {
+    db.games.find(findJson, exJson).sort(sortJson).skip(skip).limit(limitNum, function(error, data) {
         if (error) {
             next(false);
         } else {
