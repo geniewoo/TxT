@@ -12,6 +12,7 @@ import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
+import com.sungwoo.boostcamp.widgetgame.find_game.FindGameActivity;
 import com.sungwoo.boostcamp.widgetgame.make_game.MakeGameMenuActivity;
 import com.sungwoo.boostcamp.widgetgame.upload.Upload;
 
@@ -56,7 +57,8 @@ public class MenuActivity extends AppCompatActivity {
 
     @OnClick(R.id.menu_find_game_btn)
     public void onMenuFindGameBtnClicked() {
-
+        Intent intent = new Intent(getApplicationContext(), FindGameActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.menu_make_game_btn)

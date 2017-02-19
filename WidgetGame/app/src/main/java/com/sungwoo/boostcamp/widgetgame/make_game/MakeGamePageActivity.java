@@ -209,7 +209,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
     @OnClick(R.id.make_page_cancel_btn)
     public void onMakePageCancelBtnClicked(){
-        finish();
+        onBackPressed();
     }
 
     private void setIndexView(String[] indexStringArr) {
@@ -379,7 +379,6 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MakeGameMenuActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

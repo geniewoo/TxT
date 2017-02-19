@@ -1,8 +1,10 @@
 package com.sungwoo.boostcamp.widgetgame.RetrofitRequests;
 
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
+import com.sungwoo.boostcamp.widgetgame.Repositories.FindGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.RequestBody;
@@ -23,6 +25,9 @@ public interface GameInformationRetrofit {
 
     public static final String NICKNAME = "nickname";
     public static final String GAME_TITLE = "gameTitle";
+    public static final String FIND_SKIP = "skip";
+    public static final String FIND_NUM = "num";
+    public static final String FIND_SORT = "sort";
 
     @Multipart
     @POST("upload/game/images")
@@ -30,4 +35,7 @@ public interface GameInformationRetrofit {
 
     @POST("upload/game/fullGameRepo")
     Call<CommonRepo.ResultCodeRepo> uploadGameRepo(@Body FullGameRepo fullGameRepo);
+
+    @GET("game/get/gameList")
+    Call<FindGameRepo> getGameList(@Query(FIND_SKIP) int skip, @Query(FIND_NUM) int num, @Query(FIND_SORT) String sort);
 }
