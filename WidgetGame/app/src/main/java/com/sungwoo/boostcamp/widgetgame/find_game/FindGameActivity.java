@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.FindGameRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.GameInformationRetrofit;
@@ -66,7 +67,6 @@ public class FindGameActivity extends AppCompatActivity {
         ArrayList<FindGameRepo.FindGameList> findGameLists = new ArrayList<>();
         mFindGameRvAdapter = new FindGameRvAdapter(findGameLists);
         mFindGameListRv.setAdapter(mFindGameRvAdapter);
-        Log.d(TAG, String.valueOf(mLayoutManager.findLastCompletelyVisibleItemPosition()));
         getGameListFromServer(skip++, getItemNum, SORT_GAME_TITLE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -190,13 +190,11 @@ public class FindGameActivity extends AppCompatActivity {
         uploadGameRepoCodeRepoCall.enqueue(new Callback<FindGameRepo>() {
             @Override
             public void onResponse(Call<FindGameRepo> call, Response<FindGameRepo> response) {
-                Log.d(TAG, "code : " + String.valueOf(response.body().getCode()));
-                Log.d(TAG, "code : " + String.valueOf(response.body().getFindGameList()));
                 if (response.body() != null && response.body().getCode() == GET_LIST_SUCCESS) {
                     List<FindGameRepo.FindGameList> findGameLists = response.body().getFindGameList();
                     if (findGameLists.size() == 0) {
                         isMoreItemsAvailable = false;
-                        Log.e(TAG, "결과가 없습니담");
+                        Log.e(TAG, getString(R.string.FIND_NO_GAME));
                         return;
                     } else if (findGameLists.size() < getItemNum) {
                         isMoreItemsAvailable = false;
@@ -204,17 +202,20 @@ public class FindGameActivity extends AppCompatActivity {
                     ArrayList<FindGameRepo.FindGameList> adapterList = mFindGameRvAdapter.getFindGameLists();
                     adapterList.addAll(findGameLists);
                     itemNum = findGameLists.size();
-                    Log.d(TAG, "itemNum : " + itemNum);
                     mFindGameRvAdapter.notifyDataSetChanged();
-                    //TODO if not 갱신                mFindGameRvAdapter.setFindGameRepos(findGameRepos);
                 } else {
-                    Log.e(TAG, "오류");
+                    CommonUtility.displayNetworkError(getApplicationContext());
                 }
             }
 
             @Override
             public void onFailure(Call<FindGameRepo> call, Throwable t) {
-                Log.e(TAG, "오류");
+                CommonUtility.displayNetworkError(getApplicationContext());
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
         });
     }

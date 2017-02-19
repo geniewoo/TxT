@@ -25,6 +25,9 @@ public interface GameInformationRetrofit {
 
     public static final String NICKNAME = "nickname";
     public static final String GAME_TITLE = "gameTitle";
+    public static final String FIND_SKIP = "skip";
+    public static final String FIND_NUM = "num";
+    public static final String FIND_SORT = "sort";
 
     @Multipart
     @POST("upload/game/images")
@@ -34,5 +37,5 @@ public interface GameInformationRetrofit {
     Call<CommonRepo.ResultCodeRepo> uploadGameRepo(@Body FullGameRepo fullGameRepo);
 
     @GET("game/get/gameList")
-    Call<FindGameRepo> getGameList(@Query("skip") int skip, @Query("num") int num, @Query("sort") String sort);
+    Call<FindGameRepo> getGameList(@Query(FIND_SKIP) int skip, @Query(FIND_NUM) int num, @Query(FIND_SORT) String sort);
 }
