@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.DownloadGameRepo;
@@ -19,7 +20,6 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 import com.sungwoo.boostcamp.widgetgame.Repositories.PlayGameRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.GameInformationRetrofit;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +33,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility.getServerGameImageFolderPathStringBuffer;
+
 public class DownloadGameActivity extends AppCompatActivity {
 
     private static final int GET_GAME_SUCCESS = 100;
+    private static final int GET_GAME_NO_RESULT = 200;
+    private static final int GET_GAME_FAILED = 500;
     @BindView(R.id.download_game_image_iv)
     protected ImageView mDownloadGameImageIv;
     @BindView(R.id.download_game_title_tv)
@@ -63,14 +67,7 @@ public class DownloadGameActivity extends AppCompatActivity {
             if (++imagePathIndex >= mGamePageImagePaths.size()) {
                 downloadFinnish();
             } else {
-                StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append(getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
-                stringBuffer.append(File.separator);
-                stringBuffer.append(mNickname);
-                stringBuffer.append(File.separator);
-                stringBuffer.append(mGameTitle);
-                stringBuffer.append(File.separator);
-                stringBuffer.append(mGamePageImagePaths.get(imagePathIndex));
+                StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, mGamePageImagePaths.get(imagePathIndex));
                 Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 200).centerCrop().into(mTarget);
             }
         }
@@ -110,14 +107,7 @@ public class DownloadGameActivity extends AppCompatActivity {
         String makerImagePath = intent.getStringExtra(getString(R.string.INTENT_FIND_GAME_MAKER_IMAGEPATH));
 
         if (gameImagePath != null && !gameImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
-            stringBuffer.append(File.separator);
-            stringBuffer.append(mNickname);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(mGameTitle);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(gameImagePath);
+            StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, gameImagePath);
             Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 270).centerCrop().into(mDownloadGameImageIv);
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(200, 270).centerCrop().into(mDownloadGameImageIv);
@@ -145,11 +135,22 @@ public class DownloadGameActivity extends AppCompatActivity {
         gameRepoCall.enqueue(new Callback<DownloadGameRepo>() {
             @Override
             public void onResponse(Call<DownloadGameRepo> call, Response<DownloadGameRepo> response) {
-                if (response.body() != null && response.body().getCode() == GET_GAME_SUCCESS) {
-                    FullGameRepo fullGameRepo = response.body().getFullGameRepo();
-
-                    mPlayGameRepo = new PlayGameRepo(fullGameRepo, false);
-                    downloadGameImages();
+                if (response.body() != null){
+                    switch (response.body().getCode()) {
+                        case GET_GAME_SUCCESS:
+                            FullGameRepo fullGameRepo = response.body().getFullGameRepo();
+                            mPlayGameRepo = new PlayGameRepo(fullGameRepo, false);
+                            downloadGameImages();
+                            break;
+                        case GET_GAME_NO_RESULT:
+                            mIsDownloadSuccess = false;
+                            downloadFinnish();
+                            break;
+                        case GET_GAME_FAILED:
+                            mIsDownloadSuccess = false;
+                            downloadFinnish();
+                            break;
+                    }
                 } else {
                     mIsDownloadSuccess = false;
                     downloadFinnish();
@@ -158,7 +159,12 @@ public class DownloadGameActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DownloadGameRepo> call, Throwable t) {
-
+                CommonUtility.displayNetworkError(getApplicationContext());
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
         });
     }
@@ -196,23 +202,14 @@ public class DownloadGameActivity extends AppCompatActivity {
 
         imagePathIndex = 0;
 
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
-        stringBuffer.append(File.separator);
-        stringBuffer.append(mNickname);
-        stringBuffer.append(File.separator);
-        stringBuffer.append(mGameTitle);
-        stringBuffer.append(File.separator);
-        stringBuffer.append(mGamePageImagePaths.get(imagePathIndex));
+        StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, mGamePageImagePaths.get(imagePathIndex));
         Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 200).centerCrop().into(mTarget);
     }
 
     private void downloadFinnish() {
         if (mIsDownloadSuccess) {
-            Toast.makeText(this, "다운로드 성공", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, R.string.DOWNLOAD_GAME_SUCCESS, Toast.LENGTH_SHORT).show();
             mPlayGameRepo.setPlayable(true);
-
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             realm.where(PlayGameRepo.class).findAll().deleteAllFromRealm();
@@ -220,7 +217,7 @@ public class DownloadGameActivity extends AppCompatActivity {
             realm.commitTransaction();
             realm.close();
         } else {
-            Toast.makeText(this, "다운로드 실패 다시 시도해 주세요", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.DOWNLOAD_GAME_FAILED, Toast.LENGTH_SHORT).show();
         }
     }
 }

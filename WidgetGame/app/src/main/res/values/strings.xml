@@ -57,6 +57,8 @@
 
     <!-- activity_download_game -->
     <string name="DOWNLOAD_GAME_DOWN"> 게임 다운로드 하기 </string>
+    <string name="DOWNLOAD_GAME_FAILED">다운로드 실패 다시 시도해 주세요</string>
+    <string name="DOWNLOAD_GAME_SUCCESS">다운로드 성공</string>
 
     <!-- activity_make_game_menu -->
     <string name="MAKE_NEW_GAME">새 게임 만들기</string>
