@@ -1,10 +1,12 @@
 package com.sungwoo.boostcamp.widgetgame.Repositories;
 
+import io.realm.RealmObject;
+
 /**
  * Created by SungWoo on 2017-02-17.
  */
 
-public class FullGameRepo {
+public class FullGameRepo extends RealmObject {
     GameInfo gameInfo;
     Maker maker;
     PlayInfo playInfo;

@@ -1,10 +1,12 @@
 package com.sungwoo.boostcamp.widgetgame.Repositories;
 
+import io.realm.RealmObject;
+
 /**
  * Created by SungWoo on 2017-02-17.
  */
 
-public class PlayInfo{
+public class PlayInfo extends RealmObject {
     private float stars;
     private int ratedNum;
     private int downloadNum;

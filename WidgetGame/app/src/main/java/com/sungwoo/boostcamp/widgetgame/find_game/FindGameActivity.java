@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.FindGameRepo;
+import com.sungwoo.boostcamp.widgetgame.Repositories.PlayInfo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.GameInformationRetrofit;
 
 import java.io.File;
@@ -132,6 +133,8 @@ public class FindGameActivity extends AppCompatActivity {
             protected TextView findGameListDescriptionTv;
             @BindView(R.id.find_game_list_nickname_tv)
             protected TextView findGameListNicknameTv;
+            @BindView(R.id.find_game_list_maker_iv)
+            protected ImageView findGameListMakerIv;
             @BindView(R.id.find_game_list_stars_tv)
             TextView findGameListStarsTv;
 
@@ -148,6 +151,7 @@ public class FindGameActivity extends AppCompatActivity {
                         intent.putExtra(getString(R.string.INTENT_FIND_GAME_NICKNAME), findGameList.getNickName());
                         intent.putExtra(getString(R.string.INTENT_FIND_GAME_STARS), findGameList.getStars());
                         intent.putExtra(getString(R.string.INTENT_FIND_GAME_IMAGEPATH), findGameList.getGameImagePath());
+                        intent.putExtra(getString(R.string.INTENT_FIND_GAME_MAKER_IMAGEPATH), findGameList.getMakerImagePath());
                         startActivity(intent);
                     }
                 });
@@ -157,12 +161,13 @@ public class FindGameActivity extends AppCompatActivity {
                 FindGameRepo.FindGameList findGameList = findGameLists.get(position);
                 String nickname = findGameList.getNickName();
                 String gameTitle = findGameList.getGameTitle();
-                String imagePath = findGameList.getGameImagePath();
+                String gameImagePath = findGameList.getGameImagePath();
+                String makerImagePath = findGameList.getMakerImagePath();
                 findGameListTitleTv.setText((position + 1) + " " + gameTitle);
                 findGameListDescriptionTv.setText(findGameList.getGameDescription());
                 findGameListNicknameTv.setText(nickname);
                 findGameListStarsTv.setText(String.valueOf(findGameList.getStars()));
-                if (imagePath != null && !imagePath.equals("none")){
+                if (gameImagePath != null && !gameImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))){
                     StringBuffer stringBuffer = new StringBuffer();
                     stringBuffer.append(getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
                     stringBuffer.append(File.separator);
@@ -170,10 +175,15 @@ public class FindGameActivity extends AppCompatActivity {
                     stringBuffer.append(File.separator);
                     stringBuffer.append(gameTitle);
                     stringBuffer.append(File.separator);
-                    stringBuffer.append(imagePath);
+                    stringBuffer.append(gameImagePath);
                     Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 270).centerCrop().into(findGameListImageIv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(200, 270).centerCrop().into(findGameListImageIv);
+                }
+                if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
+                    Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(20, 20).centerCrop().into(findGameListMakerIv);
+                } else {
+                    Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(20, 20).centerCrop().into(findGameListMakerIv);
                 }
             }
         }
