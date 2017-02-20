@@ -18,6 +18,9 @@
     <string name="PREF_MAKE_GAME_MAX_INDEX" translatable="false">PREF_MAKE_GAME_MAX_INDEX</string>
     <string name="PREF_MAKE_GAME_IS_EXISTS" translatable="false">PREF_MAKE_GAME_IS_EXISTS</string>
 
+    <string name="PREF_PLAY_GAME" translatable="false">PREF_PLAY_GAME</string>
+    <string name="PREF_PLAY_GAME_INDEX" translatable="false">PREF_PLAY_GAME_INDEX</string>
+
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>
     <string name="LOGIN_JOIN">회원가입</string>
@@ -82,7 +85,7 @@
 
     <string name="MAKE_GAME_PAGE_TITLE_IS_INVALID">제목은 1 이상 15 이하의 문자로 작성해 주세요</string>
     <string name="MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID">내용은 1 이상 400 이하의 문자로 작성해 주세요</string>
-    <string name="MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 2개이상 선택해 주세요</string>
+    <string name="MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 1개이상 선택해 주세요</string>
     <string name="MAKE_GAME_PAGE_NO_SELECTIONS_INDEX">선택지 index가 지정되어있지 않습니다</string>
     <string name="MAKE_GAME_PAGE_NO_SELECTIONS_TEXT">선택지 내용이 없습니다</string>
 

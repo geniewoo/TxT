@@ -267,7 +267,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
                     }
                 }
             }
-            if (count < 2) {
+            if (count < 1) {
                 Toast.makeText(this, R.string.MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -387,6 +387,8 @@ public class MakeGamePageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRealm.close();
+        if (mRealm != null) {
+            mRealm.close();
+        }
     }
 }
