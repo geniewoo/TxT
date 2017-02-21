@@ -6,9 +6,9 @@
 
     <LinearLayout
         android:id="@+id/widget_no_game_lo"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:id="@+id/widget_no_game_start_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="게임다운로드 하러가기"/>
+            android:text="게임다운로드 하러가기" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,116 +42,231 @@
         </LinearLayout>
 
         <ViewFlipper
-            android:id="@+id/widget_flipper"
+            android:id="@+id/widget_menu_flipper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inAnimation="@android:anim/fade_in"
             android:outAnimation="@android:anim/fade_out">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/widget_title_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <ImageView
-                        android:id="@+id/widget_image_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp" />
-
-                    <TextView
-                        android:id="@+id/widget_image_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:text="테스트중입니다" />
-                </FrameLayout>
-
-                <LinearLayout
-                    android:id="@+id/widget_game_info_lo"
+                <ViewFlipper
+                    android:id="@+id/widget_game_flipper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:inAnimation="@anim/slide_right_in"
+                    android:outAnimation="@anim/slide_right_out">
 
-                    <TextView
-                        android:id="@+id/widget_game_info_title_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/widget_game_info_description_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/widget_game_info_maker_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/widget_game_info_email_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:id="@+id/widget_game_info_start_game_btn"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="게임 시작"/>
-                </LinearLayout>
+                        android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/widget_playing_game_no_selections_lo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <Button
-                        android:id="@+id/widget_playing_game_no_selections_next_btn"
+                            <TextView
+                                android:id="@+id/widget_game1_title_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/widget_game1_image_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp" />
+
+                            <TextView
+                                android:id="@+id/widget_game1_image_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="150dp"
+                                android:layout_gravity="center"
+                                android:text="테스트중입니다" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:id="@+id/widget_game1_info_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/widget_playing_game1_info_title_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/widget_playing_game1_info_description_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/widget_playing_game1_info_maker_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/widget_playing_game1_info_email_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game1_info_start_game_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="게임 시작" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/widget_playing_game1_no_selections_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <Button
+                                android:id="@+id/widget_playing_game1_no_selections_next_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="다음페이지로" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:id="@+id/widget_playing_game1_selections_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <Button
+                                android:id="@+id/widget_playing_game1_selection1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game1_selection2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game1_selection3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game1_selection4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="다음페이지로" />
-                </FrameLayout>
+                        android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/widget_playing_game_selections_lo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                    <Button
-                        android:id="@+id/widget_playing_game_selection1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="테스트중입니다" />
+                            <TextView
+                                android:id="@+id/widget_game2_title_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/widget_playing_game_selection2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="테스트중입니다" />
+                            <ImageView
+                                android:id="@+id/widget_game2_image_iv"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp" />
 
-                    <Button
-                        android:id="@+id/widget_playing_game_selection3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="테스트중입니다" />
+                            <TextView
+                                android:id="@+id/widget_game2_image_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="150dp"
+                                android:layout_gravity="center"
+                                android:text="테스트중입니다" />
+                        </FrameLayout>
 
-                    <Button
-                        android:id="@+id/widget_playing_game_selection4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="테스트중입니다" />
-                </LinearLayout>
-            </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/widget_game2_info_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/widget_playing_game2_info_title_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/widget_playing_game2_info_description_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/widget_playing_game2_info_maker_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:id="@+id/widget_playing_game2_info_email_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game2_info_start_game_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="게임 시작" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/widget_playing_game2_no_selections_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <Button
+                                android:id="@+id/widget_playing_game2_no_selections_next_btn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="다음페이지로" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:id="@+id/widget_playing_game2_selections_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <Button
+                                android:id="@+id/widget_playing_game2_selection1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game2_selection2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game2_selection3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+
+                            <Button
+                                android:id="@+id/widget_playing_game2_selection4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="테스트중입니다" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </ViewFlipper>
 
             <LinearLayout
                 android:layout_width="match_parent"

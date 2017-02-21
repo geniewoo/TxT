@@ -9,6 +9,7 @@ import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 
 import java.io.File;
+import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -62,5 +63,23 @@ public class CommonUtility {
         stringBuffer.append(File.separator);
         stringBuffer.append(fileName);
         return stringBuffer;
+    }
+
+    public static HashMap<String, Integer> getSoundMap(Context context) {
+        HashMap<String, Integer> soundMap = new HashMap<>();
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_1), R.raw.coins);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_2), R.raw.crash);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_3), R.raw.doorbell);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_4), R.raw.glass);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_5), R.raw.gun);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_6), R.raw.laugh);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_7), R.raw.open);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_8), R.raw.opendoor);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_9), R.raw.ring);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_10), R.raw.shotgun);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_11), R.raw.sword);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_12), R.raw.wind);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_13), R.raw.witchlaugh);
+        return soundMap;
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -31,12 +32,15 @@ import java.util.List;
 
 import io.realm.Realm;
 
+import static com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility.getSoundMap;
+
 /**
  * Created by SungWoo on 2017-02-20.
  */
 
 public class TxTWidget extends AppWidgetProvider {
     private static MediaPlayer mMediaPlayer;
+    private static Vibrator mVibrator;
     private static final int IN_NO_GAME = 0;
     private static final int IN_INFO = IN_NO_GAME + 1;
     private static final int IN_SELECTIONS = IN_INFO + 1;
@@ -47,12 +51,13 @@ public class TxTWidget extends AppWidgetProvider {
 
     private static boolean mIsMenuStage = false;
     private static int mNowStage;
+    private static boolean mIsGamePlayingFlipper1;
     private static List<Integer> mAppWidgetIds = new ArrayList<>();
     private static final String TAG = TxTWidget.class.getSimpleName();
     private static Realm mRealm = null;
     private static FullGameRepo mFullGameRepo = null;
-    private static final String ACTION_WIDGET_FLIPPER_BTN_CLICKED =
-            "com.sungwoo.boostcamp.widgetgame.action.FLIPPER_LEFT_BTN_CLICKED";
+    private static final String ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED =
+            "com.sungwoo.boostcamp.widgetgame.action.MENU_FLIPPER_BTN_CLICKED";
     public static final String ACTION_WIDGET_DISPLAY_NEW_GAME =
             "com.sungwoo.boostcamp.widgetgame.action.DISPLAY_NEW_GAME";
     private static final String ACTION_WIDGET_GAME_INFO_START_GAME_BTN =
@@ -73,8 +78,11 @@ public class TxTWidget extends AppWidgetProvider {
     private static final String PAGE_GAME_CLEAR = "Game Clear";
 
     private static HashMap<String, Integer> mSoundMap;
-    private static final int[] SELECTION_IDS = {R.id.widget_playing_game_selection1, R.id.widget_playing_game_selection2, R.id.widget_playing_game_selection3, R.id.widget_playing_game_selection4};
+    private static final int[] SELECTION_IDS1 = {R.id.widget_playing_game1_selection1, R.id.widget_playing_game1_selection2, R.id.widget_playing_game1_selection3, R.id.widget_playing_game1_selection4};
+    private static final int[] SELECTION_IDS2 = {R.id.widget_playing_game2_selection1, R.id.widget_playing_game2_selection2, R.id.widget_playing_game2_selection3, R.id.widget_playing_game2_selection4};
     private static int[] mSelectedTargetIndex = new int[4];
+
+    private static final long[] VIBRATOR_PATTERN = {0, 300, 150, 400};
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -85,6 +93,9 @@ public class TxTWidget extends AppWidgetProvider {
         }
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
+        }
+        if (mVibrator == null) {
+            mVibrator = (Vibrator) context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         }
         if (mSoundMap == null) {
             Log.d(TAG, "getSoundMap");
@@ -102,11 +113,11 @@ public class TxTWidget extends AppWidgetProvider {
                 setFullGameRepoMemberField();
                 showGameInfoLayout(context);
                 if (mIsMenuStage) {
-                    flip(context);
+                    flipMenu(context);
                 }
                 break;
-            case ACTION_WIDGET_FLIPPER_BTN_CLICKED:
-                flip(context);
+            case ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED:
+                flipMenu(context);
                 break;
             case ACTION_WIDGET_GAME_INFO_START_GAME_BTN:
                 showGamePageLayout(context, 1);
@@ -126,10 +137,10 @@ public class TxTWidget extends AppWidgetProvider {
             case ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN:
                 switch (mNowStage) {
                     case IN_GAME_CLEAR:
-                        flip(context);
+                        flipMenu(context);
                         break;
                     case IN_GAME_OVER:
-                        flip(context);
+                        flipMenu(context);
                         break;
                     case IN_STORY:
                         showGamePageLayout(context, getPlayGameIndexPreference(context) + 1);
@@ -137,7 +148,7 @@ public class TxTWidget extends AppWidgetProvider {
                 }
                 break;
             case ACTION_WIDGET_MENU_START_GAME_BTN:
-                flip(context);
+                flipMenu(context);
                 showGameInfoLayout(context);
                 break;
         }
@@ -152,6 +163,9 @@ public class TxTWidget extends AppWidgetProvider {
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
         }
+        if (mVibrator == null) {
+            mVibrator = (Vibrator) context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        }
         if (mSoundMap == null) {
             Log.d(TAG, "getSoundMap");
             mSoundMap = getSoundMap(context);
@@ -161,6 +175,7 @@ public class TxTWidget extends AppWidgetProvider {
             mAppWidgetIds.add(i);
         }
         mNowStage = IN_NO_GAME;
+        mIsGamePlayingFlipper1 = true;
         setPendingIntents(context);
         if (mRealm.where(PlayGameRepo.class).findAll().size() == 1
                 && mRealm.where(PlayGameRepo.class).findAll().get(0).getPlayable()) {
@@ -178,18 +193,22 @@ public class TxTWidget extends AppWidgetProvider {
 
     private void setPendingIntents(Context context) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        remoteViews.setOnClickPendingIntent(R.id.widget_game_info_start_game_btn,
+        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game1_info_start_game_btn,
+                getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_INFO_START_GAME_BTN));
+        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game2_info_start_game_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_INFO_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_flipper_btn,
-                getTxTWidgetPendingIntent(context, ACTION_WIDGET_FLIPPER_BTN_CLICKED));
-        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game_no_selections_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
+                getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED));
+        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game1_no_selections_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
+        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game2_no_selections_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_game, getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_MENU_START_APP_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_no_game_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_NO_GAME_START_APP_BTN));
-        for (int i = 0; i < 4; i++)
-            remoteViews.setOnClickPendingIntent(SELECTION_IDS[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
-                remoteViews);
+        for (int i = 0; i < 4; i++) {
+            remoteViews.setOnClickPendingIntent(SELECTION_IDS1[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
+            remoteViews.setOnClickPendingIntent(SELECTION_IDS2[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
+        }
+        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
 
     private int getPlayGameIndexPreference(Context context) {
@@ -244,14 +263,14 @@ public class TxTWidget extends AppWidgetProvider {
         return returnIntArray;
     }
 
-    private void flip(Context context) {
+    private void flipMenu(Context context) {
         if (mIsMenuStage) {
             mIsMenuStage = false;
         } else {
             mIsMenuStage = true;
         }
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        remoteViews.showPrevious(R.id.widget_flipper);
+        remoteViews.showPrevious(R.id.widget_menu_flipper);
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
                 remoteViews);
     }
@@ -273,34 +292,59 @@ public class TxTWidget extends AppWidgetProvider {
         }
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        remoteViews.setViewVisibility(R.id.widget_playing_game_selections_lo, View.GONE);
-        remoteViews.setViewVisibility(R.id.widget_playing_game_no_selections_lo, View.GONE);
-        remoteViews.setViewVisibility(R.id.widget_game_info_lo, View.VISIBLE);
-
         String title = mFullGameRepo.getGameInfo().getGameTitle();
         String description = mFullGameRepo.getGameInfo().getGameDescription();
         String imagePath = mFullGameRepo.getGameInfo().getGameImagePath();
         String maker = mFullGameRepo.getMaker().getNickName();
         String email = mFullGameRepo.getMaker().getEmail();
 
-        remoteViews.setTextViewText(R.id.widget_game_info_title_tv, title);
-        remoteViews.setTextViewText(R.id.widget_game_info_description_tv, description);
-        remoteViews.setTextViewText(R.id.widget_game_info_maker_tv, maker);
-        remoteViews.setTextViewText(R.id.widget_game_info_email_tv, email);
-        remoteViews.setTextViewText(R.id.widget_image_tv, "");
+        if (mIsGamePlayingFlipper1) {
+            remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.VISIBLE);
 
+            remoteViews.setTextViewText(R.id.widget_playing_game2_info_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_playing_game2_info_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_playing_game2_info_maker_tv, maker);
+            remoteViews.setTextViewText(R.id.widget_playing_game2_info_email_tv, email);
+
+            remoteViews.setTextViewText(R.id.widget_game2_image_tv, "");
+
+            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+                File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
+                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
+                        R.id.widget_game2_image_iv, intListToIntArray(mAppWidgetIds));
+            } else {
+                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
+                        150).centerCrop().into(remoteViews, R.id.widget_game2_image_iv,
+                        intListToIntArray(mAppWidgetIds));
+            }
+        } else {
+            remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.VISIBLE);
+
+            remoteViews.setTextViewText(R.id.widget_playing_game1_info_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_playing_game1_info_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_playing_game1_info_maker_tv, maker);
+            remoteViews.setTextViewText(R.id.widget_playing_game1_info_email_tv, email);
+
+            remoteViews.setTextViewText(R.id.widget_game1_image_tv, "");
+
+            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+                File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
+                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
+                        R.id.widget_game1_image_iv, intListToIntArray(mAppWidgetIds));
+            } else {
+                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
+                        150).centerCrop().into(remoteViews, R.id.widget_game1_image_iv,
+                        intListToIntArray(mAppWidgetIds));
+            }
+        }
+        flipGame(context);
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
                 remoteViews);
-        if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
-            File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
-            Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                    R.id.widget_image_iv, intListToIntArray(mAppWidgetIds));
-        } else {
-            Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                    150).centerCrop().into(remoteViews, R.id.widget_image_iv,
-                    intListToIntArray(mAppWidgetIds));
-        }
     }
 
     private void showGamePageLayout(Context context, int index) {
@@ -346,70 +390,117 @@ public class TxTWidget extends AppWidgetProvider {
 
     private void showGameSelectionPageLayout(Context context, Page page) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        remoteViews.setViewVisibility(R.id.widget_game_info_lo, View.GONE);
-        remoteViews.setViewVisibility(R.id.widget_playing_game_no_selections_lo, View.GONE);
-        remoteViews.setViewVisibility(R.id.widget_playing_game_selections_lo, View.VISIBLE);
 
         String title = page.getTitle();
         String description = page.getDescription();
         String sound = page.getSound();
         String imagePath = page.getImagePath();
         List<Selection> selections = page.getSelections();
+        Boolean isVibrateOn = page.isVibrateOn();
 
-        remoteViews.setTextViewText(R.id.widget_title_tv, title);
-        remoteViews.setTextViewText(R.id.widget_image_tv, description);
 
+        turnOnVibrator(isVibrateOn);
         playSound(context, sound);
 
-        for (int i = 0; i < selections.size(); i++) {
-            remoteViews.setTextViewText(SELECTION_IDS[i], selections.get(i).getSelectionText());
-            mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
-        }
+        if (mIsGamePlayingFlipper1) {
+            remoteViews.setTextViewText(R.id.widget_game2_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game2_image_tv, description);
 
-        if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
-            File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
-            Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                    R.id.widget_image_iv, intListToIntArray(mAppWidgetIds));
+            remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.VISIBLE);
+            for (int i = 0; i < selections.size(); i++) {
+                remoteViews.setTextViewText(SELECTION_IDS2[i], selections.get(i).getSelectionText());
+                mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
+            }
+            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+                File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
+                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
+                        R.id.widget_game2_image_iv, intListToIntArray(mAppWidgetIds));
+            } else {
+                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
+                        150).centerCrop().into(remoteViews, R.id.widget_game2_image_iv,
+                        intListToIntArray(mAppWidgetIds));
+            }
         } else {
-            Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                    150).centerCrop().into(remoteViews, R.id.widget_image_iv,
-                    intListToIntArray(mAppWidgetIds));
+            remoteViews.setTextViewText(R.id.widget_game1_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game1_image_tv, description);
+
+            remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.VISIBLE);
+            for (int i = 0; i < selections.size(); i++) {
+                remoteViews.setTextViewText(SELECTION_IDS1[i], selections.get(i).getSelectionText());
+                mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
+            }
+            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+                File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
+                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
+                        R.id.widget_game1_image_iv, intListToIntArray(mAppWidgetIds));
+            } else {
+                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
+                        150).centerCrop().into(remoteViews, R.id.widget_game1_image_iv,
+                        intListToIntArray(mAppWidgetIds));
+            }
         }
+        flipGame(context);
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
 
     private void showGameStoryPageLayout(Context context, Page page) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        remoteViews.setViewVisibility(R.id.widget_game_info_lo, View.GONE);
-        remoteViews.setViewVisibility(R.id.widget_playing_game_selections_lo, View.GONE);
-        remoteViews.setViewVisibility(R.id.widget_playing_game_no_selections_lo, View.VISIBLE);
 
         String title = page.getTitle();
         String description = page.getDescription();
         String sound = page.getSound();
         String imagePath = page.getImagePath();
+        Boolean isVibrateOn = page.isVibrateOn();
 
-        remoteViews.setTextViewText(R.id.widget_title_tv, title);
-        remoteViews.setTextViewText(R.id.widget_image_tv, description);
+        if (mIsGamePlayingFlipper1) {
+            remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.VISIBLE);
 
-        playSound(context, sound);
+            remoteViews.setTextViewText(R.id.widget_game2_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game2_image_tv, description);
 
-        if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
-            File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
-            Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                    R.id.widget_image_iv, intListToIntArray(mAppWidgetIds));
+            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+                File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
+                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
+                        R.id.widget_game2_image_iv, intListToIntArray(mAppWidgetIds));
+            } else {
+                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
+                        150).centerCrop().into(remoteViews, R.id.widget_game2_image_iv,
+                        intListToIntArray(mAppWidgetIds));
+            }
         } else {
-            Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                    150).centerCrop().into(remoteViews, R.id.widget_image_iv,
-                    intListToIntArray(mAppWidgetIds));
+            remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.VISIBLE);
+
+            remoteViews.setTextViewText(R.id.widget_game1_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game1_image_tv, description);
+
+            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+                File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
+                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
+                        R.id.widget_game1_image_iv, intListToIntArray(mAppWidgetIds));
+            } else {
+                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
+                        150).centerCrop().into(remoteViews, R.id.widget_game1_image_iv,
+                        intListToIntArray(mAppWidgetIds));
+            }
         }
+        flipGame(context);
+
+        turnOnVibrator(isVibrateOn);
+        playSound(context, sound);
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
 
     private void playSound(Context context, String sound) {
-        Log.d(TAG, "sound : " + sound + " mSoundMap : " + (mSoundMap == null) + " result : " + mSoundMap.containsKey(sound));
         if (sound.equals(context.getString(R.string.SPINNER_SOUND_DEFAULT))) {
             return;
         }
@@ -425,21 +516,26 @@ public class TxTWidget extends AppWidgetProvider {
         }
     }
 
-    private static HashMap<String, Integer> getSoundMap(Context context) {
-        HashMap<String, Integer> soundMap = new HashMap<>();
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_1), R.raw.coins);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_2), R.raw.crash);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_3), R.raw.doorbell);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_4), R.raw.glass);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_5), R.raw.gun);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_6), R.raw.laugh);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_7), R.raw.open);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_8), R.raw.opendoor);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_9), R.raw.ring);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_10), R.raw.shotgun);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_11), R.raw.sword);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_12), R.raw.wind);
-        soundMap.put(context.getString(R.string.SPINNER_SOUND_13), R.raw.witchlaugh);
-        return soundMap;
+    private void turnOnVibrator(boolean isVibratorOn) {
+        if (!isVibratorOn) {
+            return;
+        }
+
+        if (mVibrator.hasVibrator()) {
+            mVibrator.cancel();
+            mVibrator.vibrate(VIBRATOR_PATTERN, -1);
+        }
+    }
+
+    private void flipGame(Context context) {
+        if (mIsGamePlayingFlipper1) {
+            mIsGamePlayingFlipper1 = false;
+        } else {
+            mIsGamePlayingFlipper1 = true;
+        }
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
+        remoteViews.showPrevious(R.id.widget_game_flipper);
+        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
+                remoteViews);
     }
 }
