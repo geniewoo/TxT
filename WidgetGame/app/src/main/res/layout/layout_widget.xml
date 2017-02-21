@@ -45,8 +45,8 @@
             android:id="@+id/widget_flipper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/slide_out_right">
+            android:inAnimation="@android:anim/fade_in"
+            android:outAnimation="@android:anim/fade_out">
 
             <LinearLayout
                 android:layout_width="match_parent"

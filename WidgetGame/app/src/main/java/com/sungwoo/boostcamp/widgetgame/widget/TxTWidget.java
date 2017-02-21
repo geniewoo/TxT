@@ -6,11 +6,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.LoginActivity;
 import com.sungwoo.boostcamp.widgetgame.R;
@@ -20,7 +24,9 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.PlayGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Selection;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
@@ -30,6 +36,7 @@ import io.realm.Realm;
  */
 
 public class TxTWidget extends AppWidgetProvider {
+    private static MediaPlayer mMediaPlayer;
     private static final int IN_NO_GAME = 0;
     private static final int IN_INFO = IN_NO_GAME + 1;
     private static final int IN_SELECTIONS = IN_INFO + 1;
@@ -38,6 +45,7 @@ public class TxTWidget extends AppWidgetProvider {
     private static final int IN_GAME_CLEAR = IN_GAME_OVER + 1;
     private static final int IN_MENU = IN_GAME_CLEAR + 1;
 
+    private static boolean mIsMenuStage = false;
     private static int mNowStage;
     private static List<Integer> mAppWidgetIds = new ArrayList<>();
     private static final String TAG = TxTWidget.class.getSimpleName();
@@ -64,8 +72,10 @@ public class TxTWidget extends AppWidgetProvider {
     private static final String PAGE_GAME_OVER = "Game Over";
     private static final String PAGE_GAME_CLEAR = "Game Clear";
 
+    private static HashMap<String, Integer> mSoundMap;
     private static final int[] SELECTION_IDS = {R.id.widget_playing_game_selection1, R.id.widget_playing_game_selection2, R.id.widget_playing_game_selection3, R.id.widget_playing_game_selection4};
     private static int[] mSelectedTargetIndex = new int[4];
+
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
@@ -73,13 +83,17 @@ public class TxTWidget extends AppWidgetProvider {
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
         }
+        if (mMediaPlayer == null) {
+            mMediaPlayer = new MediaPlayer();
+        }
+        if (mSoundMap == null) {
+            Log.d(TAG, "getSoundMap");
+            mSoundMap = getSoundMap(context);
+        }
 
         String action = intent.getAction();
-        Log.d(TAG, "size : " + mRealm.where(PlayGameRepo.class).findAll().size() + " playable : "
-                + mRealm.where(PlayGameRepo.class).findAll().get(0).getPlayable());
         if (mFullGameRepo == null && mRealm.where(PlayGameRepo.class).findAll().size() == 1
                 && mRealm.where(PlayGameRepo.class).findAll().get(0).getPlayable()) {
-            Log.d(TAG, "setFullGameRepoMemberField");
             setFullGameRepoMemberField();
         }
 
@@ -87,6 +101,9 @@ public class TxTWidget extends AppWidgetProvider {
             case ACTION_WIDGET_DISPLAY_NEW_GAME:
                 setFullGameRepoMemberField();
                 showGameInfoLayout(context);
+                if (mIsMenuStage) {
+                    flip(context);
+                }
                 break;
             case ACTION_WIDGET_FLIPPER_BTN_CLICKED:
                 flip(context);
@@ -132,10 +149,16 @@ public class TxTWidget extends AppWidgetProvider {
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
         }
+        if (mMediaPlayer == null) {
+            mMediaPlayer = new MediaPlayer();
+        }
+        if (mSoundMap == null) {
+            Log.d(TAG, "getSoundMap");
+            mSoundMap = getSoundMap(context);
+        }
 
         for (int i : appWidgetIds) {
             mAppWidgetIds.add(i);
-            Log.d(TAG, "update : " + i);
         }
         mNowStage = IN_NO_GAME;
         setPendingIntents(context);
@@ -150,24 +173,25 @@ public class TxTWidget extends AppWidgetProvider {
             } else {
                 showGamePageLayout(context, index);
             }
-        } else {
         }
     }
+
     private void setPendingIntents(Context context) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.setOnClickPendingIntent(R.id.widget_game_info_start_game_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_INFO_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_flipper_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_FLIPPER_BTN_CLICKED));
-        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game_no_selections_next_btn,  getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
+        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game_no_selections_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_game, getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_MENU_START_APP_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_no_game_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_NO_GAME_START_APP_BTN));
-        for (int i = 0 ; i < 4 ; i++)
+        for (int i = 0; i < 4; i++)
             remoteViews.setOnClickPendingIntent(SELECTION_IDS[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
                 remoteViews);
     }
+
     private int getPlayGameIndexPreference(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(
                 context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE);
@@ -175,7 +199,7 @@ public class TxTWidget extends AppWidgetProvider {
     }
 
     private void setPlayGameIndexPreference(Context context, int index) {
-        SharedPreferences.Editor editor= context.getSharedPreferences(
+        SharedPreferences.Editor editor = context.getSharedPreferences(
                 context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
         editor.putInt(context.getString(R.string.PREF_PLAY_GAME_INDEX), index);
         editor.apply();
@@ -190,6 +214,7 @@ public class TxTWidget extends AppWidgetProvider {
     }
 
     private void changeToNoGameLayout(Context context) {
+        mNowStage = IN_NO_GAME;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.setViewVisibility(R.id.widget_play_lo, View.GONE);
         remoteViews.setViewVisibility(R.id.widget_no_game_lo, View.VISIBLE);
@@ -203,11 +228,11 @@ public class TxTWidget extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
         for (int i : appWidgetIds) {
             mAppWidgetIds.remove(new Integer(i));
-            Log.d(TAG, "delete : " + i);
         }
         if (mAppWidgetIds.size() == 0 && mRealm != null) {
             mRealm.close();
             mRealm = null;
+            setPlayGameIndexPreference(context, 0);
         }
     }
 
@@ -220,6 +245,11 @@ public class TxTWidget extends AppWidgetProvider {
     }
 
     private void flip(Context context) {
+        if (mIsMenuStage) {
+            mIsMenuStage = false;
+        } else {
+            mIsMenuStage = true;
+        }
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.showPrevious(R.id.widget_flipper);
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
@@ -227,7 +257,7 @@ public class TxTWidget extends AppWidgetProvider {
     }
 
     private void setFullGameRepoMemberField() {
-        mFullGameRepo = mRealm.where(PlayGameRepo.class).findAll().get(0).getFullGameRepo();
+        mFullGameRepo = mRealm.copyFromRealm(mRealm.where(PlayGameRepo.class).findAll().get(0).getFullGameRepo());
     }
 
     private void showGameInfoLayout(Context context) {
@@ -262,14 +292,11 @@ public class TxTWidget extends AppWidgetProvider {
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
                 remoteViews);
-        Log.d(TAG, "infoImage1");
         if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
-            Log.d(TAG, "infoImage2");
             File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
             Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
                     R.id.widget_image_iv, intListToIntArray(mAppWidgetIds));
         } else {
-            Log.d(TAG, "infoImage3");
             Picasso.with(context).load(R.drawable.default_user_image).resize(200,
                     150).centerCrop().into(remoteViews, R.id.widget_image_iv,
                     intListToIntArray(mAppWidgetIds));
@@ -304,6 +331,7 @@ public class TxTWidget extends AppWidgetProvider {
                 break;
         }
     }
+
     private PendingIntent getTxTAppPendingIntent(Context context, String action) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setAction(action);
@@ -331,20 +359,18 @@ public class TxTWidget extends AppWidgetProvider {
         remoteViews.setTextViewText(R.id.widget_title_tv, title);
         remoteViews.setTextViewText(R.id.widget_image_tv, description);
 
-        playSound(sound);
+        playSound(context, sound);
 
-        for (int i = 0 ; i < selections.size() ; i++) {
+        for (int i = 0; i < selections.size(); i++) {
             remoteViews.setTextViewText(SELECTION_IDS[i], selections.get(i).getSelectionText());
             mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
         }
 
         if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
-            Log.d(TAG, "infoImage2");
             File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
             Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
                     R.id.widget_image_iv, intListToIntArray(mAppWidgetIds));
         } else {
-            Log.d(TAG, "infoImage3");
             Picasso.with(context).load(R.drawable.default_user_image).resize(200,
                     150).centerCrop().into(remoteViews, R.id.widget_image_iv,
                     intListToIntArray(mAppWidgetIds));
@@ -352,7 +378,8 @@ public class TxTWidget extends AppWidgetProvider {
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
-    private void showGameStoryPageLayout(Context context, Page page) { //TODO 완성하기
+
+    private void showGameStoryPageLayout(Context context, Page page) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.setViewVisibility(R.id.widget_game_info_lo, View.GONE);
         remoteViews.setViewVisibility(R.id.widget_playing_game_selections_lo, View.GONE);
@@ -366,15 +393,13 @@ public class TxTWidget extends AppWidgetProvider {
         remoteViews.setTextViewText(R.id.widget_title_tv, title);
         remoteViews.setTextViewText(R.id.widget_image_tv, description);
 
-        playSound(sound);
+        playSound(context, sound);
 
         if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
-            Log.d(TAG, "infoImage2");
             File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
             Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
                     R.id.widget_image_iv, intListToIntArray(mAppWidgetIds));
         } else {
-            Log.d(TAG, "infoImage3");
             Picasso.with(context).load(R.drawable.default_user_image).resize(200,
                     150).centerCrop().into(remoteViews, R.id.widget_image_iv,
                     intListToIntArray(mAppWidgetIds));
@@ -383,7 +408,38 @@ public class TxTWidget extends AppWidgetProvider {
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
 
-    private void playSound(String sound) {
+    private void playSound(Context context, String sound) {
+        Log.d(TAG, "sound : " + sound + " mSoundMap : " + (mSoundMap == null) + " result : " + mSoundMap.containsKey(sound));
+        if (sound.equals(context.getString(R.string.SPINNER_SOUND_DEFAULT))) {
+            return;
+        }
+        int soundId = mSoundMap.get(sound);
+        try {
+            mMediaPlayer.stop();
+            mMediaPlayer.reset();
+            mMediaPlayer.setDataSource(context, Uri.parse("android.resource://com.sungwoo.boostcamp.widgetgame/" + soundId));
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private static HashMap<String, Integer> getSoundMap(Context context) {
+        HashMap<String, Integer> soundMap = new HashMap<>();
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_1), R.raw.coins);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_2), R.raw.crash);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_3), R.raw.doorbell);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_4), R.raw.glass);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_5), R.raw.gun);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_6), R.raw.laugh);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_7), R.raw.open);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_8), R.raw.opendoor);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_9), R.raw.ring);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_10), R.raw.shotgun);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_11), R.raw.sword);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_12), R.raw.wind);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_13), R.raw.witchlaugh);
+        return soundMap;
     }
 }
