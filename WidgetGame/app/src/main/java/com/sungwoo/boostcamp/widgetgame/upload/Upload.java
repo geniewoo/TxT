@@ -69,17 +69,17 @@ public class Upload {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
-                        Toast.makeText(context, R.string.UPLOAD_SUCCESS, Toast.LENGTH_LONG).show();
+                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_UPLOAD_SUCCESS, R.string.DIALOG_CONFIRM);
                         break;
                     case UPLOAD_FAIL:
-                        Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(context);
+                CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {
@@ -102,14 +102,14 @@ public class Upload {
                     case UPLOAD_NOFILE:
                         break;
                     case UPLOAD_FAIL:
-                        Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(context);
+                CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {
@@ -150,14 +150,14 @@ public class Upload {
                     case UPLOAD_SUCCESS:
                         break;
                     case UPLOAD_FAIL:
-                        Toast.makeText(context, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(context);
+                CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {

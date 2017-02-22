@@ -2,6 +2,7 @@ package com.sungwoo.boostcamp.widgetgame.find_game;
 
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,8 @@ public class FindGameActivity extends AppCompatActivity {
 
     @BindView(R.id.find_game_rv)
     protected RecyclerView mFindGameListRv;
+    @BindView(R.id.activity_find_game_lo)
+    protected LinearLayout mActivityFindGameLo;
     private FindGameRvAdapter mFindGameRvAdapter;
     private LinearLayoutManager mLayoutManager;
     boolean isMoreItemsAvailable;
@@ -208,21 +212,21 @@ public class FindGameActivity extends AppCompatActivity {
                             mFindGameRvAdapter.notifyDataSetChanged();
                             break;
                         case GET_LIST_NO_RESULT:
-                            Toast.makeText(FindGameActivity.this, R.string.FIND_NO_GAME, Toast.LENGTH_SHORT).show();
+                            Snackbar.make(mActivityFindGameLo, R.string.FIND_NO_GAME, Snackbar.LENGTH_LONG).show();
                             isMoreItemsAvailable = false;
                             break;
                         case GET_LIST_FAIL:
-                            CommonUtility.displayNetworkError(getApplicationContext());
+                            CommonUtility.showNeutralDialog(FindGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                             break;
                     }
                 } else {
-                    CommonUtility.displayNetworkError(getApplicationContext());
+                    CommonUtility.showNeutralDialog(FindGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 }
             }
 
             @Override
             public void onFailure(Call<FindGameRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
+                CommonUtility.showNeutralDialog(FindGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {

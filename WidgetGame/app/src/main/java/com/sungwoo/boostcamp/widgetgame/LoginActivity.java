@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
@@ -26,7 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     protected EditText mLoginEmailEt;
     @BindView(R.id.login_password_et)
     protected EditText mLoginPasswordEt;
+    @BindView(R.id.activity_login_lo)
+    protected LinearLayout mActivityLoginLo;
 
+    public static final String ACTION_LOGIN_SUCCESS = "ACTION_LOGIN_SUCCESS";
     private final CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
     private  static final int JOIN_REQUEST_CODE = 100;
@@ -41,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+//        CommonUtility.showNeutralDialog(getApplicationContext(), R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_EMAIL_EXISTS_ITEM, R.string.DIALOG_CONFIRM);
         testLoginPreference();
 
     }
@@ -48,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     private void testLoginServer(String email, String password) {
         mUserRepo.setEmail(email);
         mUserRepo.setPassword(password);
-        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(LoginActivity.this)) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
@@ -64,23 +69,22 @@ public class LoginActivity extends AppCompatActivity {
                 CommonRepo.ResultNicknameRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case LOGIN_SUCCESS:
-                        Toast.makeText(LoginActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();
                         mUserRepo.setNickname(resultCodeRepo.getNickname());
                         mUserRepo.setImageUrl(resultCodeRepo.getImageUrl());
                         loginSuccess();
                         break;
                     case LOGIN_CAN_NOT_FIND_USER:
-                        Toast.makeText(LoginActivity.this, R.string.LOGIN_FAIL, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(LoginActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_LOGIN_FAIL_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                     case LOGIN_SERVER_ERROR:
-                        Toast.makeText(LoginActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(LoginActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultNicknameRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
+                CommonUtility.showNeutralDialog(LoginActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {
@@ -107,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         updateLoginPreference();
 
         Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        intent.setAction(ACTION_LOGIN_SUCCESS);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -137,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         switch (requestCode){
             case JOIN_REQUEST_CODE:
                 if (resultCode == JoinActivity.JOIN_SUCCESS_RESULT_CODE){
-                    Snackbar.make(findViewById(R.id.activity_menu), "test", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mActivityLoginLo, R.string.DIALOG_JOIN_SUCCESS_CONTENT, Snackbar.LENGTH_LONG).show();
                 }
                 break;
         }

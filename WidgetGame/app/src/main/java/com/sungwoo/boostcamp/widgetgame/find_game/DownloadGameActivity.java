@@ -3,12 +3,15 @@ package com.sungwoo.boostcamp.widgetgame.find_game;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
@@ -160,7 +163,7 @@ public class DownloadGameActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DownloadGameRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
+                CommonUtility.showNeutralDialog(DownloadGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {
@@ -209,7 +212,18 @@ public class DownloadGameActivity extends AppCompatActivity {
 
     private void downloadFinnish() {
         if (mIsDownloadSuccess) {
-            Toast.makeText(this, R.string.DOWNLOAD_GAME_SUCCESS, Toast.LENGTH_SHORT).show();
+            new MaterialDialog.Builder(DownloadGameActivity.this)
+                    .title(R.string.DIALOG_SUCCESS_TITLE)
+                    .content(R.string.DIALOG_DOWNLOAD_GAME_SUCCESS_CONTENT)
+                    .positiveText(R.string.DIALOG_POSITIVE)
+                    .negativeText(R.string.DIALOG_NEGATIVE)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
+                        }
+                    })
+                    .show();
             mPlayGameRepo.setPlayable(true);
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
@@ -221,7 +235,7 @@ public class DownloadGameActivity extends AppCompatActivity {
             Intent intent = new Intent(TxTWidget.ACTION_WIDGET_DISPLAY_NEW_GAME);
             sendBroadcast(intent);
         } else {
-            Toast.makeText(this, R.string.DOWNLOAD_GAME_FAILED, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(DownloadGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_DOWNLOAD_GAME_FAILED_CONTENT, R.string.DIALOG_CONFIRM);
         }
     }
 }

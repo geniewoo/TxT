@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.GameInfo;
@@ -59,15 +60,16 @@ public class MakeGameInfoActivity extends AppCompatActivity {
     }
     @OnClick(R.id.make_game_info_start_btn)
     public void onMakeGameInfoStartBtnClicked() {
-        setMakeGamePreference();
+
+        if (!checkValuesAreValidateAndShowMessage()) {
+            return;
+        }
 
         if (mGameInfoImageUri != null) {
             ImageUtility.saveImageInFilesDirectory(this, mGameInfoImageUri, getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR), getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
         }
 
-        if (!checkValuesAreValidateAndShowMessage()){
-            return;
-        }
+        setMakeGamePreference();
 
         GameInfo gameInfo = getNewMakeGameInfo();
         deleteOldAndSaveNewMakeGameRepo(gameInfo);
@@ -154,10 +156,10 @@ public class MakeGameInfoActivity extends AppCompatActivity {
 
     private boolean checkValuesAreValidateAndShowMessage() {
         if (!isValidateTitle()) {
-            Toast.makeText(this, R.string.INVALID_MAKE_GAME_INFO_TITLE, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(MakeGameInfoActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_INFO_INVALID_TITLE, R.string.DIALOG_CONFIRM);
             return false;
         } else if (!isValidateDescription()){
-            Toast.makeText(this, R.string.INVALID_MAKE_GAME_INFO_DESCRIPTION, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(MakeGameInfoActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_INFO_INVALID_DESCRIPTION, R.string.DIALOG_CONFIRM);
             return false;
         }
         return true;

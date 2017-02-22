@@ -53,8 +53,8 @@ public class TxTWidget extends AppWidgetProvider {
     private static boolean mIsGamePlayingFlipper1;
     private static List<Integer> mAppWidgetIds = new ArrayList<>();
     private static final String TAG = TxTWidget.class.getSimpleName();
-    private Realm mRealm = null;
-    private FullGameRepo mFullGameRepo = null;
+    private static Realm mRealm = null;
+    private static FullGameRepo mFullGameRepo = null;
     private static final String ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED =
             "com.sungwoo.boostcamp.widgetgame.action.MENU_FLIPPER_BTN_CLICKED";
     public static final String ACTION_WIDGET_DISPLAY_NEW_GAME =
@@ -97,9 +97,9 @@ public class TxTWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-//        if (mRealm == null) {
-//            mRealm = Realm.getDefaultInstance();
-//        }
+        if (mRealm == null) {
+            mRealm = Realm.getDefaultInstance();
+        }
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
         }
@@ -112,10 +112,10 @@ public class TxTWidget extends AppWidgetProvider {
         }
 
         String action = intent.getAction();
-        /*if (mFullGameRepo == null && mRealm.where(PlayGameRepo.class).findAll().size() == 1
+        if (mFullGameRepo == null && mRealm.where(PlayGameRepo.class).findAll().size() == 1
                 && mRealm.where(PlayGameRepo.class).findAll().get(0).isPlayable()) {
             setFullGameRepoMemberField();
-        }*/
+        }
 
         switch (action) {
             case ACTION_WIDGET_DISPLAY_NEW_GAME:

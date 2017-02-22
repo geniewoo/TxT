@@ -2,12 +2,15 @@ package com.sungwoo.boostcamp.widgetgame.make_game;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
@@ -64,10 +67,23 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     @OnClick(R.id.make_menu_new_btn)
     public void onMakeNewGameBtnClicked() {
         if (mMakeGamePreference != null) {  //TODO alert다이얼로그 만들어서 여부 묻기
-            Toast.makeText(this, R.string.GAME_IS_ALREADY_EXIST, Toast.LENGTH_SHORT).show();
+            new MaterialDialog.Builder(MakeGameMenuActivity.this)
+                    .title(R.string.DIALOG_SUCCESS_TITLE)
+                    .content(R.string.DIALOG_MAKE_GAME_MENU_IS_ALREADY_EXIST)
+                    .positiveText(R.string.DIALOG_POSITIVE)
+                    .negativeText(R.string.DIALOG_NEGATIVE)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .show();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
+            startActivity(intent);
         }
-        Intent intent = new Intent(getApplicationContext(), MakeGameInfoActivity.class);
-        startActivity(intent);
     }
 
     @OnClick(R.id.make_menu_continue_btn)
@@ -102,13 +118,12 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     public void onMakeMenuShareBtnClicked() {
         switch (checkValidateGame()) {
             case OVER_PAGE_INDEX:
-                Toast.makeText(this, R.string.UPLOAD_SELECTION_TARGETS_ARE_OVER_PAGE_INDEX, Toast.LENGTH_SHORT).show();
+                CommonUtility.showNeutralDialog(MakeGameMenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_MENU_INVALID_TARGET, R.string.DIALOG_CONFIRM);
                 return;
             case NO_GAME_CLEAR_PAGE:
-                Toast.makeText(this, R.string.UPLOAD_NO_GAME_CLEAR_PAGE, Toast.LENGTH_SHORT).show();
+                CommonUtility.showNeutralDialog(MakeGameMenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_MENU_NO_GAME_CLEAR_PAGE, R.string.DIALOG_CONFIRM);
                 return;
             case VALID_GAME:
-                Toast.makeText(this, R.string.UPLOAD_GAME_NO_PROBLEM, Toast.LENGTH_SHORT).show();
                 postGameToServer();
         }
     }
@@ -137,7 +152,7 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     }
     private void postGameToServer() {
         FullGameRepo fullGameRepo = makeFullGameRepoWithMakeGameRepo();
-        Upload.uploadGameImages(getApplicationContext(), fullGameRepo);
+        Upload.uploadGameImages(MakeGameMenuActivity.this, fullGameRepo);
     }
 
     private FullGameRepo makeFullGameRepoWithMakeGameRepo() {

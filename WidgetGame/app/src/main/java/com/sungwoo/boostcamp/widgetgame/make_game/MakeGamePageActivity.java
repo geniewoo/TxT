@@ -248,10 +248,10 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
     private boolean checkValuesAreValidateAndShowMessage() {
         if (!isValidateTitle()) {
-            Toast.makeText(this, R.string.MAKE_GAME_PAGE_TITLE_IS_INVALID, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(MakeGamePageActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_PAGE_TITLE_IS_INVALID, R.string.DIALOG_CONFIRM);
             return false;
         } else if (!isValidateDescription()){
-            Toast.makeText(this, R.string.MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(MakeGamePageActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID, R.string.DIALOG_CONFIRM);
             return false;
         }
 
@@ -266,17 +266,17 @@ public class MakeGamePageActivity extends AppCompatActivity {
                     String selectionText = mMakeSelectionsEts.get(i).getText().toString();
 
                     if (nextIndex.length() < 1) {
-                        Toast.makeText(this, R.string.MAKE_GAME_PAGE_NO_SELECTIONS_INDEX, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(MakeGamePageActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_PAGE_NO_SELECTIONS_INDEX, R.string.DIALOG_CONFIRM);
                         return false;
                     }
                     if (selectionText.length() < 1) {
-                        Toast.makeText(this, R.string.MAKE_GAME_PAGE_NO_SELECTIONS_TEXT, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(MakeGamePageActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_PAGE_NO_SELECTIONS_TEXT, R.string.DIALOG_CONFIRM);
                         return false;
                     }
                 }
             }
             if (count < 1) {
-                Toast.makeText(this, R.string.MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH, Toast.LENGTH_SHORT).show();
+                CommonUtility.showNeutralDialog(MakeGamePageActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH, R.string.DIALOG_CONFIRM);
                 return false;
             }
         }

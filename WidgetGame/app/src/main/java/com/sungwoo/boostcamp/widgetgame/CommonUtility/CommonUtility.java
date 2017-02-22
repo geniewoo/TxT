@@ -25,15 +25,11 @@ public class CommonUtility {
     public static boolean isNetworkAvailableShowErrorMessageIfNeeded(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivityManager.getActiveNetworkInfo() == null || !connectivityManager.getActiveNetworkInfo().isConnected()) {
-            Toast.makeText(context, R.string.COMMON_NETWORK_IS_NOT_AVAILABLE, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_NETWORK_IS_NOT_AVAILABLE_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         } else {
             return true;
         }
-    }
-
-    public static void displayNetworkError(Context context) {
-        Toast.makeText(context, R.string.COMMON_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
     }
 
     public static CommonRepo.UserRepo getUserRepoFromPreference(Context context) {
@@ -84,10 +80,10 @@ public class CommonUtility {
         return soundMap;
     }
 
-    public static void showNeutralDialog(Context context, int titleResId, int itemResId, int neutralBtnResId) {
+    public static void showNeutralDialog(Context context, int titleResId, int contentResId, int neutralBtnResId) {
         new MaterialDialog.Builder(context)
                 .title(titleResId)
-                .items(itemResId)
+                .content(contentResId)
                 .neutralText(neutralBtnResId)
                 .show();
     }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,13 +59,13 @@ public class JoinActivity extends AppCompatActivity {
     private boolean validateCredentialLocallyDisplayErrorMessageIfNeeded(String email, String password, String nickname) {   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
 
         if (!isValidEmail(email)) {
-            Toast.makeText(this, R.string.INVALID_JOIN_EMAIL, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_INVALID_EMAIL_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         } else if (!isValidPassword(password)) {
-            Toast.makeText(this, R.string.INVALID_JOIN_PASSWORD, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_INVALID_PASSWORD_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         } else if (!isValidNickname(nickname)) {
-            Toast.makeText(this, R.string.INVALID_JOIN_NICKNAME, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_INVALID_NICKNAME_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         }
         return true;
@@ -94,7 +95,7 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private void checkJoinServer(String email, String password, String nickname) {   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
-        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(JoinActivity.this)) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
@@ -109,26 +110,30 @@ public class JoinActivity extends AppCompatActivity {
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
-                        finishActivity(JOIN_SUCCESS_RESULT_CODE);
+                        setResult(JOIN_SUCCESS_RESULT_CODE);
+                        finish();
                         break;
                     case JOIN_DUPLICATE_EMAIL:
-                        Toast.makeText(JoinActivity.this, R.string.JOIN_EMAIL_EXISTS, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_EMAIL_EXISTS_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                     case JOIN_DUPLICATE_NICKNAME:
-                        Toast.makeText(JoinActivity.this, R.string.JOIN_NICKNAME_EXISTS, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_NICKNAME_EXISTS_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                     case JOIN_FORMAT_ERROR:
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_UNKNOWN_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         Log.e(TAG, codeRepo.getErrorMessage());
                         break;
                     case JOIN_SERVER_ERROR:
-                        Toast.makeText(JoinActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
+                    default:
+
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
+                CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {

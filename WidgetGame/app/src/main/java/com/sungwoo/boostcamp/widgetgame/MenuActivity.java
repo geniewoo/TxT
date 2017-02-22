@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class MenuActivity extends AppCompatActivity {
     protected TextView mMenuUserTv;
     @BindView(R.id.menu_user_iv)
     protected CircleImageView mMenuUserIv;
+    @BindView(R.id.activity_menu_lo)
+    protected LinearLayout mActivityMenuLo;
     @BindDimen(R.dimen.user_circle_iv)
     protected int USER_CIRCLE_IV;
 
@@ -49,8 +52,12 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
         ButterKnife.bind(this);
+
+        if (getIntent().getAction() != null && getIntent().getAction().equals(LoginActivity.ACTION_LOGIN_SUCCESS)) {
+            Snackbar.make(mActivityMenuLo, R.string.LOGIN_SUCCESS, Snackbar.LENGTH_LONG).show();
+        }
+
         mUserInfo = CommonUtility.getUserRepoFromPreference(getApplicationContext());
         initUserInfo();
     }
@@ -115,7 +122,7 @@ public class MenuActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 Picasso.with(getApplicationContext()).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
                 ImageUtility.saveImageInFilesDirectory(this, imageUri, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
-                Upload.uploadUserImageToServer(getApplicationContext(), getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG), USER_INFORMATION);
+                Upload.uploadUserImageToServer(MenuActivity.this, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG), USER_INFORMATION);
                 updateUserImageUrlToServer();
                 break;
         }
@@ -127,7 +134,7 @@ public class MenuActivity extends AppCompatActivity {
             super.onBackPressed();
         } else {
             mFirstTapped = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(), R.string.MENU_BACK_PRESSED, Toast.LENGTH_LONG).show();
+            Snackbar.make(mActivityMenuLo, R.string.MENU_BACK_PRESSED, Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -151,14 +158,14 @@ public class MenuActivity extends AppCompatActivity {
                     case Upload.UPLOAD_SUCCESS:
                         break;
                     case Upload.UPLOAD_FAIL:
-                        CommonUtility.showNeutralDialog(getApplicationContext(), R.string.DIALOG_ERR_TITLE, R.string.DIALOG_SERVER_ERR_ITEM, R.string.DIALOG_CONFIRM);
+                        CommonUtility.showNeutralDialog(MenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
+                CommonUtility.showNeutralDialog(MenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {
