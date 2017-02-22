@@ -2,6 +2,7 @@ package com.sungwoo.boostcamp.widgetgame;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -28,8 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private final CommonRepo.UserRepo mUserRepo = new CommonRepo.UserRepo();
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
-
+    private  static final int JOIN_REQUEST_CODE = 100;
     private static final int LOGIN_SUCCESS = 100;
     private static final int LOGIN_CAN_NOT_FIND_USER = 200;
     private static final int LOGIN_SERVER_ERROR = 500;
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginJoinBtnClick() {
         Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
+        startActivityForResult(intent, JOIN_REQUEST_CODE);
     }
 
     @OnClick(R.id.login_login_btn)
@@ -128,6 +128,18 @@ public class LoginActivity extends AppCompatActivity {
             String email = preferences.getString(getString(R.string.PREF_USER_EMAIL), "");
             String password = preferences.getString(getString(R.string.PREF_USER_PASSWORD), "");
             testLoginServer(email, password);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case JOIN_REQUEST_CODE:
+                if (resultCode == JoinActivity.JOIN_SUCCESS_RESULT_CODE){
+                    Snackbar.make(findViewById(R.id.activity_menu), "test", Snackbar.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 }

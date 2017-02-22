@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 
@@ -81,5 +82,13 @@ public class CommonUtility {
         soundMap.put(context.getString(R.string.SPINNER_SOUND_12), R.raw.wind);
         soundMap.put(context.getString(R.string.SPINNER_SOUND_13), R.raw.witchlaugh);
         return soundMap;
+    }
+
+    public static void showNeutralDialog(Context context, int titleResId, int itemResId, int neutralBtnResId) {
+        new MaterialDialog.Builder(context)
+                .title(titleResId)
+                .items(itemResId)
+                .neutralText(neutralBtnResId)
+                .show();
     }
 }

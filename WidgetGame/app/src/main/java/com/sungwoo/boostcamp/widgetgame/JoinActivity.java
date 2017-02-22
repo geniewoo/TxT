@@ -1,9 +1,11 @@
 package com.sungwoo.boostcamp.widgetgame;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
@@ -22,6 +24,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class JoinActivity extends AppCompatActivity {
+    public static final int JOIN_SUCCESS_RESULT_CODE = 100;
+
     private static final int JOIN_SUCCESS = 100;
     private static final int JOIN_DUPLICATE_EMAIL = 200;
     private static final int JOIN_DUPLICATE_NICKNAME = 300;
@@ -105,8 +109,7 @@ public class JoinActivity extends AppCompatActivity {
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
-                        Toast.makeText(JoinActivity.this, R.string.JOIN_SUCCESS, Toast.LENGTH_SHORT).show();
-                        finish();
+                        finishActivity(JOIN_SUCCESS_RESULT_CODE);
                         break;
                     case JOIN_DUPLICATE_EMAIL:
                         Toast.makeText(JoinActivity.this, R.string.JOIN_EMAIL_EXISTS, Toast.LENGTH_SHORT).show();

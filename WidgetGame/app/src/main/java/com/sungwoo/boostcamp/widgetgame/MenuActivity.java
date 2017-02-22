@@ -2,6 +2,7 @@ package com.sungwoo.boostcamp.widgetgame;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -29,7 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility.REQ_CODE_SELECT_IMAGE;
 import static com.sungwoo.boostcamp.widgetgame.upload.Upload.USER_INFORMATION;
-import static com.sungwoo.boostcamp.widgetgame.upload.Upload.uploadUserImageToServer;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = MenuActivity.class.getSimpleName();
@@ -151,7 +151,7 @@ public class MenuActivity extends AppCompatActivity {
                     case Upload.UPLOAD_SUCCESS:
                         break;
                     case Upload.UPLOAD_FAIL:
-                        Toast.makeText(getApplicationContext(), R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(getApplicationContext(), R.string.DIALOG_ERR_TITLE, R.string.DIALOG_SERVER_ERR_ITEM, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }
