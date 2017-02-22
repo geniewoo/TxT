@@ -356,7 +356,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
         try {
             mMediaPlayer.stop();
             mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(this, Uri.parse("android.resource://com.sungwoo.boostcamp.widgetgame/" + soundId));
+            mMediaPlayer.setDataSource(this, Uri.parse(getString(R.string.RAW_FILE_FOLDER_URI) + soundId));
             mMediaPlayer.prepare();
             mMediaPlayer.start();
         } catch (IOException e) {

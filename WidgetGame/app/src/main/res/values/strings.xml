@@ -115,6 +115,16 @@
     <string name="MAKE_CONFIRM">완료</string>
     <string name="MAKE_DELETE">취소</string>
 
+    <!-- Receiver TxTWidget -->
+    <string name="TxT_WIDGET_NO_GAME">게임이 없습니다</string>
+    <string name="TxT_WIDGET_GO_DOWNLOAD">게임다운로드 하러가기</string>
+    <string name="TxT_WIDGET_STORY_NEXT_PAGE">다음 페이지로</string>
+    <string name="TxT_WIDGET_STORY_GAME_OVER">다시 하기</string>
+    <string name="TxT_WIDGET_STORY_GAME_CLEAR">종료</string>
+    <string name="TxT_WIDGET_INFO_START_GAME">시작</string>
+    <string name="TxT_WIDGET_MENU_START_GAME">다시 하기</string>
+    <string name="TxT_WIDGET_MENU_OPEN_APP">다름 게임 찾기</string>
+
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
     <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/profile/</string>
@@ -132,6 +142,8 @@
     <string name="LOCAL_NO_IMAGE_FILE" translatable="false">none</string>
     <string name="LOCAL_STORAGE_PLAY_GAME_DIR" translatable="false">TxT/PlayGame</string>
 
+    <!-- sound -->
+    <string name="RAW_FILE_FOLDER_URI">android.resource://com.sungwoo.boostcamp.widgetgame/</string>
     <!-- Retrofit -->
     <string name="RETROFIT_FILE_FORMAT_IMAGE" translatable="false">image/*</string>
     <string name="RETROFIT_FILE_FORMAT_STRING" translatable="false">string</string>

@@ -47,7 +47,6 @@ public class TxTWidget extends AppWidgetProvider {
     private static final int IN_STORY = IN_SELECTIONS + 1;
     private static final int IN_GAME_OVER = IN_STORY + 1;
     private static final int IN_GAME_CLEAR = IN_GAME_OVER + 1;
-    private static final int IN_MENU = IN_GAME_CLEAR + 1;
 
     private static boolean mIsMenuStage = false;
     private static int mNowStage;
@@ -72,6 +71,7 @@ public class TxTWidget extends AppWidgetProvider {
             "com.sungwoo.boostcamp.widgetgame.action.NO_GAME_START_APP_BTN";
     public static final String ACTION_WIDGET_MENU_START_APP_BTN =
             "com.sungwoo.boostcamp.widgetgame.action.MENU_START_APP_BTN";
+
     private static final String PAGE_CHOICE = "Choice";
     private static final String PAGE_STORY = "Story";
     private static final String PAGE_GAME_OVER = "Game Over";
@@ -363,15 +363,15 @@ public class TxTWidget extends AppWidgetProvider {
                 break;
             case PAGE_STORY:
                 mNowStage = IN_STORY;
-                showGameStoryPageLayout(context, page);
+                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_NEXT_PAGE));
                 break;
             case PAGE_GAME_OVER:
                 mNowStage = IN_GAME_OVER;
-                showGameStoryPageLayout(context, page);
+                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_GAME_OVER));
                 break;
             case PAGE_GAME_CLEAR:
                 mNowStage = IN_GAME_CLEAR;
-                showGameStoryPageLayout(context, page);
+                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_GAME_CLEAR));
                 break;
         }
     }
@@ -409,9 +409,14 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.GONE);
             remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.GONE);
             remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.VISIBLE);
-            for (int i = 0; i < selections.size(); i++) {
+            int i = 0;
+            for ( ; i < selections.size(); i++) {
+                remoteViews.setViewVisibility(SELECTION_IDS2[i], View.VISIBLE);
                 remoteViews.setTextViewText(SELECTION_IDS2[i], selections.get(i).getSelectionText());
                 mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
+            }
+            for ( ; i < 4 ; i++) {
+                remoteViews.setViewVisibility(SELECTION_IDS2[i], View.GONE);
             }
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -429,9 +434,14 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
             remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.GONE);
             remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.VISIBLE);
-            for (int i = 0; i < selections.size(); i++) {
+            int i = 0;
+            for ( ; i < selections.size(); i++) {
+                remoteViews.setViewVisibility(SELECTION_IDS1[i], View.VISIBLE);
                 remoteViews.setTextViewText(SELECTION_IDS1[i], selections.get(i).getSelectionText());
                 mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
+            }
+            for ( ; i < 4 ; i++) {
+                remoteViews.setViewVisibility(SELECTION_IDS1[i], View.GONE);
             }
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -448,7 +458,7 @@ public class TxTWidget extends AppWidgetProvider {
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
 
-    private void showGameStoryPageLayout(Context context, Page page) {
+    private void showGameStoryPageLayout(Context context, Page page, String nextBtnStr) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
 
         String title = page.getTitle();
@@ -464,6 +474,7 @@ public class TxTWidget extends AppWidgetProvider {
 
             remoteViews.setTextViewText(R.id.widget_game2_title_tv, title);
             remoteViews.setTextViewText(R.id.widget_game2_image_tv, description);
+            remoteViews.setTextViewText(R.id.widget_playing_game2_no_selections_next_btn, nextBtnStr);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -481,6 +492,7 @@ public class TxTWidget extends AppWidgetProvider {
 
             remoteViews.setTextViewText(R.id.widget_game1_title_tv, title);
             remoteViews.setTextViewText(R.id.widget_game1_image_tv, description);
+            remoteViews.setTextViewText(R.id.widget_playing_game1_no_selections_next_btn, nextBtnStr);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -508,7 +520,7 @@ public class TxTWidget extends AppWidgetProvider {
         try {
             mMediaPlayer.stop();
             mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(context, Uri.parse("android.resource://com.sungwoo.boostcamp.widgetgame/" + soundId));
+            mMediaPlayer.setDataSource(context, Uri.parse(context.getString(R.string.RAW_FILE_FOLDER_URI) + soundId));
             mMediaPlayer.prepare();
             mMediaPlayer.start();
         } catch (IOException e) {
