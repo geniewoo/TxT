@@ -104,7 +104,7 @@ public class TxTWidget extends AppWidgetProvider {
 
         String action = intent.getAction();
         if (mFullGameRepo == null && mRealm.where(PlayGameRepo.class).findAll().size() == 1
-                && mRealm.where(PlayGameRepo.class).findAll().get(0).getPlayable()) {
+                && mRealm.where(PlayGameRepo.class).findAll().get(0).isPlayable()) {
             setFullGameRepoMemberField();
         }
 
@@ -178,7 +178,7 @@ public class TxTWidget extends AppWidgetProvider {
         mIsGamePlayingFlipper1 = true;
         setPendingIntents(context);
         if (mRealm.where(PlayGameRepo.class).findAll().size() == 1
-                && mRealm.where(PlayGameRepo.class).findAll().get(0).getPlayable()) {
+                && mRealm.where(PlayGameRepo.class).findAll().get(0).isPlayable()) {
             if (mFullGameRepo == null) {
                 setFullGameRepoMemberField();
             }

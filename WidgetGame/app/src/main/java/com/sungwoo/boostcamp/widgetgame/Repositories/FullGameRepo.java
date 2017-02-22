@@ -7,9 +7,9 @@ import io.realm.RealmObject;
  */
 
 public class FullGameRepo extends RealmObject {
-    GameInfo gameInfo;
-    Maker maker;
-    PlayInfo playInfo;
+    private GameInfo gameInfo;
+    private Maker maker;
+    private PlayInfo playInfo;
 
     public FullGameRepo(GameInfo gameInfo, PlayInfo playInfo, Maker maker) {
         this.playInfo = playInfo;
