@@ -200,6 +200,7 @@ public class FindGameActivity extends AppCompatActivity {
                             List<FindGameRepo.FindGameList> findGameLists = response.body().getFindGameList();
                             if (findGameLists.size() < getItemNum) {
                                 isMoreItemsAvailable = false;
+                                Log.d(TAG, "size : " + findGameLists.size() + " get num : " + getItemNum);
                             }
                             ArrayList<FindGameRepo.FindGameList> adapterList = mFindGameRvAdapter.getFindGameLists();
                             adapterList.addAll(findGameLists);

@@ -19,6 +19,7 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 import com.sungwoo.boostcamp.widgetgame.Repositories.PlayGameRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.GameInformationRetrofit;
+import com.sungwoo.boostcamp.widgetgame.widget.TxTWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,6 +217,9 @@ public class DownloadGameActivity extends AppCompatActivity {
             realm.insert(mPlayGameRepo);
             realm.commitTransaction();
             realm.close();
+
+            Intent intent = new Intent(TxTWidget.ACTION_WIDGET_DISPLAY_NEW_GAME);
+            sendBroadcast(intent);
         } else {
             Toast.makeText(this, R.string.DOWNLOAD_GAME_FAILED, Toast.LENGTH_SHORT).show();
         }

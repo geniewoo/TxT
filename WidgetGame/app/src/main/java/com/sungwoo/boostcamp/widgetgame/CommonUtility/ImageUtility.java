@@ -111,4 +111,26 @@ public class ImageUtility {
 
         return new File(context.getFilesDir().toString(), stringBuffer.toString());
     }
+
+    public static File getPlayGameInfoImageFromLocal(Context context) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_STORAGE_PLAY_GAME_DIR));
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
+
+        return new File(context.getFilesDir().toString(), stringBuffer.toString());
+    }
+
+    public static File getPlayGamePageImageFromLocal(Context context, int index) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_STORAGE_PLAY_GAME_DIR));
+        stringBuffer.append(File.separator);
+        stringBuffer.append(context.getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME));
+        stringBuffer.append(index);
+        stringBuffer.append(context.getString(R.string.FILE_EXPANDER_PNG));
+
+        return new File(context.getFilesDir().toString(), stringBuffer.toString());
+    }
 }

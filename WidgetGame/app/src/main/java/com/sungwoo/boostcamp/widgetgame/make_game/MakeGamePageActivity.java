@@ -2,6 +2,7 @@ package com.sungwoo.boostcamp.widgetgame.make_game;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.MakeGameRepo;
@@ -25,6 +27,8 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Selection;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindDimen;
@@ -76,6 +80,8 @@ public class MakeGamePageActivity extends AppCompatActivity {
     private int mMaxPageIndex;
     Uri mGamePageImageUri = null;
     private Boolean mIsNewPage;
+    private HashMap<String, Integer> mSoundMap;
+    private MediaPlayer mMediaPlayer;
 
     Realm mRealm;
 
@@ -86,6 +92,8 @@ public class MakeGamePageActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
+        mMediaPlayer = new MediaPlayer();
+        mSoundMap = CommonUtility.getSoundMap(this);
         Intent intent = getIntent();
 
         mPageIndex = intent.getIntExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), -1);
@@ -267,7 +275,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
                     }
                 }
             }
-            if (count < 2) {
+            if (count < 1) {
                 Toast.makeText(this, R.string.MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -334,6 +342,28 @@ public class MakeGamePageActivity extends AppCompatActivity {
         }
     }
 
+    @OnItemSelected(R.id.make_sound_sp)
+    public void onMakeSoundSpItemSelected() {
+        String soundStr = mMakeSoundSp.getSelectedItem().toString();
+        playSound(soundStr);
+    }
+
+    private void playSound(String sound) {
+        if (sound.equals(getString(R.string.SPINNER_SOUND_DEFAULT))) {
+            return;
+        }
+        int soundId = mSoundMap.get(sound);
+        try {
+            mMediaPlayer.stop();
+            mMediaPlayer.reset();
+            mMediaPlayer.setDataSource(this, Uri.parse(getString(R.string.RAW_FILE_FOLDER_URI) + soundId));
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void insertThisPageInLocalDataBase() {
         String titleStr = mMakePageTitleEt.getText().toString();
         String descriptionStr = mMakePageDescriptionEt.getText().toString();
@@ -387,6 +417,8 @@ public class MakeGamePageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRealm.close();
+        if (mRealm != null) {
+            mRealm.close();
+        }
     }
 }
