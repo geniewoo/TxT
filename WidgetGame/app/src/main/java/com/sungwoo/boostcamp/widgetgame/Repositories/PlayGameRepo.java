@@ -22,7 +22,7 @@ public class PlayGameRepo extends RealmObject {
         return fullGameRepo;
     }
 
-    public Boolean getPlayable() {
+    public Boolean isPlayable() {
         return isPlayable;
     }
 
