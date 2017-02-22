@@ -22,12 +22,14 @@ public class FindGameRepo {
         return code;
     }
 
-    public class FindGameList{
+    public class FindGameList {
         private String gameTitle;
         private String gameDescription;
         private String gameImagePath;
+        private String makerImagePath;
         private String nickName;
         private float stars;
+
         public String getGameTitle() {
             return gameTitle;
         }
@@ -40,6 +42,10 @@ public class FindGameRepo {
             return gameImagePath;
         }
 
+        public String getMakerImagePath() {
+            return makerImagePath;
+        }
+
         public String getNickName() {
             return nickName;
         }
@@ -48,5 +54,4 @@ public class FindGameRepo {
             return stars;
         }
     }
-
 }

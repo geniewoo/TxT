@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
@@ -19,28 +20,27 @@ import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.FindGameRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.GameInformationRetrofit;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnItemClick;
-import butterknife.OnItemSelected;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility.getServerGameImageFolderPathStringBuffer;
+
 public class FindGameActivity extends AppCompatActivity {
 
     private static final String TAG = FindGameActivity.class.getSimpleName();
     private static final String SORT_GAME_TITLE = "gameTitle";
     public static final int GET_LIST_SUCCESS = 100;
-    public static final int GET_LIST_FAIL = 200;
-    private static final int getItemNum = 20;
+    public static final int GET_LIST_NO_RESULT = 200;
+    public static final int GET_LIST_FAIL = 500;
+    private static final int getItemNum = 10;
     private int skip;
     private int itemNum;
 
@@ -75,6 +75,7 @@ public class FindGameActivity extends AppCompatActivity {
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                     if (isMoreItemsAvailable && mLayoutManager.findLastCompletelyVisibleItemPosition() == itemNum - 1) {
                         getGameListFromServer(skip++, getItemNum, SORT_GAME_TITLE);
+                        Log.d(TAG, "append : " + itemNum);
                     }
                 }
             });
@@ -85,6 +86,7 @@ public class FindGameActivity extends AppCompatActivity {
                     super.onScrolled(recyclerView, dx, dy);
                     if (isMoreItemsAvailable && mLayoutManager.findLastCompletelyVisibleItemPosition() == itemNum - 1) {
                         getGameListFromServer(skip++, getItemNum, SORT_GAME_TITLE);
+                        Log.d(TAG, "append : " + itemNum);
                     }
                 }
             });
@@ -132,6 +134,8 @@ public class FindGameActivity extends AppCompatActivity {
             protected TextView findGameListDescriptionTv;
             @BindView(R.id.find_game_list_nickname_tv)
             protected TextView findGameListNicknameTv;
+            @BindView(R.id.find_game_list_maker_iv)
+            protected ImageView findGameListMakerIv;
             @BindView(R.id.find_game_list_stars_tv)
             TextView findGameListStarsTv;
 
@@ -148,6 +152,7 @@ public class FindGameActivity extends AppCompatActivity {
                         intent.putExtra(getString(R.string.INTENT_FIND_GAME_NICKNAME), findGameList.getNickName());
                         intent.putExtra(getString(R.string.INTENT_FIND_GAME_STARS), findGameList.getStars());
                         intent.putExtra(getString(R.string.INTENT_FIND_GAME_IMAGEPATH), findGameList.getGameImagePath());
+                        intent.putExtra(getString(R.string.INTENT_FIND_GAME_MAKER_IMAGEPATH), findGameList.getMakerImagePath());
                         startActivity(intent);
                     }
                 });
@@ -157,23 +162,22 @@ public class FindGameActivity extends AppCompatActivity {
                 FindGameRepo.FindGameList findGameList = findGameLists.get(position);
                 String nickname = findGameList.getNickName();
                 String gameTitle = findGameList.getGameTitle();
-                String imagePath = findGameList.getGameImagePath();
+                String gameImagePath = findGameList.getGameImagePath();
+                String makerImagePath = findGameList.getMakerImagePath();
                 findGameListTitleTv.setText((position + 1) + " " + gameTitle);
                 findGameListDescriptionTv.setText(findGameList.getGameDescription());
                 findGameListNicknameTv.setText(nickname);
                 findGameListStarsTv.setText(String.valueOf(findGameList.getStars()));
-                if (imagePath != null && !imagePath.equals("none")){
-                    StringBuffer stringBuffer = new StringBuffer();
-                    stringBuffer.append(getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
-                    stringBuffer.append(File.separator);
-                    stringBuffer.append(nickname);
-                    stringBuffer.append(File.separator);
-                    stringBuffer.append(gameTitle);
-                    stringBuffer.append(File.separator);
-                    stringBuffer.append(imagePath);
+                if (gameImagePath != null && !gameImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))){
+                    StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), nickname, gameTitle, gameImagePath);
                     Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 270).centerCrop().into(findGameListImageIv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(200, 270).centerCrop().into(findGameListImageIv);
+                }
+                if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
+                    Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(20, 20).centerCrop().into(findGameListMakerIv);
+                } else {
+                    Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(20, 20).centerCrop().into(findGameListMakerIv);
                 }
             }
         }
@@ -190,19 +194,26 @@ public class FindGameActivity extends AppCompatActivity {
         uploadGameRepoCodeRepoCall.enqueue(new Callback<FindGameRepo>() {
             @Override
             public void onResponse(Call<FindGameRepo> call, Response<FindGameRepo> response) {
-                if (response.body() != null && response.body().getCode() == GET_LIST_SUCCESS) {
-                    List<FindGameRepo.FindGameList> findGameLists = response.body().getFindGameList();
-                    if (findGameLists.size() == 0) {
-                        isMoreItemsAvailable = false;
-                        Log.e(TAG, getString(R.string.FIND_NO_GAME));
-                        return;
-                    } else if (findGameLists.size() < getItemNum) {
-                        isMoreItemsAvailable = false;
+                if (response.body() != null) {
+                    switch (response.body().getCode()) {
+                        case GET_LIST_SUCCESS:
+                            List<FindGameRepo.FindGameList> findGameLists = response.body().getFindGameList();
+                            if (findGameLists.size() < getItemNum) {
+                                isMoreItemsAvailable = false;
+                            }
+                            ArrayList<FindGameRepo.FindGameList> adapterList = mFindGameRvAdapter.getFindGameLists();
+                            adapterList.addAll(findGameLists);
+                            itemNum = adapterList.size();
+                            mFindGameRvAdapter.notifyDataSetChanged();
+                            break;
+                        case GET_LIST_NO_RESULT:
+                            Toast.makeText(FindGameActivity.this, R.string.FIND_NO_GAME, Toast.LENGTH_SHORT).show();
+                            isMoreItemsAvailable = false;
+                            break;
+                        case GET_LIST_FAIL:
+                            CommonUtility.displayNetworkError(getApplicationContext());
+                            break;
                     }
-                    ArrayList<FindGameRepo.FindGameList> adapterList = mFindGameRvAdapter.getFindGameLists();
-                    adapterList.addAll(findGameLists);
-                    itemNum = findGameLists.size();
-                    mFindGameRvAdapter.notifyDataSetChanged();
                 } else {
                     CommonUtility.displayNetworkError(getApplicationContext());
                 }

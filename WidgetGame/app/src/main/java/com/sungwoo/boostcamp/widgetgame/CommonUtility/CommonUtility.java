@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 
+import java.io.File;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -48,5 +50,17 @@ public class CommonUtility {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    public static StringBuffer getServerGameImageFolderPathStringBuffer(Context context, String nickname, String gameTitle, String fileName) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(context.getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
+        stringBuffer.append(File.separator);
+        stringBuffer.append(nickname);
+        stringBuffer.append(File.separator);
+        stringBuffer.append(gameTitle);
+        stringBuffer.append(File.separator);
+        stringBuffer.append(fileName);
+        return stringBuffer;
     }
 }

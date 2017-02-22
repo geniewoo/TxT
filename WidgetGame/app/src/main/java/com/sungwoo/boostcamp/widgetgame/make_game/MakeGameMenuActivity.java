@@ -142,7 +142,7 @@ public class MakeGameMenuActivity extends AppCompatActivity {
 
     private FullGameRepo makeFullGameRepoWithMakeGameRepo() {
         CommonRepo.UserRepo userRepo = CommonUtility.getUserRepoFromPreference(getApplicationContext());
-        Maker maker = new Maker(userRepo.getEmail(), userRepo.getNickname());
+        Maker maker = new Maker(userRepo.getEmail(), userRepo.getNickname(), userRepo.getImageUrl());
         PlayInfo playInfo = new PlayInfo(0, 0, 0, 0, 0);
         GameInfo gameInfo = mRealm.copyFromRealm(mRealm.where(MakeGameRepo.class).findAll().get(0).getGameInfo());
 

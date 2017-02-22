@@ -43,16 +43,23 @@ public class ImageUtility {
         appCompatActivity.startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
     }
 
-    public static void saveImageInFilesDirectory(Context context, Uri uri, String dirPath, String fileName) {//TODO Picasso를 이용하여 Bitmap을 인자로 받기
-        Bitmap userImageBitmap = null;
+    public static void saveImageInFilesDirectory(Context context, Uri uri, String dirPath, String fileName) {
+        Bitmap bitmap = null;
         try {
-            userImageBitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (userImageBitmap != null) {
+        if (bitmap != null) {
             File dir = new File(context.getFilesDir() + File.separator + dirPath);
-            saveBitmapToFile(dir, fileName, userImageBitmap, Bitmap.CompressFormat.PNG, SAVE_BITMAP_TO_FILE_QUALITY);
+            saveBitmapToFile(dir, fileName, bitmap, Bitmap.CompressFormat.PNG, SAVE_BITMAP_TO_FILE_QUALITY);
+        }
+    }
+
+    public static void saveImageInFilesDirectory(Context context, Bitmap bitmap, String dirPath, String fileName) {
+        if (bitmap != null) {
+            File dir = new File(context.getFilesDir() + File.separator + dirPath);
+            saveBitmapToFile(dir, fileName, bitmap, Bitmap.CompressFormat.PNG, SAVE_BITMAP_TO_FILE_QUALITY);
         }
     }
 

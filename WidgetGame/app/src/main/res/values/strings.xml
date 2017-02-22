@@ -55,6 +55,11 @@
     <!-- activity_find_game -->
     <string name="FIND_NO_GAME">검색된 게임이 없습니다</string>
 
+    <!-- activity_download_game -->
+    <string name="DOWNLOAD_GAME_DOWN"> 게임 다운로드 하기 </string>
+    <string name="DOWNLOAD_GAME_FAILED">다운로드 실패 다시 시도해 주세요</string>
+    <string name="DOWNLOAD_GAME_SUCCESS">다운로드 성공</string>
+
     <!-- activity_make_game_menu -->
     <string name="MAKE_NEW_GAME">새 게임 만들기</string>
     <string name="MAKE_CONTINUE_GAME">이어 만들기</string>
@@ -122,6 +127,7 @@
     <string name="LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME" translatable="false">gameInfoImage.png</string>
     <string name="LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME" translatable="false">gamePageImage</string>
     <string name="LOCAL_NO_IMAGE_FILE" translatable="false">none</string>
+    <string name="LOCAL_STORAGE_PLAY_GAME_DIR" translatable="false">TxT/PlayGame</string>
 
     <!-- Retrofit -->
     <string name="RETROFIT_FILE_FORMAT_IMAGE" translatable="false">image/*</string>
@@ -145,6 +151,7 @@
     <string name="INTENT_FIND_GAME_NICKNAME">FIND_GAME_NICKNAME</string>
     <string name="INTENT_FIND_GAME_STARS">FIND_GAME_STARS</string>
     <string name="INTENT_FIND_GAME_IMAGEPATH">FIND_GAME_IMAGEPATH</string>
+    <string name="INTENT_FIND_GAME_MAKER_IMAGEPATH">FIND_GAME_MAKER_IMAGEPATH</string>
 
     <!-- upload test -->
     <string name="UPLOAD_SELECTION_TARGETS_ARE_OVER_PAGE_INDEX">최대 페이지를 넘어가는 선택지가 있습니다</string>
