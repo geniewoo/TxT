@@ -7,8 +7,8 @@ import io.realm.RealmObject;
  */
 
 public class PlayGameRepo extends RealmObject {
-    FullGameRepo fullGameRepo;
-    Boolean isPlayable;
+    private FullGameRepo fullGameRepo;
+    private Boolean isPlayable;
 
     public PlayGameRepo() {
     }
