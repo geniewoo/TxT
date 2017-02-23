@@ -7,12 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -22,8 +20,6 @@ import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.GameInfo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.MakeGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
-
-import java.util.regex.Pattern;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -166,7 +162,7 @@ public class MakeGameInfoActivity extends AppCompatActivity {
 
     private boolean isValidateDescription() {
         String descriptionStr = mMakeGameInfoDescriptionEt.getText().toString();
-        if( 5 < descriptionStr.length() && descriptionStr.length() <= 400 ) {
+        if( 10 <= descriptionStr.length() && descriptionStr.length() <= 200 ) {
             return true;
         } else {
             return false;

@@ -165,13 +165,13 @@
     <string name="DIALOG_LOGIN_FAIL_CONTENT">입력한 이메일과 비밀번호에 해당하는 회원정보가 없습니다 확인해 주세요</string>
     <string name="DIALOG_DOWNLOAD_GAME_SUCCESS_CONTENT">다운로드에 성공했습니다. 이 게임은 바탕화면 위젯에서 플레이 할 수 있습니다. 지금바로 게임하러 가시겠습니까?</string>
     <string name="DIALOG_DOWNLOAD_GAME_FAILED_CONTENT">다운로드에 실패하였습니다. 다시 시도해 주세요</string>
-    <string name="DIALOG_MAKE_GAME_INFO_INVALID_TITLE">제목은 1 이상 15 이하로 작성해 주세요</string>
-    <string name="DIALOG_MAKE_GAME_INFO_INVALID_DESCRIPTION">설명은 6 이상 400 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_INFO_INVALID_TITLE">제목은 1자 이상 15자 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_INFO_INVALID_DESCRIPTION">설명은 10자 이상 200자 이하로 작성해 주세요</string>
     <string name="DIALOG_MAKE_GAME_MENU_INVALID_TARGET">최대 페이지를 넘어가는 선택지가 있습니다</string>
     <string name="DIALOG_MAKE_GAME_MENU_NO_GAME_CLEAR_PAGE">게임클리어 페이지가 존재하지 않습니다</string>
     <string name="DIALOG_MAKE_GAME_MENU_IS_ALREADY_EXIST">새로 만들기를 하시면 기존에 만들던 게임은 사라집니다 계속 하시겠습니까?</string>
-    <string name="DIALOG_MAKE_GAME_PAGE_TITLE_IS_INVALID">제목은 1 이상 15 이하로 작성해 주세요</string>
-    <string name="DIALOG_MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID">내용은 1 이상 100 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_TITLE_IS_INVALID">제목은 1자 이상 15자 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID">내용은 1자 이상 100자 이하로 작성해 주세요</string>
     <string name="DIALOG_MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 1개이상 선택해 주세요</string>
     <string name="DIALOG_MAKE_GAME_PAGE_NO_SELECTIONS_INDEX">선택지를 선택하면 어느 index로 가야하는지 지정되어있지 않습니다</string>
     <string name="DIALOG_MAKE_GAME_PAGE_NO_SELECTIONS_TEXT">선택지 내용이 없습니다</string>
