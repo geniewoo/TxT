@@ -1,8 +1,10 @@
 package com.sungwoo.boostcamp.widgetgame.CommonUtility;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -86,5 +88,13 @@ public class CommonUtility {
                 .content(contentResId)
                 .neutralText(neutralBtnResId)
                 .show();
+    }
+
+    public static ProgressDialog showProgressDialogAndReturnInself(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        return progressDialog;
     }
 }

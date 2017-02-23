@@ -1,5 +1,6 @@
 package com.sungwoo.boostcamp.widgetgame.find_game;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -129,6 +130,12 @@ public class DownloadGameActivity extends AppCompatActivity {
     }
 
     private void downloadGameFromServer() {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(DownloadGameActivity.this)) {
+            return;
+        }
+
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -139,6 +146,9 @@ public class DownloadGameActivity extends AppCompatActivity {
         gameRepoCall.enqueue(new Callback<DownloadGameRepo>() {
             @Override
             public void onResponse(Call<DownloadGameRepo> call, Response<DownloadGameRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 if (response.body() != null){
                     switch (response.body().getCode()) {
                         case GET_GAME_SUCCESS:
@@ -163,6 +173,9 @@ public class DownloadGameActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DownloadGameRepo> call, Throwable t) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonUtility.showNeutralDialog(DownloadGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;

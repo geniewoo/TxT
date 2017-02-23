@@ -1,5 +1,6 @@
 package com.sungwoo.boostcamp.widgetgame.upload;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -56,6 +57,8 @@ public class Upload {
             }
         }
 
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(context);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -66,6 +69,9 @@ public class Upload {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call,
                                    Response<CommonRepo.ResultCodeRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
@@ -79,6 +85,9 @@ public class Upload {
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
@@ -119,6 +128,8 @@ public class Upload {
         });
     }
     public static void uploadUserImageToServer(final Context context, String dirPath, String localFileName, String serverFileName, int uploadCode) {
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(context);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -145,6 +156,9 @@ public class Upload {
         codeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
@@ -157,6 +171,9 @@ public class Upload {
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;

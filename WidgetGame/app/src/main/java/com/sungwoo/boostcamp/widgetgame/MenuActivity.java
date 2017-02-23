@@ -1,6 +1,8 @@
 package com.sungwoo.boostcamp.widgetgame;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
@@ -117,11 +120,29 @@ public class MenuActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(MenuActivity.this)) {
+            return;
+        }
         switch (requestCode) {
             case REQ_CODE_SELECT_IMAGE:
                 Uri imageUri = data.getData();
-                Picasso.with(getApplicationContext()).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
-                ImageUtility.saveImageInFilesDirectory(this, imageUri, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
+                Picasso.with(this).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
+                Picasso.with(this).load(imageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        ImageUtility.saveImageInFilesDirectory(getApplicationContext(), bitmap, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME));
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
                 Upload.uploadUserImageToServer(MenuActivity.this, getString(R.string.LOCAL_STORAGE_USER_DIR), getString(R.string.LOCAL_USER_IMAGE_FILE_NAME), mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG), USER_INFORMATION);
                 updateUserImageUrlToServer();
                 break;
@@ -139,6 +160,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void updateUserImageUrlToServer() {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(MenuActivity.this)) {
+            return;
+        }
         String email = mUserInfo.getEmail();
         String imageUrl = mUserInfo.getNickname() + getString(R.string.FILE_EXPANDER_PNG);
         String password = mUserInfo.getPassword();

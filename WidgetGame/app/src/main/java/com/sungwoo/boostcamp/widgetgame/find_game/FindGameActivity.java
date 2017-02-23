@@ -1,5 +1,6 @@
 package com.sungwoo.boostcamp.widgetgame.find_game;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -189,6 +190,12 @@ public class FindGameActivity extends AppCompatActivity {
 
 
     private void getGameListFromServer(int skip, int num, String sort) {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(FindGameActivity.this)) {
+            finish();
+        }
+
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -198,6 +205,9 @@ public class FindGameActivity extends AppCompatActivity {
         uploadGameRepoCodeRepoCall.enqueue(new Callback<FindGameRepo>() {
             @Override
             public void onResponse(Call<FindGameRepo> call, Response<FindGameRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 if (response.body() != null) {
                     switch (response.body().getCode()) {
                         case GET_LIST_SUCCESS:
@@ -212,6 +222,7 @@ public class FindGameActivity extends AppCompatActivity {
                             mFindGameRvAdapter.notifyDataSetChanged();
                             break;
                         case GET_LIST_NO_RESULT:
+                            Toast.makeText(FindGameActivity.this, R.string.FIND_NO_GAME, Toast.LENGTH_SHORT).show();
                             Snackbar.make(mActivityFindGameLo, R.string.FIND_NO_GAME, Snackbar.LENGTH_LONG).show();
                             isMoreItemsAvailable = false;
                             break;
@@ -226,6 +237,9 @@ public class FindGameActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<FindGameRepo> call, Throwable t) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonUtility.showNeutralDialog(FindGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;

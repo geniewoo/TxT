@@ -151,6 +151,9 @@ public class MakeGameMenuActivity extends AppCompatActivity {
         return VALID_GAME;
     }
     private void postGameToServer() {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(MakeGameMenuActivity.this)) {
+            return;
+        }
         FullGameRepo fullGameRepo = makeFullGameRepoWithMakeGameRepo();
         Upload.uploadGameImages(MakeGameMenuActivity.this, fullGameRepo);
     }

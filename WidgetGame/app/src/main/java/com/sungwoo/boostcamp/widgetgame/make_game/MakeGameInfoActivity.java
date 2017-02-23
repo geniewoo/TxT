@@ -2,6 +2,8 @@ package com.sungwoo.boostcamp.widgetgame.make_game;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
 import com.sungwoo.boostcamp.widgetgame.R;
@@ -66,10 +69,24 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         }
 
         if (mGameInfoImageUri != null) {
-            ImageUtility.saveImageInFilesDirectory(this, mGameInfoImageUri, getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR), getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
+            Picasso.with(this).load(mGameInfoImageUri).resize(300,200).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    ImageUtility.saveImageInFilesDirectory(getApplicationContext(), bitmap, getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR), getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
         }
 
-        setMakeGamePreference();
 
         GameInfo gameInfo = getNewMakeGameInfo();
         deleteOldAndSaveNewMakeGameRepo(gameInfo);
@@ -79,6 +96,8 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         intent.putExtra(getString(R.string.INTENT_MAKE_GAME_PAGE_INDEX), 1);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+
+        setMakeGamePreference();
     }
 
     @OnClick(R.id.make_game_info_image_fl)

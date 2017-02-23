@@ -1,5 +1,6 @@
 package com.sungwoo.boostcamp.widgetgame;
 
+import android.app.ProgressDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -98,6 +99,9 @@ public class JoinActivity extends AppCompatActivity {
         if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(JoinActivity.this)) {
             return;
         }
+
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -107,6 +111,9 @@ public class JoinActivity extends AppCompatActivity {
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
@@ -133,6 +140,9 @@ public class JoinActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;

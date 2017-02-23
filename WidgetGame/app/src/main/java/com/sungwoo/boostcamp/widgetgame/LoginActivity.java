@@ -1,5 +1,6 @@
 package com.sungwoo.boostcamp.widgetgame;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
@@ -51,21 +52,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void testLoginServer(String email, String password) {
-        mUserRepo.setEmail(email);
-        mUserRepo.setPassword(password);
         if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(LoginActivity.this)) {
             return;
         }
+
+        mUserRepo.setEmail(email);
+        mUserRepo.setPassword(password);
+
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
         Call<CommonRepo.ResultNicknameRepo> testJoinServerCall = userInformationRetrofit.testLoginServer(mUserRepo.getEmail(), mUserRepo.getPassword());
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultNicknameRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultNicknameRepo> call, Response<CommonRepo.ResultNicknameRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonRepo.ResultNicknameRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case LOGIN_SUCCESS:
@@ -84,6 +91,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CommonRepo.ResultNicknameRepo> call, Throwable t) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonUtility.showNeutralDialog(LoginActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
