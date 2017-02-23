@@ -78,7 +78,7 @@ public class Upload {
                         CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_UPLOAD_SUCCESS, R.string.DIALOG_CONFIRM);
                         break;
                     case UPLOAD_FAIL:
-                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
+                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }
@@ -164,7 +164,7 @@ public class Upload {
                     case UPLOAD_SUCCESS:
                         break;
                     case UPLOAD_FAIL:
-                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
+                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                 }
             }

@@ -17,7 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -67,7 +69,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
     @BindView(R.id.make_sound_sp)
     protected Spinner mMakeSoundSp;
     @BindView(R.id.make_vibrate_cb)
-    protected CheckBox mMakeVibrateCb;
+    protected Switch mMakeVibrateCb;
     @BindViews({R.id.make_selections_cb1, R.id.make_selections_cb2, R.id.make_selections_cb3, R.id.make_selections_cb4})
     protected List<CheckBox> mMakeSelectionsCbs;
     @BindViews({R.id.make_selections_et1, R.id.make_selections_et2, R.id.make_selections_et3, R.id.make_selections_et4})

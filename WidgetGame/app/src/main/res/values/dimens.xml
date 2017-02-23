@@ -10,9 +10,9 @@
     <dimen name="vertical_4">32dp</dimen>
     <dimen name="horizontal_8">64dp</dimen>
     <dimen name="vertical_8">64dp</dimen>
-    <dimen name="horizontal_12_fix">64dp</dimen>
-    <dimen name="vertical_12_fix">64dp</dimen>
-    <dimen name="horizontal_30">240dp</dimen>
+    <dimen name="horizontal_12_fix">96dp</dimen>
+    <dimen name="horizontal_20_fix">160dp</dimen>
+    <dimen name="horizontal_25_fix">200dp</dimen>
     <dimen name="vertical_30">240dp</dimen>
     <dimen name="user_circle_iv">90dp</dimen>
     <dimen name="logo">150dp</dimen>
@@ -24,4 +24,5 @@
     <dimen name="text_size4">16sp</dimen>
     <dimen name="text_size5">18sp</dimen>
     <dimen name="text_size6">20sp</dimen>
+    <dimen name="text_size7">24sp</dimen>
 </resources>

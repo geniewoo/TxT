@@ -62,7 +62,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
 
-        makeMenuLv();
+        constructMenuLv();
 
         if (getIntent().getAction() != null && getIntent().getAction().equals(LoginActivity.ACTION_LOGIN_SUCCESS)) {
             Snackbar.make(mActivityMenuLo, R.string.LOGIN_SUCCESS, Snackbar.LENGTH_LONG).show();
@@ -72,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
         initUserInfo();
     }
 
-    private void makeMenuLv() {
+    private void constructMenuLv() {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.menu_lv_item, getResources().getStringArray(R.array.MENU_LV_ITEMS));
         mMenuLv.setAdapter(arrayAdapter);
         mMenuLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

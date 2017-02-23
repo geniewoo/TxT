@@ -6,4 +6,5 @@
     <color name="colorBlueButton">#33a</color>
     <color name="colorGray">#888</color>
     <color name="colorDarkGray">#555</color>
+    <color name="colorDDarkGray">#333</color>
 </resources>

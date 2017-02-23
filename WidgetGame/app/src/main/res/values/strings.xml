@@ -63,6 +63,10 @@
     <string name="MAKE_GAME_INFO_START">제작 시작하기</string>
 
     <!-- activity_make_game_page -->
+    <string name="MAKE_GAME_PAGE_INDEX_TEXT">페이지 번호</string>
+    <string name="MAKE_GAME_PAGE_MODE_TEXT">페이지 종류</string>
+    <string name="MAKE_GAME_PAGE_SOUND_TEXT">효과음 넣기</string>
+    <string name="MAKE_GAME_PAGE_VIBRATE_TEXT">진동 효과 추가하기</string>
     <string name="MAKE_GAME_PAGE_CHANGE_BTN_TEXT">변경</string>
     <string name="DESC_MAKE_GAME_PAGE_IV">현재 페이지의 이미지를 넣으세요</string>
     <string name="MAKE_GAME_PAGE_TITLE">페이지 이름</string>
@@ -151,6 +155,7 @@
     <!-- dialog -->
     <string name="DIALOG_ERR_TITLE">에러</string>
     <string name="DIALOG_SUCCESS_TITLE">성공</string>
+    <string name="DIALOG_ALERT_TITLE">성공</string>
 
     <string name="DIALOG_COMMON_SERVER_ERROR_CONTENT">서버에 문제가 있습니다</string>
     <string name="DIALOG_COMMON_NETWORK_IS_NOT_AVAILABLE_CONTENT">wifi 혹은 data 가 꺼져있습니다</string>

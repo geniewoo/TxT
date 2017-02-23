@@ -31,4 +31,10 @@
         <item>@string/MENU_REPORT</item>
         <item>@string/MENU_LOGOUT</item>
     </string-array>
+
+    <string-array name="MAKE_MENU_LV_ITEMS">
+        <item>@string/MAKE_NEW_GAME</item>
+        <item>@string/MAKE_CONTINUE_GAME</item>
+        <item>@string/MAKE_SHARE_GAME</item>
+    </string-array>
 </resources>

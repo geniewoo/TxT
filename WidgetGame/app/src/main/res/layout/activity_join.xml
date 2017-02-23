@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center">
         <TextView
-            android:layout_width="@dimen/horizontal_12_fix"
+            android:layout_width="@dimen/vertical_8"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/JOIN_EMAIL"/>
@@ -37,7 +37,7 @@
         android:layout_marginTop="@dimen/vertical_4"
         android:gravity="center">
         <TextView
-            android:layout_width="@dimen/horizontal_12_fix"
+            android:layout_width="@dimen/vertical_8"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/JOIN_PASSWORD"/>
@@ -60,7 +60,7 @@
         android:layout_marginTop="@dimen/vertical_4"
         android:gravity="center">
         <TextView
-            android:layout_width="@dimen/horizontal_12_fix"
+            android:layout_width="@dimen/vertical_8"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/JOIN_NICKNAME"/>

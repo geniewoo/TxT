@@ -5,31 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/horizontal_4"
+    android:paddingRight="@dimen/horizontal_4"
     tools:context="com.sungwoo.boostcamp.widgetgame.MenuActivity">
-    <Button
-        android:id="@+id/make_menu_new_btn"
+    <View
+        android:layout_marginTop="@dimen/vertical_30"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_8"
-        android:layout_marginRight="@dimen/vertical_8"
-        android:text="@string/MAKE_NEW_GAME"/>
-
-    <Button
-        android:id="@+id/make_menu_continue_btn"
+        android:layout_height="1dip"
+        android:background="@color/colorDarkGray" />
+    <ListView
+        android:id="@+id/make_menu_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_8"
-        android:layout_marginRight="@dimen/vertical_8"
-        android:text="@string/MAKE_CONTINUE_GAME"/>
-
-    <Button
-        android:id="@+id/make_menu_share_btn"
+        android:layout_height="wrap_content">
+    </ListView>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_8"
-        android:layout_marginRight="@dimen/vertical_8"
-        android:text="@string/MAKE_SHARE_GAME"/>
+        android:layout_height="1dip"
+        android:background="@color/colorDarkGray" />
 
 </LinearLayout>
