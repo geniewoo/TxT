@@ -25,39 +25,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/vertical_2"/>
-    <Button
-        android:id="@+id/menu_find_game_btn"
+    <View
+        android:layout_marginTop="@dimen/vertical_8"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/MENU_FIND_GAME"
-        android:layout_marginTop="@dimen/vertical_4"/>
-
-    <Button
-        android:id="@+id/menu_make_game_btn"
+        android:layout_height="1dip"
+        android:background="@color/colorDarkGray" />
+    <ListView
+        android:id="@+id/menu_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/MENU_MAKE_GAME"
-        android:layout_marginTop="@dimen/vertical_2"/>
-
-    <Button
-        android:id="@+id/menu_played_games_btn"
+        android:layout_height="wrap_content">
+    </ListView>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/MENU_PLAYED_GAME"
-        android:layout_marginTop="@dimen/vertical_2"/>
-
-    <Button
-        android:id="@+id/menu_report_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/MENU_REPORT"
-        android:layout_marginTop="@dimen/vertical_2"/>
-
-    <Button
-        android:id="@+id/menu_logout_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/MENU_LOGOUT"
-        android:layout_marginTop="@dimen/vertical_2"/>
+        android:layout_height="1dip"
+        android:background="@color/colorDarkGray" />
 
 </LinearLayout>

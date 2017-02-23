@@ -10,21 +10,22 @@
     tools:context="com.sungwoo.boostcamp.widgetgame.find_game.DownloadGameActivity">
     <ImageView
         android:id="@+id/download_game_image_iv"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        />
+        android:layout_width="240dp"
+        android:layout_height="320dp"
+        android:layout_gravity="center_horizontal" />
     <TextView
         android:id="@+id/download_game_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/download_game_stars_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/download_game_stars_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/download_game_maker_image_iv"
             android:layout_width="wrap_content"

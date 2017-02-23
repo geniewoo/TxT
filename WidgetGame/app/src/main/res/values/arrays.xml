@@ -24,4 +24,11 @@
         <item>@string/SPINNER_SOUND_12</item>
         <item>@string/SPINNER_SOUND_13</item>
     </string-array>
+
+    <string-array name="MENU_LV_ITEMS">
+        <item>@string/MENU_FIND_GAME</item>
+        <item>@string/MENU_MAKE_GAME</item>
+        <item>@string/MENU_REPORT</item>
+        <item>@string/MENU_LOGOUT</item>
+    </string-array>
 </resources>

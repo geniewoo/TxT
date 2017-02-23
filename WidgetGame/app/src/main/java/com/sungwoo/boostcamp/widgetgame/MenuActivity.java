@@ -7,9 +7,12 @@ import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -44,6 +47,8 @@ public class MenuActivity extends AppCompatActivity {
     protected CircleImageView mMenuUserIv;
     @BindView(R.id.activity_menu_lo)
     protected LinearLayout mActivityMenuLo;
+    @BindView(R.id.menu_lv)
+    protected ListView mMenuLv;
     @BindDimen(R.dimen.user_circle_iv)
     protected int USER_CIRCLE_IV;
 
@@ -57,6 +62,8 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
 
+        makeMenuLv();
+
         if (getIntent().getAction() != null && getIntent().getAction().equals(LoginActivity.ACTION_LOGIN_SUCCESS)) {
             Snackbar.make(mActivityMenuLo, R.string.LOGIN_SUCCESS, Snackbar.LENGTH_LONG).show();
         }
@@ -65,37 +72,35 @@ public class MenuActivity extends AppCompatActivity {
         initUserInfo();
     }
 
-    @OnClick(R.id.menu_find_game_btn)
-    public void onMenuFindGameBtnClicked() {
-        Intent intent = new Intent(getApplicationContext(), FindGameActivity.class);
-        startActivity(intent);
+    private void makeMenuLv() {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.menu_lv_item, getResources().getStringArray(R.array.MENU_LV_ITEMS));
+        mMenuLv.setAdapter(arrayAdapter);
+        mMenuLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
+                switch (position) {
+                    case 0:
+                        intent = new Intent(getApplicationContext(), FindGameActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(getApplicationContext(), MakeGameMenuActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        CommonUtility.deleteAllUserPreference(getApplicationContext());
+                        intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
-
-    @OnClick(R.id.menu_make_game_btn)
-    public void onMenuMakeGameBtnClicked() {
-        Intent intent = new Intent(getApplicationContext(), MakeGameMenuActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.menu_played_games_btn)
-    public void onMenuPlayedGamesBtnClicked() {
-
-    }
-
-    @OnClick(R.id.menu_report_btn)
-    public void onMenuReportBtnClicked() {
-
-    }
-
-    @OnClick(R.id.menu_logout_btn)
-    public void onMenuLogoutBtnClicked() {
-        CommonUtility.deleteAllUserPreference(getApplicationContext());
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     @OnClick(R.id.menu_user_iv) // 사진, 닉네임 변경하기
     public void onMenuUserIvClicked() {
         ImageUtility.startSelectImageActivity(this);

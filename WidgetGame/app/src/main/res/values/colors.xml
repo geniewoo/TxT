@@ -5,5 +5,5 @@
     <color name="colorAccent">#f90</color>
     <color name="colorBlueButton">#33a</color>
     <color name="colorGray">#888</color>
-
+    <color name="colorDarkGray">#555</color>
 </resources>

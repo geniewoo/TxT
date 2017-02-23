@@ -169,7 +169,7 @@ public class FindGameActivity extends AppCompatActivity {
                 String gameTitle = findGameList.getGameTitle();
                 String gameImagePath = findGameList.getGameImagePath();
                 String makerImagePath = findGameList.getMakerImagePath();
-                findGameListTitleTv.setText((position + 1) + " " + gameTitle);
+                findGameListTitleTv.setText(gameTitle);
                 findGameListDescriptionTv.setText(findGameList.getGameDescription());
                 findGameListNicknameTv.setText(nickname);
                 findGameListStarsTv.setText(String.valueOf(findGameList.getStars()));
@@ -214,7 +214,6 @@ public class FindGameActivity extends AppCompatActivity {
                             List<FindGameRepo.FindGameList> findGameLists = response.body().getFindGameList();
                             if (findGameLists.size() < getItemNum) {
                                 isMoreItemsAvailable = false;
-                                Log.d(TAG, "size : " + findGameLists.size() + " get num : " + getItemNum);
                             }
                             ArrayList<FindGameRepo.FindGameList> adapterList = mFindGameRvAdapter.getFindGameLists();
                             adapterList.addAll(findGameLists);
