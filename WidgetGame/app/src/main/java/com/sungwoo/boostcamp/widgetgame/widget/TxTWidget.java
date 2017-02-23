@@ -83,17 +83,10 @@ public class TxTWidget extends AppWidgetProvider {
     private static final long[] VIBRATOR_PATTERN = {0, 300, 150, 400};
 
     @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-        if (mRealm == null) {
-            mRealm = Realm.getDefaultInstance();
-        }
-        setFullGameRepoMemberField();
-    }
-
-    @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "OnReceive1");
         super.onReceive(context, intent);
+        Log.d(TAG, "OnReceive2");
 
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
@@ -164,6 +157,7 @@ public class TxTWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        Log.d(TAG, "OnUpdate");
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
         }
@@ -252,6 +246,7 @@ public class TxTWidget extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
+        Log.d(TAG, "OnDelete");
         for (int i : appWidgetIds) {
             mAppWidgetIds.remove(new Integer(i));
         }

@@ -9,10 +9,11 @@
     android:paddingRight="@dimen/horizontal_2"
     android:paddingTop="@dimen/horizontal_2"
     android:paddingBottom="@dimen/horizontal_2"
+    android:scrollbarStyle="outsideOverlay"
     tools:context="com.sungwoo.boostcamp.widgetgame.make_game.MakeGamePageActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -30,10 +31,13 @@
             <Spinner
                 android:id="@+id/make_index_sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"></Spinner>
+                android:layout_height="wrap_content"></Spinner>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,9 +54,14 @@
                 android:id="@+id/make_page_sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/SPINNER_PAGES"></Spinner>
+                android:entries="@array/SPINNER_PAGES"
+                android:padding="@dimen/vertical_1"></Spinner>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,12 +77,19 @@
                 android:id="@+id/make_sound_sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/SPINNER_SOUNDS"></Spinner>
+                android:entries="@array/SPINNER_SOUNDS"
+                android:padding="@dimen/vertical_1"></Spinner>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vertical_1"
+            android:layout_marginBottom="@dimen/vertical_1"
             android:orientation="horizontal">
 
             <TextView
@@ -83,49 +99,66 @@
                 android:text="@string/MAKE_GAME_PAGE_VIBRATE_TEXT" />
 
             <Switch
-                android:id="@+id/make_vibrate_cb"
+                android:id="@+id/make_vibrate_sw"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></Switch>
+                android:layout_height="wrap_content"
+                android:background="@drawable/image_guideline_selector"
+                android:padding="@dimen/vertical_1"></Switch>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
         <FrameLayout
             android:id="@+id/make_page_image_fl"
-            android:layout_width="320dp"
-            android:layout_height="240dp">
+            android:layout_marginTop="@dimen/vertical_2"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="225dp">
 
             <ImageView
                 android:id="@+id/make_page_image_iv"
-                android:layout_width="108dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/DESC_MAKE_GAME_PAGE_IV" />
 
             <TextView
                 android:id="@+id/make_page_image_tv"
-                android:layout_width="108dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/image_guideline_selector"
                 android:text="@string/MAKE_IMAGE_SELECT" />
         </FrameLayout>
-
-        <EditText
-            android:id="@+id/make_page_title_et"
-            android:layout_width="324dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/MAKE_GAME_PAGE_TITLE"
-            android:inputType="text"
-            android:maxLength="16"
-            android:maxLines="1" />
-
-        <EditText
-            android:id="@+id/make_page_description_et"
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="@dimen/vertical_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:inputType="textMultiLine"
-            android:maxLength="200"
-            android:maxLines="6"
-            android:minHeight="180dp"
-            android:textAlignment="textStart" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/make_page_title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/MAKE_GAME_PAGE_TITLE"
+                android:inputType="text"
+                android:maxLength="16"
+                android:maxLines="1" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/make_page_description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:maxLength="200"
+                android:maxLines="6"
+                android:minHeight="180dp"
+                android:textAlignment="textStart"
+                android:hint="페이지 내용"/>
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/make_page_selections_lo"
@@ -133,6 +166,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_marginTop="@dimen/vertical_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size5"
+                android:text="선택지"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -245,16 +285,20 @@
 
             <Button
                 android:id="@+id/make_page_confirm_btn"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="162dp"
+                android:background="@drawable/button_selector"
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/vertical_2"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/MAKE_CONFIRM" />
 
             <Button
                 android:id="@+id/make_page_cancel_btn"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="162dp"
+                android:background="@drawable/button_selector"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/vertical_2"
                 android:text="@string/MAKE_DELETE" />
         </LinearLayout>
     </LinearLayout>

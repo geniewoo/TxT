@@ -1,11 +1,13 @@
 package com.sungwoo.boostcamp.widgetgame.make_game;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +41,7 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import io.realm.Realm;
@@ -68,8 +71,8 @@ public class MakeGamePageActivity extends AppCompatActivity {
     protected Spinner mMakePageSp;
     @BindView(R.id.make_sound_sp)
     protected Spinner mMakeSoundSp;
-    @BindView(R.id.make_vibrate_cb)
-    protected Switch mMakeVibrateCb;
+    @BindView(R.id.make_vibrate_sw)
+    protected Switch mMakeVibrateSw;
     @BindViews({R.id.make_selections_cb1, R.id.make_selections_cb2, R.id.make_selections_cb3, R.id.make_selections_cb4})
     protected List<CheckBox> mMakeSelectionsCbs;
     @BindViews({R.id.make_selections_et1, R.id.make_selections_et2, R.id.make_selections_et3, R.id.make_selections_et4})
@@ -79,6 +82,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
     @BindDimen(R.dimen.user_circle_iv)
     protected int USER_CIRCLE_IV;
 
+    private static final long[] VIBRATOR_PATTERN = {0, 300, 150, 400};
     private boolean isFirstMakeIndexSpItemSelected = true;
     private int mPageIndex;
     private int mMaxPageIndex;
@@ -86,6 +90,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
     private Boolean mIsNewPage;
     private HashMap<String, Integer> mSoundMap;
     private MediaPlayer mMediaPlayer;
+    private Vibrator mVibrator;
 
     Realm mRealm;
 
@@ -97,6 +102,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mRealm = Realm.getDefaultInstance();
         mMediaPlayer = new MediaPlayer();
+        mVibrator = (Vibrator)this.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         mSoundMap = CommonUtility.getSoundMap(this);
         Intent intent = getIntent();
 
@@ -120,7 +126,15 @@ public class MakeGamePageActivity extends AppCompatActivity {
             setViewValues();
         }
     }
-
+    @OnCheckedChanged(R.id.make_vibrate_sw)
+    public void onMakeVibrateSwitchCheckedChanged(boolean isChecked) {
+        if (isChecked) {
+            if (mVibrator.hasVibrator()) {
+                mVibrator.cancel();
+                mVibrator.vibrate(VIBRATOR_PATTERN, -1);
+            }
+        }
+    }
     @OnClick(R.id.make_page_confirm_btn)
     public void onMakePageConfirmBtn(){
         if (mGamePageImageUri != null) {
@@ -203,7 +217,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
         mMakePageTitleEt.setText(page.getTitle());
         mMakePageDescriptionEt.setText(page.getDescription());
         mMakeIndexSp.setSelection(mPageIndex - 1);
-        mMakeVibrateCb.setEnabled(page.isVibrateOn());
+        mMakeVibrateSw.setEnabled(page.isVibrateOn());
 
         for (int i = 0 ; i < mMakePageSp.getAdapter().getCount() ; i ++){
             if (mMakePageSp.getItemAtPosition(i).toString().equals(page.getPage())) {
@@ -324,19 +338,21 @@ public class MakeGamePageActivity extends AppCompatActivity {
     @OnItemSelected(R.id.make_page_sp)
     public void onMakePageSpItemSelected(int position) {
         if(mMakePageSp.getSelectedItem().toString().equals(getString(R.string.SPINNER_PAGE_1))) {
-            for (int i = 0 ; i < mMakePageSelectionsLo.getChildCount() ; i ++) {
+            /*for (int i = 0 ; i < mMakePageSelectionsLo.getChildCount() ; i ++) {
                 LinearLayout layout = (LinearLayout)mMakePageSelectionsLo.getChildAt(i);
                 for (int j = 0 ; j < layout.getChildCount() ; j ++) {
                     layout.getChildAt(j).setEnabled(true);
                 }
-            }
+            }*/
+            mMakePageSelectionsLo.setVisibility(View.VISIBLE);
         } else {
-            for (int i = 0 ; i < mMakePageSelectionsLo.getChildCount() ; i ++) {
+            /*for (int i = 0 ; i < mMakePageSelectionsLo.getChildCount() ; i ++) {
                 LinearLayout layout = (LinearLayout)mMakePageSelectionsLo.getChildAt(i);
                 for (int j = 0 ; j < layout.getChildCount() ; j ++) {
                     layout.getChildAt(j).setEnabled(false);
                 }
-            }
+            }*/
+            mMakePageSelectionsLo.setVisibility(View.GONE);
         }
     }
     @OnItemSelected(R.id.make_index_sp)
@@ -389,7 +405,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
         String descriptionStr = mMakePageDescriptionEt.getText().toString();
         String pageStr = mMakePageSp.getSelectedItem().toString();
         String soundStr = mMakeSoundSp.getSelectedItem().toString();
-        Boolean isVibrateOn = mMakeVibrateCb.isChecked();
+        Boolean isVibrateOn = mMakeVibrateSw.isChecked();
         String imagePath = getString(R.string.LOCAL_NO_IMAGE_FILE);
 
         if(mGamePageImageUri != null){

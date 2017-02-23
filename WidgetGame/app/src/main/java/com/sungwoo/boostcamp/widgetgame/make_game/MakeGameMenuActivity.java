@@ -119,16 +119,26 @@ public class MakeGameMenuActivity extends AppCompatActivity {
                         }
                         break;
                     case 2:
-                        switch (checkValidateGame()) {
-                            case OVER_PAGE_INDEX:
-                                CommonUtility.showNeutralDialog(MakeGameMenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_MENU_INVALID_TARGET, R.string.DIALOG_CONFIRM);
-                                return;
-                            case NO_GAME_CLEAR_PAGE:
-                                CommonUtility.showNeutralDialog(MakeGameMenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_MENU_NO_GAME_CLEAR_PAGE, R.string.DIALOG_CONFIRM);
-                                return;
-                            case VALID_GAME:
-                                postGameToServer();
-                        }
+                        new MaterialDialog.Builder(MakeGameMenuActivity.this)
+                                .title(R.string.DIALOG_ALERT_TITLE)
+                                .content(R.string.DIALOG_MAKE_GAME_MENU_SHARE_CONFIRM)
+                                .positiveText(R.string.DIALOG_POSITIVE)
+                                .negativeText(R.string.DIALOG_NEGATIVE)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                switch (checkValidateGame()) {
+                                    case OVER_PAGE_INDEX:
+                                        CommonUtility.showNeutralDialog(MakeGameMenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_MENU_INVALID_TARGET, R.string.DIALOG_CONFIRM);
+                                        return;
+                                    case NO_GAME_CLEAR_PAGE:
+                                        CommonUtility.showNeutralDialog(MakeGameMenuActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_MAKE_GAME_MENU_NO_GAME_CLEAR_PAGE, R.string.DIALOG_CONFIRM);
+                                        return;
+                                    case VALID_GAME:
+                                        postGameToServer();
+                                }
+                            }
+                        }).show();
                         break;
                 }
             }
