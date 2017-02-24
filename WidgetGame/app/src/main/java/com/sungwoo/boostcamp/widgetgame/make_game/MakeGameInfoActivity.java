@@ -5,12 +5,15 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -63,9 +66,11 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         if (!checkValuesAreValidateAndShowMessage()) {
             return;
         }
+        Log.d(TAG, "debug1");
 
         if (mGameInfoImageUri != null) {
-            Picasso.with(this).load(mGameInfoImageUri).resize(300,200).into(new Target() {
+            Log.d(TAG, "debug2 " + mGameInfoImageUri);
+            Picasso.with(this).load(mGameInfoImageUri).resize(300,400).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     ImageUtility.saveImageInFilesDirectory(getApplicationContext(), bitmap, getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR), getString(R.string.LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME));
@@ -73,7 +78,7 @@ public class MakeGameInfoActivity extends AppCompatActivity {
 
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-
+                    CommonUtility.showNeutralDialog(MakeGameInfoActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_IMAGE_SAVE_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 }
 
                 @Override

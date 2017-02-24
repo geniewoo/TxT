@@ -86,6 +86,8 @@ public class TxTWidget extends AppWidgetProvider {
     private static HashMap<String, Integer> mSoundMap;
     private static final int[] SELECTION_IDS1 = {R.id.widget_game1_selection1, R.id.widget_game1_selection2, R.id.widget_game1_selection3, R.id.widget_game1_selection4};
     private static final int[] SELECTION_IDS2 = {R.id.widget_game2_selection1, R.id.widget_game2_selection2, R.id.widget_game2_selection3, R.id.widget_game2_selection4};
+    private static final int[] SELECTION_VFS1 = {R.id.widget_game1_selection1_vf, R.id.widget_game1_selection2_vf, R.id.widget_game1_selection3_vf, R.id.widget_game1_selection4_vf};
+    private static final int[] SELECTION_VFS2 = {R.id.widget_game2_selection1_vf, R.id.widget_game2_selection2_vf, R.id.widget_game2_selection3_vf, R.id.widget_game2_selection4_vf};
     private static int[] mSelectedTargetIndex = new int[4];
 
     private static final long[] VIBRATOR_PATTERN = {0, 300, 150, 400};
@@ -313,7 +315,13 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.VISIBLE);
 
             remoteViews.setTextViewText(R.id.widget_game2_info_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_game2_info_description_tv, description);
+
+            String descriptionStr = "";
+            for (int i = 0 ; i < description.length() ; i ++) {
+                descriptionStr += description.charAt(i);
+                remoteViews.setTextViewText(R.id.widget_game2_info_description_tv, descriptionStr);
+            }
+
             remoteViews.setTextViewText(R.id.widget_game2_info_maker_tv, maker);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
@@ -343,6 +351,14 @@ public class TxTWidget extends AppWidgetProvider {
             }
         }
         flipGame(context);
+
+        if (mIsGamePlayingFlipper1) {
+            remoteViews.showNext(R.id.widget_game1_info_description_vf);
+            remoteViews.showNext(R.id.widget_game1_info_start_game_vf);
+        } else {
+            remoteViews.showNext(R.id.widget_game2_info_description_vf);
+            remoteViews.showNext(R.id.widget_game2_info_start_game_vf);
+        }
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
                 remoteViews);
@@ -419,7 +435,7 @@ public class TxTWidget extends AppWidgetProvider {
                 mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
             }
             for ( ; i < 4 ; i++) {
-                remoteViews.setViewVisibility(SELECTION_IDS2[i], View.GONE);
+                remoteViews.setViewVisibility(SELECTION_IDS2[i], View.INVISIBLE);
             }
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -436,7 +452,7 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setViewVisibility(R.id.widget_game1_selections_lo, View.VISIBLE);
 
             remoteViews.setTextViewText(R.id.widget_game1_selections_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_game1_info_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_game1_selections_description_tv, description);
 
             int i = 0;
             for ( ; i < selections.size(); i++) {
@@ -459,6 +475,17 @@ public class TxTWidget extends AppWidgetProvider {
         }
         flipGame(context);
 
+        if (mIsGamePlayingFlipper1) {
+            remoteViews.showNext(R.id.widget_game1_selections_description_vf);
+            for (int i = 0 ; i < selections.size() ; i ++) {
+                remoteViews.showNext(SELECTION_VFS1[i]);
+            }
+        } else {
+            remoteViews.showNext(R.id.widget_game2_selections_description_vf);
+            for (int i = 0 ; i < selections.size() ; i ++) {
+                remoteViews.showNext(SELECTION_VFS2[i]);
+            }
+        }
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
     }
 
@@ -510,6 +537,13 @@ public class TxTWidget extends AppWidgetProvider {
         }
         flipGame(context);
 
+        if (mIsGamePlayingFlipper1) {
+            remoteViews.showNext(R.id.widget_game1_story_description_vf);
+            remoteViews.showNext(R.id.widget_game1_story_next_vf);
+        } else {
+            remoteViews.showNext(R.id.widget_game2_story_description_vf);
+            remoteViews.showNext(R.id.widget_game2_story_next_vf);
+        }
         turnOnVibrator(isVibrateOn);
         playSound(context, sound);
 

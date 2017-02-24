@@ -64,6 +64,7 @@ public class DownloadGameActivity extends AppCompatActivity {
     private PlayGameRepo mPlayGameRepo;
     private List<String> mGamePageImagePaths;
     private int imagePathIndex;
+    private ProgressDialog mProgressDialog;
 
     private Target mTarget = new Target() {
         @Override
@@ -73,7 +74,7 @@ public class DownloadGameActivity extends AppCompatActivity {
                 downloadFinnish();
             } else {
                 StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, mGamePageImagePaths.get(imagePathIndex));
-                Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 200).centerCrop().into(mTarget);
+                Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 300).centerCrop().into(mTarget);
             }
         }
 
@@ -113,15 +114,15 @@ public class DownloadGameActivity extends AppCompatActivity {
 
         if (gameImagePath != null && !gameImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
             StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, gameImagePath);
-            Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 270).centerCrop().into(mDownloadGameImageIv);
+            Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
         } else {
-            Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(200, 270).centerCrop().into(mDownloadGameImageIv);
+            Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
         }
 
         if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
-            Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(20, 20).centerCrop().into(mDownloadGameMakerImageIv);
+            Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(50, 50).centerCrop().into(mDownloadGameMakerImageIv);
         } else {
-            Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(20, 20).centerCrop().into(mDownloadGameMakerImageIv);
+            Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(50, 50).centerCrop().into(mDownloadGameMakerImageIv);
         }
         mDownloadGameTitleTv.setText(mGameTitle);
         mDownloadGameStarsTv.setText(String.valueOf(stars));
@@ -134,7 +135,7 @@ public class DownloadGameActivity extends AppCompatActivity {
             return;
         }
 
-        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
+        mProgressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
@@ -146,8 +147,6 @@ public class DownloadGameActivity extends AppCompatActivity {
         gameRepoCall.enqueue(new Callback<DownloadGameRepo>() {
             @Override
             public void onResponse(Call<DownloadGameRepo> call, Response<DownloadGameRepo> response) {
-                if (progressDialog != null && progressDialog.isShowing())
-                    progressDialog.dismiss();
 
                 if (response.body() != null){
                     switch (response.body().getCode()) {
@@ -173,8 +172,8 @@ public class DownloadGameActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DownloadGameRepo> call, Throwable t) {
-                if (progressDialog != null && progressDialog.isShowing())
-                    progressDialog.dismiss();
+                if (mProgressDialog != null && mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
 
                 CommonUtility.showNeutralDialog(DownloadGameActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
@@ -220,10 +219,12 @@ public class DownloadGameActivity extends AppCompatActivity {
         imagePathIndex = 0;
 
         StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, mGamePageImagePaths.get(imagePathIndex));
-        Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(200, 200).centerCrop().into(mTarget);
+        Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 300).centerCrop().into(mTarget);
     }
 
     private void downloadFinnish() {
+        if (mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
         if (mIsDownloadSuccess) {
             new MaterialDialog.Builder(DownloadGameActivity.this)
                     .title(R.string.DIALOG_SUCCESS_TITLE)

@@ -75,7 +75,6 @@ public class Upload {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
-                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_UPLOAD_SUCCESS, R.string.DIALOG_CONFIRM);
                         break;
                     case UPLOAD_FAIL:
                         CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
@@ -107,6 +106,7 @@ public class Upload {
                 CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
                 switch (resultCodeRepo.getCode()) {
                     case UPLOAD_SUCCESS:
+                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_UPLOAD_SUCCESS, R.string.DIALOG_CONFIRM);
                         break;
                     case UPLOAD_NOFILE:
                         break;

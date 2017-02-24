@@ -161,6 +161,7 @@
     <string name="DIALOG_COMMON_NETWORK_IS_NOT_AVAILABLE_CONTENT">wifi 혹은 data 가 꺼져있습니다</string>
     <string name="DIALOG_COMMON_UNKNOWN_ERROR_CONTENT">알수 없는 에러입니다 리포트 해 주시면 개발에 큰 도움이 됩니다!</string>
     <string name="DIALOG_SERVER_ERROR_CONTENT">서버 에러입니다 잠시후에 다시 시도해 주세요</string>
+    <string name="DIALOG_IMAGE_SAVE_ERROR_CONTENT">이미지 저장에 실패했습니다 다시 시도해 주세요</string>
     <string name="DIALOG_JOIN_SUCCESS_CONTENT">회원가입 완료</string>
     <string name="DIALOG_JOIN_EMAIL_EXISTS_CONTENT">이미 존재하는 이메일 입니다</string>
     <string name="DIALOG_JOIN_NICKNAME_EXISTS_CONTENT">이미 존재하는 닉네임 입니다</string>

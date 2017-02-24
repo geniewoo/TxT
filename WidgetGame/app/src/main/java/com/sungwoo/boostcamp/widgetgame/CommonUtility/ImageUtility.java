@@ -43,19 +43,6 @@ public class ImageUtility {
         appCompatActivity.startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
     }
 
-    public static void saveImageInFilesDirectory(Context context, Uri uri, String dirPath, String fileName) {
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (bitmap != null) {
-            File dir = new File(context.getFilesDir() + File.separator + dirPath);
-            saveBitmapToFile(dir, fileName, bitmap, Bitmap.CompressFormat.PNG, SAVE_BITMAP_TO_FILE_QUALITY);
-        }
-    }
-
     public static void saveImageInFilesDirectory(Context context, Bitmap bitmap, String dirPath, String fileName) {
         if (bitmap != null) {
             File dir = new File(context.getFilesDir() + File.separator + dirPath);
@@ -74,6 +61,7 @@ public class ImageUtility {
 
         File imageFile = new File(dir, fileName);
 
+        Log.d(TAG, dir + fileName);
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(imageFile);
