@@ -139,7 +139,7 @@ public class MakeGamePageActivity extends AppCompatActivity {
     public void onMakePageConfirmBtn(){
         if (mGamePageImageUri != null) {
 
-            Picasso.with(this).load(mGamePageImageUri).resize(300, 200).into(new Target() {
+            Picasso.with(this).load(mGamePageImageUri).resize(320, 240).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                     ImageUtility.saveImageInFilesDirectory(getApplicationContext(), bitmap, getString(R.string.LOCAL_STORAGE_MAKE_GAME_DIR), getString(R.string.LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME) + mPageIndex + getString(R.string.FILE_EXPANDER_PNG));
@@ -198,12 +198,12 @@ public class MakeGamePageActivity extends AppCompatActivity {
     }
 
     private void showMakePageImage() {
-        Picasso.with(getApplicationContext()).load(mGamePageImageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMakePageImageIv);
+        Picasso.with(getApplicationContext()).load(mGamePageImageUri).resize(320, 240).centerCrop().into(mMakePageImageIv);
         mMakePageImageTv.setVisibility(View.GONE);
     }
 
     private void showMakePageImageWithFile(File file) {
-        Picasso.with(getApplicationContext()).load(file).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMakePageImageIv);
+        Picasso.with(getApplicationContext()).load(file).resize(320, 240).centerCrop().into(mMakePageImageIv);
         mMakePageImageTv.setVisibility(View.GONE);
     }
     private void setButtonsText(){
@@ -233,12 +233,12 @@ public class MakeGamePageActivity extends AppCompatActivity {
             }
         }
 
-        if (page.getPage() == getString(R.string.SPINNER_PAGE_1)) {
+        if (page.getPage().equals(getString(R.string.SPINNER_PAGE_1))) {
             RealmList<Selection> selections = page.getSelections();
             for (int i = 0 ; i < selections.size() ; i ++){
                 mMakeSelectionsCbs.get(i).setSelected(true);
                 mMakeSelectionsEts.get(i).setText(selections.get(i).getSelectionText());
-                mMakeTargetEts.get(i).setText(selections.get(i).getNextIndex());
+                mMakeTargetEts.get(i).setText(String.valueOf(selections.get(i).getNextIndex()));
             }
         }
 

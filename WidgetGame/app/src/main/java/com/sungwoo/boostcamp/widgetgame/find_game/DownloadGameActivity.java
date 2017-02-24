@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,7 +76,7 @@ public class DownloadGameActivity extends AppCompatActivity {
                 downloadFinnish();
             } else {
                 StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, mGamePageImagePaths.get(imagePathIndex));
-                Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 300).centerCrop().into(mTarget);
+                Picasso.with(getApplicationContext()).load(stringBuffer.toString().replace(" ", "%20")).resize(300, 300).centerCrop().into(mTarget);
             }
         }
 
@@ -114,13 +116,14 @@ public class DownloadGameActivity extends AppCompatActivity {
 
         if (gameImagePath != null && !gameImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
             StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, gameImagePath);
-            Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
+
+            Picasso.with(getApplicationContext()).load(stringBuffer.toString().replace(" ", "%20")).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.txt_logo6).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
         }
 
         if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
-            Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(50, 50).centerCrop().into(mDownloadGameMakerImageIv);
+            Picasso.with(getApplicationContext()).load((getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).replace(" ", "%20")).resize(50, 50).centerCrop().into(mDownloadGameMakerImageIv);
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(50, 50).centerCrop().into(mDownloadGameMakerImageIv);
         }
@@ -219,7 +222,7 @@ public class DownloadGameActivity extends AppCompatActivity {
         imagePathIndex = 0;
 
         StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, mGamePageImagePaths.get(imagePathIndex));
-        Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 300).centerCrop().into(mTarget);
+        Picasso.with(getApplicationContext()).load(stringBuffer.toString().replace(" ", "%20")).resize(300, 300).centerCrop().into(mTarget);
     }
 
     private void downloadFinnish() {

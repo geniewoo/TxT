@@ -115,7 +115,7 @@ public class MenuActivity extends AppCompatActivity {
         if (imageUrl.equals(getString(R.string.SERVER_NO_IMAGE_FILE)) || imageUrl.equals("")) {
             Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
         } else {
-            Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + imageUrl).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
+            Picasso.with(getApplicationContext()).load((getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + imageUrl).replace(" ", "%20")).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMenuUserIv);
         }
     }
 

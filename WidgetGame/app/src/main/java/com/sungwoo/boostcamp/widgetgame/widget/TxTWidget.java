@@ -46,12 +46,12 @@ public class TxTWidget extends AppWidgetProvider {
     private static final int IN_GAME_OVER = IN_STORY + 1;
     private static final int IN_GAME_CLEAR = IN_GAME_OVER + 1;
 
-    private static final int INFO_IMAGE_X = 300;
-    private static final int INFO_IMAGE_Y = 400;
-    private static final int PAGE_IMAGE_X = 400;
-    private static final int PAGE_IMAGE_Y = 300;
-    private static final int PAGE_STORY_IMAGE_X = 460;
-    private static final int PAGE_STORY_IMAGE_Y = 345;
+    private static final int INFO_IMAGE_X = 360;
+    private static final int INFO_IMAGE_Y = 480;
+    private static final int PAGE_IMAGE_X = 480;
+    private static final int PAGE_IMAGE_Y = 360;
+    private static final int PAGE_STORY_IMAGE_X = 520;
+    private static final int PAGE_STORY_IMAGE_Y = 390;
 
 
     private static boolean mIsMenuStage = false;
@@ -324,7 +324,7 @@ public class TxTWidget extends AppWidgetProvider {
 
             remoteViews.setTextViewText(R.id.widget_game2_info_maker_tv, maker);
 
-            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
                 Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game2_info_image_iv, intListToIntArray(mAppWidgetIds));
@@ -341,7 +341,7 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game1_info_description_tv, description);
             remoteViews.setTextViewText(R.id.widget_game1_info_maker_tv, maker);
 
-            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
                 Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game1_info_image_iv, intListToIntArray(mAppWidgetIds));
@@ -437,7 +437,7 @@ public class TxTWidget extends AppWidgetProvider {
             for ( ; i < 4 ; i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS2[i], View.INVISIBLE);
             }
-            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game2_selections_image_iv, intListToIntArray(mAppWidgetIds));
@@ -463,7 +463,7 @@ public class TxTWidget extends AppWidgetProvider {
             for ( ; i < 4 ; i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS1[i], View.INVISIBLE);
             }
-            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game1_selections_image_iv, intListToIntArray(mAppWidgetIds));
@@ -507,7 +507,7 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game2_story_description_tv, description);
             remoteViews.setTextViewText(R.id.widget_game2_story_next_btn, nextBtnStr);
 
-            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game2_story_image_iv, intListToIntArray(mAppWidgetIds));
@@ -525,7 +525,7 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game1_story_description_tv, description);
             remoteViews.setTextViewText(R.id.widget_game1_story_next_btn, nextBtnStr);
 
-            if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
+            if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game1_story_image_iv, intListToIntArray(mAppWidgetIds));

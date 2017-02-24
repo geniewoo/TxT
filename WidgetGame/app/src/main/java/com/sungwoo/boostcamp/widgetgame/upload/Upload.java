@@ -96,36 +96,39 @@ public class Upload {
             }
         });
 
-        String nickname = fullGameRepo.getMaker().getNickName();
-        String gameTitle = gameInfo.getGameTitle();
-        Call<CommonRepo.ResultCodeRepo> uploadGameImagesCodeRepoCall = gameInformationRetrofit.uploadGameImages(uploadGameMap, nickname, gameTitle);
-        uploadGameImagesCodeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
-            @Override
-            public void onResponse(Call<CommonRepo.ResultCodeRepo> call,
-                                   Response<CommonRepo.ResultCodeRepo> response) {
-                CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
-                switch (resultCodeRepo.getCode()) {
-                    case UPLOAD_SUCCESS:
-                        CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_UPLOAD_SUCCESS, R.string.DIALOG_CONFIRM);
-                        break;
-                    case UPLOAD_NOFILE:
-                        break;
-                    case UPLOAD_FAIL:
-                        Toast.makeText(context, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
+        if (1 <= uploadGameMap.size()) {
 
-            @Override
-            public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+            String nickname = fullGameRepo.getMaker().getNickName();
+            String gameTitle = gameInfo.getGameTitle();
+            Call<CommonRepo.ResultCodeRepo> uploadGameImagesCodeRepoCall = gameInformationRetrofit.uploadGameImages(uploadGameMap, nickname, gameTitle);
+            uploadGameImagesCodeRepoCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
+                @Override
+                public void onResponse(Call<CommonRepo.ResultCodeRepo> call,
+                                       Response<CommonRepo.ResultCodeRepo> response) {
+                    CommonRepo.ResultCodeRepo resultCodeRepo = response.body();
+                    switch (resultCodeRepo.getCode()) {
+                        case UPLOAD_SUCCESS:
+                            CommonUtility.showNeutralDialog(context, R.string.DIALOG_SUCCESS_TITLE, R.string.DIALOG_UPLOAD_SUCCESS, R.string.DIALOG_CONFIRM);
+                            break;
+                        case UPLOAD_NOFILE:
+                            break;
+                        case UPLOAD_FAIL:
+                            CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
+                            break;
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
+                    CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
+                    try {
+                        throw t;
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            });
+        }
     }
     public static void uploadUserImageToServer(final Context context, String dirPath, String localFileName, String serverFileName, int uploadCode) {
         final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(context);

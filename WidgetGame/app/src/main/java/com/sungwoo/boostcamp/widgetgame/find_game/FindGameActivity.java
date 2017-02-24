@@ -175,12 +175,12 @@ public class FindGameActivity extends AppCompatActivity {
                 findGameListStarsTv.setText(String.valueOf(findGameList.getStars()));
                 if (gameImagePath != null && !gameImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))){
                     StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), nickname, gameTitle, gameImagePath);
-                    Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(210, 280).centerCrop().into(findGameListImageIv);
+                    Picasso.with(getApplicationContext()).load(stringBuffer.toString().replace(" ", "%20")).resize(210, 280).centerCrop().into(findGameListImageIv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.txt_logo6).resize(210, 280).centerCrop().into(findGameListImageIv);
                 }
                 if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
-                    Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(50, 50).centerCrop().into(findGameListMakerIv);
+                    Picasso.with(getApplicationContext()).load((getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).replace(" ", "%20")).resize(50, 50).centerCrop().into(findGameListMakerIv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(50, 50).centerCrop().into(findGameListMakerIv);
                 }
@@ -221,7 +221,6 @@ public class FindGameActivity extends AppCompatActivity {
                             mFindGameRvAdapter.notifyDataSetChanged();
                             break;
                         case GET_LIST_NO_RESULT:
-                            Toast.makeText(FindGameActivity.this, R.string.FIND_NO_GAME, Toast.LENGTH_SHORT).show();
                             Snackbar.make(mActivityFindGameLo, R.string.FIND_NO_GAME, Snackbar.LENGTH_LONG).show();
                             isMoreItemsAvailable = false;
                             break;

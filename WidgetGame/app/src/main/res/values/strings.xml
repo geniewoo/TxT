@@ -94,8 +94,8 @@
     <string name="SPINNER_VIBRATE_ON">vibrate on</string>
 
     <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>
-    <string name="MAKE_CONFIRM">완료</string>
-    <string name="MAKE_DELETE">취소</string>
+    <string name="MAKE_CONFIRM">페이지 생성</string>
+    <string name="MAKE_DELETE">그만 만들기</string>
 
     <!-- Receiver TxTWidget -->
     <string name="TxT_WIDGET_NO_GAME">게임이 없습니다</string>

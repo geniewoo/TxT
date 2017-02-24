@@ -97,8 +97,8 @@
 
                                 <ImageView
                                     android:id="@+id/widget_game1_info_image_iv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="180dp"
+                                    android:layout_height="240dp"
                                     android:layout_gravity="left" />
 
                                 <LinearLayout
@@ -190,8 +190,8 @@
 
                             <ImageView
                                 android:id="@+id/widget_game1_story_image_iv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="300dp"
+                                android:layout_height="200dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/vertical_1" />
 
@@ -253,8 +253,8 @@
 
                             <ImageView
                                 android:id="@+id/widget_game1_selections_image_iv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="150dp"
+                                android:layout_width="240dp"
+                                android:layout_height="180dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/vertical_1"
                                 android:background="@drawable/image_guideline_selector" />
@@ -282,7 +282,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_above="@+id/under_buttons1"
                                     android:layout_marginBottom="2dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:baselineAligned="false">
                                     <!--!flipppper-->
                                     <ViewFlipper
                                         android:id="@+id/widget_game1_selection1_vf"
@@ -323,7 +324,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginTop="2dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:baselineAligned="false">
 
                                     <ViewFlipper
                                         android:id="@+id/widget_game1_selection3_vf"
@@ -383,8 +385,8 @@
 
                                 <ImageView
                                     android:id="@+id/widget_game2_info_image_iv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="180dp"
+                                    android:layout_height="240dp"
                                     android:layout_gravity="left" />
 
                                 <LinearLayout
@@ -405,6 +407,7 @@
                                         android:textStyle="bold"/>
 
                                     <TextView
+                                        android:layout_marginTop="@dimen/vertical_4"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="제작자"
@@ -414,8 +417,8 @@
                                         android:id="@+id/widget_game2_info_maker_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
                                         android:layout_marginTop="@dimen/vertical_1"
+                                        android:layout_marginLeft="@dimen/vertical_4"
                                         android:textColor="@color/colorAccent"
                                         android:textSize="@dimen/text_size4" />
                                 </LinearLayout>
@@ -476,8 +479,8 @@
 
                             <ImageView
                                 android:id="@+id/widget_game2_story_image_iv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="300dp"
+                                android:layout_height="200dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/vertical_1" />
 
@@ -538,8 +541,8 @@
 
                             <ImageView
                                 android:id="@+id/widget_game2_selections_image_iv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="150dp"
+                                android:layout_width="240dp"
+                                android:layout_height="180dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/vertical_1"
                                 android:background="@drawable/image_guideline_selector" />
@@ -566,7 +569,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_above="@+id/under_buttons2"
                                     android:layout_marginBottom="2dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:baselineAligned="false">
                                     <!--!flipppper-->
                                     <ViewFlipper
                                         android:id="@+id/widget_game2_selection1_vf"
@@ -607,7 +611,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
                                     android:layout_marginTop="2dp"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:baselineAligned="false">
 
                                     <ViewFlipper
                                         android:id="@+id/widget_game2_selection3_vf"

@@ -150,7 +150,7 @@ public class MakeGameInfoActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQ_CODE_SELECT_IMAGE:
                 mGameInfoImageUri = data.getData();
-                Picasso.with(getApplicationContext()).load(mGameInfoImageUri).resize(USER_CIRCLE_IV, USER_CIRCLE_IV).centerCrop().into(mMakeGameInfoImageIv);
+                Picasso.with(getApplicationContext()).load(mGameInfoImageUri).resize(300, 400).centerCrop().into(mMakeGameInfoImageIv);
                 mMakeGameInfoImageTv.setVisibility(View.GONE);
                 break;
         }
