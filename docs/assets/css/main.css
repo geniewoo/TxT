@@ -120,7 +120,7 @@
 		}
 
 	body, input, select, textarea {
-		color: #ffffff;
+		color: #ff9900;
 		font-family: "Source Sans Pro", sans-serif;
 		font-weight: 300;
 		font-size: 1rem;
@@ -155,7 +155,7 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: #ff9900;
 		font-weight: 600;
 		line-height: 1.5;
 		margin: 0 0 1rem 0;
@@ -1091,7 +1091,7 @@
 			-webkit-transition: -webkit-transform 0.325s ease-in-out, -webkit-filter 0.325s ease-in-out;
 			-ms-transition: -ms-transform 0.325s ease-in-out, -ms-filter 0.325s ease-in-out;
 			transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out;
-			background-image: url("../../images/bg.jpg");
+			background-color: #444;
 			background-position: center;
 			background-size: cover;
 			background-repeat: no-repeat;
@@ -1227,7 +1227,6 @@
 			width: 5.5rem;
 			height: 5.5rem;
 			line-height: 5.5rem;
-			border: solid 1px #ffffff;
 			border-radius: 100%;
 		}
 
