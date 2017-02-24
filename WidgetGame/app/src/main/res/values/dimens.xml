@@ -8,9 +8,11 @@
     <dimen name="vertical_2">16dp</dimen>
     <dimen name="horizontal_4">32dp</dimen>
     <dimen name="vertical_4">32dp</dimen>
+    <dimen name="vertical_5">40dp</dimen>
+    <dimen name="vertical_6">48dp</dimen>
     <dimen name="horizontal_8">64dp</dimen>
     <dimen name="vertical_8">64dp</dimen>
-    <dimen name="horizontal_12_fix">96dp</dimen>
+    <dimen name="vertical_15">120dp</dimen>
     <dimen name="horizontal_20_fix">160dp</dimen>
     <dimen name="horizontal_25_fix">200dp</dimen>
     <dimen name="vertical_30">240dp</dimen>

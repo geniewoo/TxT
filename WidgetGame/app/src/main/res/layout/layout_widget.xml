@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/widget_background_selector"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background_selector"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/widget_no_game_lo"
@@ -14,13 +14,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/TxT_WIDGET_NO_GAME"/>
+            android:text="@string/TxT_WIDGET_NO_GAME" />
 
         <Button
             android:id="@+id/widget_no_game_start_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/TxT_WIDGET_GO_DOWNLOAD"/>
+            android:text="@string/TxT_WIDGET_GO_DOWNLOAD" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,260 +34,473 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/widget_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="제목"/>
+            <!-- view flipper button -->
             <FrameLayout
-                android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_margin="5dp">
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:id="@+id/widget_flipper_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-                <ImageView android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:src="@drawable/menu"/>
-            </FrameLayout>
-        </RelativeLayout>
 
-        <ViewFlipper
-            android:id="@+id/widget_menu_flipper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inAnimation="@android:anim/fade_in"
-            android:outAnimation="@android:anim/fade_out">
+                <Button
+                    android:id="@+id/widget_flipper_btn"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/menu" />
+            </FrameLayout>
 
             <ViewFlipper
-                android:id="@+id/widget_game_flipper"
+                android:id="@+id/widget_menu_flipper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inAnimation="@anim/slide_right_in"
-                android:outAnimation="@anim/slide_right_out">
+                android:inAnimation="@android:anim/fade_in"
+                android:outAnimation="@android:anim/fade_out">
+
+                <ViewFlipper
+                    android:id="@+id/widget_game_flipper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inAnimation="@anim/slide_right_in"
+                    android:outAnimation="@anim/slide_right_out">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!-- game image view -->
+
+                        <LinearLayout
+                            android:id="@+id/widget_game1_info_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/vertical_1"
+                            android:orientation="vertical">
+
+                            <!--infoinfo-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_gravity="left"
+                                    android:id="@+id/widget_game1_info_image_iv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/vertical_4"
+                                    android:paddingLeft="@dimen/vertical_1">
+                                    <TextView
+                                        android:id="@+id/widget_game1_info_title_tv"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_8"
+                                        android:textColor="@color/colorAccent"
+                                        android:textSize="@dimen/text_size5"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/vertical_2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="@dimen/text_size2"
+                                        android:text="제작자"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/vertical_1"
+                                        android:id="@+id/widget_game1_info_maker_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textSize="@dimen/text_size4"
+                                        android:textColor="@color/colorAccent"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/widget_game1_info_description_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <Button
+                                    android:id="@+id/widget_game1_info_start_game_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/vertical_5"
+                                    android:text="@string/TxT_WIDGET_INFO_START_GAME"
+                                    android:background="@drawable/button_selector"
+                                    android:layout_marginLeft="@dimen/vertical_6"
+                                    android:layout_marginRight="@dimen/vertical_6"
+                                    android:layout_alignParentBottom="true"/>
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <!-- storystory -->
+                        <LinearLayout
+                            android:layout_margin="@dimen/vertical_1"
+                            android:id="@+id/widget_game1_story_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/widget_game1_story_title_tv"
+                                android:layout_marginLeft="@dimen/vertical_4"
+                                android:layout_marginRight="@dimen/vertical_4"
+                                android:textSize="@dimen/text_size5"
+                                android:textColor="@color/colorAccent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/widget_game1_story_image_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/vertical_1"
+                                android:layout_gravity="center_horizontal" />
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/widget_game1_story_description_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/vertical_1" />
+
+                                <Button
+                                    android:id="@+id/widget_game1_story_next_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/vertical_5"
+                                    android:text="@string/TxT_WIDGET_INFO_START_GAME"
+                                    android:background="@drawable/button_selector"
+                                    android:layout_marginLeft="@dimen/vertical_6"
+                                    android:layout_marginRight="@dimen/vertical_6"
+                                    android:layout_alignParentBottom="true" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+                        <!--selectionsselecstions-->
+                        <LinearLayout
+                            android:id="@+id/widget_game1_selections_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/vertical_1"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+                            <TextView
+                                android:id="@+id/widget_game1_selections_title_tv"
+                                android:layout_marginLeft="@dimen/vertical_4"
+                                android:layout_marginRight="@dimen/vertical_4"
+                                android:textSize="@dimen/text_size5"
+                                android:textColor="@color/colorAccent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/widget_game1_selections_image_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="150dp"
+                                android:layout_marginTop="@dimen/vertical_1"
+                                android:background="@drawable/image_guideline_selector"
+                                android:layout_gravity="center_horizontal" />
+
+                            <RelativeLayout
+                                android:layout_marginTop="@dimen/vertical_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/widget_game1_selections_description_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="100dp" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginBottom="2dp"
+                                    android:layout_above="@+id/under_buttons1">
+
+                                    <Button
+                                        android:id="@+id/widget_game1_selection1"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginRight="2dp"
+                                        android:background="@drawable/button_selector"/>
+
+                                    <Button
+                                        android:id="@+id/widget_game1_selection2"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginLeft="2dp"
+                                        android:background="@drawable/button_selector"/>
+                                </LinearLayout>
+                                <LinearLayout
+
+                                    android:id="@+id/under_buttons1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_alignParentBottom="true">
+
+                                    <Button
+                                        android:id="@+id/widget_game1_selection3"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginRight="2dp"
+                                        android:background="@drawable/button_selector"/>
+
+                                    <Button
+                                        android:id="@+id/widget_game1_selection4"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginLeft="2dp"
+                                        android:background="@drawable/button_selector"/>
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!-- game image view -->
+
+                        <!--infoinfo-->
+                        <LinearLayout
+                            android:id="@+id/widget_game2_info_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/vertical_1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_gravity="left"
+                                    android:id="@+id/widget_game2_info_image_iv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginTop="@dimen/vertical_4"
+                                    android:paddingLeft="@dimen/vertical_1">
+                                    <TextView
+                                        android:id="@+id/widget_game2_info_title_tv"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_8"
+                                        android:textColor="@color/colorAccent"
+                                        android:textSize="@dimen/text_size5"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/vertical_2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="@dimen/text_size2"
+                                        android:text="제작자"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/vertical_1"
+                                        android:id="@+id/widget_game2_info_maker_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textSize="@dimen/text_size4"
+                                        android:textColor="@color/colorAccent"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/widget_game2_info_description_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                                <Button
+                                    android:id="@+id/widget_game2_info_start_game_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/vertical_5"
+                                    android:text="@string/TxT_WIDGET_INFO_START_GAME"
+                                    android:background="@drawable/button_selector"
+                                    android:layout_marginLeft="@dimen/vertical_6"
+                                    android:layout_marginRight="@dimen/vertical_6"
+                                    android:layout_alignParentBottom="true"/>
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <!--storystory-->
+                        <LinearLayout
+                            android:layout_margin="@dimen/vertical_1"
+                            android:id="@+id/widget_game2_story_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/widget_game2_story_title_tv"
+                                android:layout_marginLeft="@dimen/vertical_4"
+                                android:layout_marginRight="@dimen/vertical_4"
+                                android:textSize="@dimen/text_size5"
+                                android:textColor="@color/colorAccent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/widget_game2_story_image_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/vertical_1"
+                                android:layout_gravity="center_horizontal" />
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/widget_game2_story_description_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/vertical_1" />
+
+                                <Button
+                                    android:id="@+id/widget_game2_story_next_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/vertical_5"
+                                    android:text="@string/TxT_WIDGET_INFO_START_GAME"
+                                    android:background="@drawable/button_selector"
+                                    android:layout_marginLeft="@dimen/vertical_6"
+                                    android:layout_marginRight="@dimen/vertical_6"
+                                    android:layout_alignParentBottom="true" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <!--selectionsselecstions-->
+                        <LinearLayout
+                            android:id="@+id/widget_game2_selections_lo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/vertical_1"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+                            <TextView
+                                android:id="@+id/widget_game2_selections_title_tv"
+                                android:layout_marginLeft="@dimen/vertical_4"
+                                android:layout_marginRight="@dimen/vertical_4"
+                                android:textSize="@dimen/text_size5"
+                                android:textColor="@color/colorAccent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:id="@+id/widget_game2_selections_image_iv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="150dp"
+                                android:layout_marginTop="@dimen/vertical_1"
+                                android:background="@drawable/image_guideline_selector"
+                                android:layout_gravity="center_horizontal" />
+
+                            <RelativeLayout
+                                android:layout_marginTop="@dimen/vertical_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/widget_game2_selections_description_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="100dp" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginBottom="2dp"
+                                    android:layout_above="@+id/under_buttons">
+
+                                    <Button
+                                        android:id="@+id/widget_game2_selection1"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginRight="2dp"
+                                        android:background="@drawable/button_selector"/>
+
+                                    <Button
+                                        android:id="@+id/widget_game2_selection2"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginLeft="2dp"
+                                        android:background="@drawable/button_selector"/>
+                                </LinearLayout>
+                                <LinearLayout
+
+                                    android:id="@+id/under_buttons"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_alignParentBottom="true">
+
+                                    <Button
+                                        android:id="@+id/widget_game2_selection3"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginRight="2dp"
+                                        android:background="@drawable/button_selector"/>
+
+                                    <Button
+                                        android:id="@+id/widget_game2_selection4"
+                                        android:layout_weight="1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/vertical_5"
+                                        android:layout_marginLeft="2dp"
+                                        android:background="@drawable/button_selector"/>
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </ViewFlipper>
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/vertical_15"
+                    android:layout_marginLeft="@dimen/vertical_4"
+                    android:layout_marginRight="@dimen/vertical_4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/widget_game1_title_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <ImageView
-                            android:id="@+id/widget_game1_image_iv"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"/>
-
-                        <TextView
-                            android:id="@+id/widget_game1_image_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="150dp"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:id="@+id/widget_game1_info_lo"
+                    <Button
+                        android:id="@+id/widget_menu_start_game"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:background="@drawable/button_selector"
+                        android:text="@string/TxT_WIDGET_MENU_START_GAME" />
 
-                        <TextView
-                            android:id="@+id/widget_playing_game1_info_title_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/widget_playing_game1_info_description_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/widget_playing_game1_info_maker_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/widget_playing_game1_info_email_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game1_info_start_game_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/TxT_WIDGET_INFO_START_GAME"/>
-                    </LinearLayout>
-
-                    <FrameLayout
-                        android:id="@+id/widget_playing_game1_no_selections_lo"
+                    <Button
+                        android:layout_marginTop="@dimen/vertical_2"
+                        android:id="@+id/widget_menu_start_app"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
-
-                        <Button
-                            android:id="@+id/widget_playing_game1_no_selections_next_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:id="@+id/widget_playing_game1_selections_lo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <Button
-                            android:id="@+id/widget_playing_game1_selection1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game1_selection2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game1_selection3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game1_selection4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/widget_game2_title_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <ImageView
-                            android:id="@+id/widget_game2_image_iv"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"/>
-
-                        <TextView
-                            android:id="@+id/widget_game2_image_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="150dp"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:id="@+id/widget_game2_info_lo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/widget_playing_game2_info_title_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/widget_playing_game2_info_description_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/widget_playing_game2_info_maker_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:id="@+id/widget_playing_game2_info_email_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game2_info_start_game_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/TxT_WIDGET_INFO_START_GAME"/>
-                    </LinearLayout>
-
-                    <FrameLayout
-                        android:id="@+id/widget_playing_game2_no_selections_lo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone">
-
-                        <Button
-                            android:id="@+id/widget_playing_game2_no_selections_next_btn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:id="@+id/widget_playing_game2_selections_lo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <Button
-                            android:id="@+id/widget_playing_game2_selection1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game2_selection2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game2_selection3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <Button
-                            android:id="@+id/widget_playing_game2_selection4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
+                        android:background="@drawable/button_selector"
+                        android:text="@string/TxT_WIDGET_MENU_OPEN_APP" />
                 </LinearLayout>
             </ViewFlipper>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/widget_menu_start_game"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/TxT_WIDGET_MENU_START_GAME"/>
-
-                <Button
-                    android:id="@+id/widget_menu_start_app"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/TxT_WIDGET_MENU_OPEN_APP"/>
-            </LinearLayout>
-        </ViewFlipper>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

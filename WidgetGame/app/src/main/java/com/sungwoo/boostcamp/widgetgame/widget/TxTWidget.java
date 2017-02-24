@@ -46,6 +46,14 @@ public class TxTWidget extends AppWidgetProvider {
     private static final int IN_GAME_OVER = IN_STORY + 1;
     private static final int IN_GAME_CLEAR = IN_GAME_OVER + 1;
 
+    private static final int INFO_IMAGE_X = 300;
+    private static final int INFO_IMAGE_Y = 400;
+    private static final int PAGE_IMAGE_X = 400;
+    private static final int PAGE_IMAGE_Y = 300;
+    private static final int PAGE_STORY_IMAGE_X = 460;
+    private static final int PAGE_STORY_IMAGE_Y = 345;
+
+
     private static boolean mIsMenuStage = false;
     private static int mNowStage;
     private static boolean mIsGamePlayingFlipper1;
@@ -76,8 +84,8 @@ public class TxTWidget extends AppWidgetProvider {
     private static final String PAGE_GAME_CLEAR = "Game Clear";
 
     private static HashMap<String, Integer> mSoundMap;
-    private static final int[] SELECTION_IDS1 = {R.id.widget_playing_game1_selection1, R.id.widget_playing_game1_selection2, R.id.widget_playing_game1_selection3, R.id.widget_playing_game1_selection4};
-    private static final int[] SELECTION_IDS2 = {R.id.widget_playing_game2_selection1, R.id.widget_playing_game2_selection2, R.id.widget_playing_game2_selection3, R.id.widget_playing_game2_selection4};
+    private static final int[] SELECTION_IDS1 = {R.id.widget_game1_selection1, R.id.widget_game1_selection2, R.id.widget_game1_selection3, R.id.widget_game1_selection4};
+    private static final int[] SELECTION_IDS2 = {R.id.widget_game2_selection1, R.id.widget_game2_selection2, R.id.widget_game2_selection3, R.id.widget_game2_selection4};
     private static int[] mSelectedTargetIndex = new int[4];
 
     private static final long[] VIBRATOR_PATTERN = {0, 300, 150, 400};
@@ -194,14 +202,14 @@ public class TxTWidget extends AppWidgetProvider {
 
     private void setPendingIntents(Context context) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game1_info_start_game_btn,
+        remoteViews.setOnClickPendingIntent(R.id.widget_game1_info_start_game_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_INFO_START_GAME_BTN));
-        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game2_info_start_game_btn,
+        remoteViews.setOnClickPendingIntent(R.id.widget_game2_info_start_game_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_INFO_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_flipper_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED));
-        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game1_no_selections_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
-        remoteViews.setOnClickPendingIntent(R.id.widget_playing_game2_no_selections_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
+        remoteViews.setOnClickPendingIntent(R.id.widget_game1_story_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
+        remoteViews.setOnClickPendingIntent(R.id.widget_game2_story_next_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_game, getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_MENU_START_APP_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_no_game_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_NO_GAME_START_APP_BTN));
@@ -298,48 +306,39 @@ public class TxTWidget extends AppWidgetProvider {
         String description = mFullGameRepo.getGameInfo().getGameDescription();
         String imagePath = mFullGameRepo.getGameInfo().getGameImagePath();
         String maker = mFullGameRepo.getMaker().getNickName();
-        String email = mFullGameRepo.getMaker().getEmail();
 
         if (mIsGamePlayingFlipper1) {
-            remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game2_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game2_story_lo, View.GONE);
             remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.VISIBLE);
 
-            remoteViews.setTextViewText(R.id.widget_playing_game2_info_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_playing_game2_info_description_tv, description);
-            remoteViews.setTextViewText(R.id.widget_playing_game2_info_maker_tv, maker);
-            remoteViews.setTextViewText(R.id.widget_playing_game2_info_email_tv, email);
-
-            remoteViews.setTextViewText(R.id.widget_game2_image_tv, "");
+            remoteViews.setTextViewText(R.id.widget_game2_info_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game2_info_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_game2_info_maker_tv, maker);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
-                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                        R.id.widget_game2_image_iv, intListToIntArray(mAppWidgetIds));
+                Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
+                        R.id.widget_game2_info_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                        150).centerCrop().into(remoteViews, R.id.widget_game2_image_iv,
+                Picasso.with(context).load(R.drawable.default_user_image).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_info_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         } else {
-            remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game1_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game1_story_lo, View.GONE);
             remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.VISIBLE);
 
-            remoteViews.setTextViewText(R.id.widget_playing_game1_info_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_playing_game1_info_description_tv, description);
-            remoteViews.setTextViewText(R.id.widget_playing_game1_info_maker_tv, maker);
-            remoteViews.setTextViewText(R.id.widget_playing_game1_info_email_tv, email);
-
-            remoteViews.setTextViewText(R.id.widget_game1_image_tv, "");
+            remoteViews.setTextViewText(R.id.widget_game1_info_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game1_info_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_game1_info_maker_tv, maker);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
-                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                        R.id.widget_game1_image_iv, intListToIntArray(mAppWidgetIds));
+                Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
+                        R.id.widget_game1_info_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                        150).centerCrop().into(remoteViews, R.id.widget_game1_image_iv,
+                Picasso.with(context).load(R.drawable.default_user_image).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_info_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         }
@@ -405,12 +404,14 @@ public class TxTWidget extends AppWidgetProvider {
         playSound(context, sound);
 
         if (mIsGamePlayingFlipper1) {
-            remoteViews.setTextViewText(R.id.widget_game2_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_game2_image_tv, description);
 
             remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.widget_game2_story_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game2_selections_lo, View.VISIBLE);
+
+            remoteViews.setTextViewText(R.id.widget_game2_selections_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game2_selections_description_tv, description);
+
             int i = 0;
             for ( ; i < selections.size(); i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS2[i], View.VISIBLE);
@@ -422,20 +423,21 @@ public class TxTWidget extends AppWidgetProvider {
             }
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
-                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                        R.id.widget_game2_image_iv, intListToIntArray(mAppWidgetIds));
+                Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
+                        R.id.widget_game2_selections_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                        150).centerCrop().into(remoteViews, R.id.widget_game2_image_iv,
+                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_IMAGE_X,
+                        PAGE_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_selections_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         } else {
-            remoteViews.setTextViewText(R.id.widget_game1_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_game1_image_tv, description);
-
             remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.widget_game1_story_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game1_selections_lo, View.VISIBLE);
+
+            remoteViews.setTextViewText(R.id.widget_game1_selections_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game1_info_description_tv, description);
+
             int i = 0;
             for ( ; i < selections.size(); i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS1[i], View.VISIBLE);
@@ -443,15 +445,15 @@ public class TxTWidget extends AppWidgetProvider {
                 mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
             }
             for ( ; i < 4 ; i++) {
-                remoteViews.setViewVisibility(SELECTION_IDS1[i], View.GONE);
+                remoteViews.setViewVisibility(SELECTION_IDS1[i], View.INVISIBLE);
             }
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
-                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                        R.id.widget_game1_image_iv, intListToIntArray(mAppWidgetIds));
+                Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
+                        R.id.widget_game1_selections_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                        150).centerCrop().into(remoteViews, R.id.widget_game1_image_iv,
+                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_IMAGE_X,
+                        PAGE_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_selections_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         }
@@ -471,38 +473,38 @@ public class TxTWidget extends AppWidgetProvider {
 
         if (mIsGamePlayingFlipper1) {
             remoteViews.setViewVisibility(R.id.widget_game2_info_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game2_selections_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game2_no_selections_lo, View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.widget_game2_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game2_story_lo, View.VISIBLE);
 
-            remoteViews.setTextViewText(R.id.widget_game2_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_game2_image_tv, description);
-            remoteViews.setTextViewText(R.id.widget_playing_game2_no_selections_next_btn, nextBtnStr);
+            remoteViews.setTextViewText(R.id.widget_game2_story_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game2_story_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_game2_story_next_btn, nextBtnStr);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
-                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                        R.id.widget_game2_image_iv, intListToIntArray(mAppWidgetIds));
+                Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
+                        R.id.widget_game2_story_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                        150).centerCrop().into(remoteViews, R.id.widget_game2_image_iv,
+                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_STORY_IMAGE_X,
+                        PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_story_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         } else {
             remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game1_selections_lo, View.GONE);
-            remoteViews.setViewVisibility(R.id.widget_playing_game1_no_selections_lo, View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.widget_game1_selections_lo, View.GONE);
+            remoteViews.setViewVisibility(R.id.widget_game1_story_lo, View.VISIBLE);
 
-            remoteViews.setTextViewText(R.id.widget_game1_title_tv, title);
-            remoteViews.setTextViewText(R.id.widget_game1_image_tv, description);
-            remoteViews.setTextViewText(R.id.widget_playing_game1_no_selections_next_btn, nextBtnStr);
+            remoteViews.setTextViewText(R.id.widget_game1_story_title_tv, title);
+            remoteViews.setTextViewText(R.id.widget_game1_story_description_tv, description);
+            remoteViews.setTextViewText(R.id.widget_game1_story_next_btn, nextBtnStr);
 
             if (imagePath != context.getString(R.string.LOCAL_NO_IMAGE_FILE)) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
-                Picasso.with(context).load(file).resize(200, 150).centerCrop().into(remoteViews,
-                        R.id.widget_game1_image_iv, intListToIntArray(mAppWidgetIds));
+                Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
+                        R.id.widget_game1_story_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(200,
-                        150).centerCrop().into(remoteViews, R.id.widget_game1_image_iv,
+                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_STORY_IMAGE_X,
+                        PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_story_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         }
