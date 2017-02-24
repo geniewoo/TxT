@@ -177,7 +177,7 @@ public class FindGameActivity extends AppCompatActivity {
                     StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), nickname, gameTitle, gameImagePath);
                     Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(210, 280).centerCrop().into(findGameListImageIv);
                 } else {
-                    Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(210, 280).centerCrop().into(findGameListImageIv);
+                    Picasso.with(getApplicationContext()).load(R.drawable.txt_logo6).resize(210, 280).centerCrop().into(findGameListImageIv);
                 }
                 if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {
                     Picasso.with(getApplicationContext()).load(getString(R.string.URL_PROFILE_IMAGE_SERVER_FOLDER) + makerImagePath).resize(50, 50).centerCrop().into(findGameListMakerIv);

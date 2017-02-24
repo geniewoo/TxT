@@ -116,7 +116,7 @@ public class DownloadGameActivity extends AppCompatActivity {
             StringBuffer stringBuffer = getServerGameImageFolderPathStringBuffer(getApplicationContext(), mNickname, mGameTitle, gameImagePath);
             Picasso.with(getApplicationContext()).load(stringBuffer.toString()).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
         } else {
-            Picasso.with(getApplicationContext()).load(R.drawable.default_user_image).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
+            Picasso.with(getApplicationContext()).load(R.drawable.txt_logo6).resize(300, 400).centerCrop().into(mDownloadGameImageIv);
         }
 
         if (makerImagePath != null && !makerImagePath.equals(getString(R.string.SERVER_NO_IMAGE_FILE))) {

@@ -104,21 +104,23 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/vertical_4"
+                                    android:paddingTop="@dimen/vertical_4"
                                     android:orientation="vertical"
                                     android:paddingLeft="@dimen/vertical_1">
 
                                     <TextView
                                         android:id="@+id/widget_game1_info_title_tv"
-                                        android:layout_width="match_parent"
+                                        android:layout_marginTop="@dimen/vertical_2"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="@dimen/vertical_8"
                                         android:textColor="@color/colorAccent"
-                                        android:textSize="@dimen/text_size5" />
+                                        android:layout_gravity="center_horizontal"
+                                        android:textSize="@dimen/text_size8"
+                                        android:textStyle="bold"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/vertical_2"
                                         android:text="제작자"
                                         android:textSize="@dimen/text_size2" />
 
@@ -388,21 +390,23 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/vertical_4"
+                                    android:paddingTop="@dimen/vertical_4"
                                     android:orientation="vertical"
                                     android:paddingLeft="@dimen/vertical_1">
 
                                     <TextView
                                         android:id="@+id/widget_game2_info_title_tv"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
+                                        android:layout_marginTop="@dimen/vertical_2"
                                         android:layout_height="@dimen/vertical_8"
                                         android:textColor="@color/colorAccent"
-                                        android:textSize="@dimen/text_size5" />
+                                        android:layout_gravity="center_horizontal"
+                                        android:textSize="@dimen/text_size8"
+                                        android:textStyle="bold"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/vertical_2"
                                         android:text="제작자"
                                         android:textSize="@dimen/text_size2" />
 

@@ -329,7 +329,7 @@ public class TxTWidget extends AppWidgetProvider {
                 Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game2_info_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_info_image_iv,
+                Picasso.with(context).load(R.drawable.txt_logo6).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_info_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         } else {
@@ -346,7 +346,7 @@ public class TxTWidget extends AppWidgetProvider {
                 Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game1_info_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_info_image_iv,
+                Picasso.with(context).load(R.drawable.txt_logo6).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_info_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
         }
@@ -442,7 +442,7 @@ public class TxTWidget extends AppWidgetProvider {
                 Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game2_selections_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_IMAGE_X,
+                Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_IMAGE_X,
                         PAGE_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_selections_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
@@ -468,7 +468,7 @@ public class TxTWidget extends AppWidgetProvider {
                 Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game1_selections_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_IMAGE_X,
+                Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_IMAGE_X,
                         PAGE_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_selections_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
@@ -512,7 +512,7 @@ public class TxTWidget extends AppWidgetProvider {
                 Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game2_story_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_STORY_IMAGE_X,
+                Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_STORY_IMAGE_X,
                         PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_story_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
@@ -530,7 +530,7 @@ public class TxTWidget extends AppWidgetProvider {
                 Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
                         R.id.widget_game1_story_image_iv, intListToIntArray(mAppWidgetIds));
             } else {
-                Picasso.with(context).load(R.drawable.default_user_image).resize(PAGE_STORY_IMAGE_X,
+                Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_STORY_IMAGE_X,
                         PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_story_image_iv,
                         intListToIntArray(mAppWidgetIds));
             }
