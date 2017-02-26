@@ -37,8 +37,15 @@ import static com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility.getSo
  */
 
 public class TxTWidget extends AppWidgetProvider {
-    private static MediaPlayer mMediaPlayer;
-    private static Vibrator mVibrator;
+    //TODO
+    private static boolean mIsMenuStage = false;
+    private static int mNowStage;
+    private static boolean mIsGamePlayingFlipper1;
+    private static List<Integer> mAppWidgetIds = new ArrayList<>();
+    private static Realm mRealm = null;
+    private static FullGameRepo mFullGameRepo = null;
+    private static HashMap<String, Integer> mSoundMap;
+    //to non static
     private static final int IN_NO_GAME = 0;
     private static final int IN_INFO = IN_NO_GAME + 1;
     private static final int IN_SELECTIONS = IN_INFO + 1;
@@ -52,15 +59,7 @@ public class TxTWidget extends AppWidgetProvider {
     private static final int PAGE_IMAGE_Y = 360;
     private static final int PAGE_STORY_IMAGE_X = 520;
     private static final int PAGE_STORY_IMAGE_Y = 390;
-
-
-    private static boolean mIsMenuStage = false;
-    private static int mNowStage;
-    private static boolean mIsGamePlayingFlipper1;
-    private static List<Integer> mAppWidgetIds = new ArrayList<>();
     private static final String TAG = TxTWidget.class.getSimpleName();
-    private static Realm mRealm = null;
-    private static FullGameRepo mFullGameRepo = null;
     private static final String ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED =
             "com.sungwoo.boostcamp.widgetgame.action.MENU_FLIPPER_BTN_CLICKED";
     public static final String ACTION_WIDGET_DISPLAY_NEW_GAME =
@@ -83,7 +82,6 @@ public class TxTWidget extends AppWidgetProvider {
     private static final String PAGE_GAME_OVER = "Game Over";
     private static final String PAGE_GAME_CLEAR = "Game Clear";
 
-    private static HashMap<String, Integer> mSoundMap;
     private static final int[] SELECTION_IDS1 = {R.id.widget_game1_selection1, R.id.widget_game1_selection2, R.id.widget_game1_selection3, R.id.widget_game1_selection4};
     private static final int[] SELECTION_IDS2 = {R.id.widget_game2_selection1, R.id.widget_game2_selection2, R.id.widget_game2_selection3, R.id.widget_game2_selection4};
     private static final int[] SELECTION_VFS1 = {R.id.widget_game1_selection1_vf, R.id.widget_game1_selection2_vf, R.id.widget_game1_selection3_vf, R.id.widget_game1_selection4_vf};
@@ -100,12 +98,6 @@ public class TxTWidget extends AppWidgetProvider {
 
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
-        }
-        if (mMediaPlayer == null) {
-            mMediaPlayer = new MediaPlayer();
-        }
-        if (mVibrator == null) {
-            mVibrator = (Vibrator) context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         }
         if (mSoundMap == null) {
             Log.d(TAG, "getSoundMap");
@@ -170,12 +162,6 @@ public class TxTWidget extends AppWidgetProvider {
         Log.d(TAG, "OnUpdate");
         if (mRealm == null) {
             mRealm = Realm.getDefaultInstance();
-        }
-        if (mMediaPlayer == null) {
-            mMediaPlayer = new MediaPlayer();
-        }
-        if (mVibrator == null) {
-            mVibrator = (Vibrator) context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         }
         if (mSoundMap == null) {
             Log.d(TAG, "getSoundMap");
@@ -416,7 +402,7 @@ public class TxTWidget extends AppWidgetProvider {
         Boolean isVibrateOn = page.isVibrateOn();
 
 
-        turnOnVibrator(isVibrateOn);
+        turnOnVibrator(context, isVibrateOn);
         playSound(context, sound);
 
         if (mIsGamePlayingFlipper1) {
@@ -544,7 +530,7 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.showNext(R.id.widget_game2_story_description_vf);
             remoteViews.showNext(R.id.widget_game2_story_next_vf);
         }
-        turnOnVibrator(isVibrateOn);
+        turnOnVibrator(context, isVibrateOn);
         playSound(context, sound);
 
         AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
@@ -556,24 +542,25 @@ public class TxTWidget extends AppWidgetProvider {
         }
         int soundId = mSoundMap.get(sound);
         try {
-            mMediaPlayer.stop();
-            mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(context, Uri.parse(context.getString(R.string.RAW_FILE_FOLDER_URI) + soundId));
-            mMediaPlayer.prepare();
-            mMediaPlayer.start();
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(context, Uri.parse(context.getString(R.string.RAW_FILE_FOLDER_URI) + soundId));
+            mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void turnOnVibrator(boolean isVibratorOn) {
+    private void turnOnVibrator(Context context, boolean isVibratorOn) {
         if (!isVibratorOn) {
             return;
         }
 
-        if (mVibrator.hasVibrator()) {
-            mVibrator.cancel();
-            mVibrator.vibrate(VIBRATOR_PATTERN, -1);
+        Vibrator vibrator = (Vibrator) context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator.hasVibrator()) {
+            vibrator.cancel();
+            vibrator.vibrate(VIBRATOR_PATTERN, -1);
         }
     }
 
