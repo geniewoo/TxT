@@ -24,7 +24,6 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.Selection;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,9 +36,6 @@ import static com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility.getSo
  */
 
 public class TxTWidget extends AppWidgetProvider {
-    //TODO
-    private static List<Integer> mAppWidgetIds = new ArrayList<>();
-    //to non static
 
     private static final int IN_NO_GAME = 0;
     private static final int IN_INFO = IN_NO_GAME + 1;
@@ -93,69 +89,72 @@ public class TxTWidget extends AppWidgetProvider {
         Realm realm = Realm.getDefaultInstance();
         FullGameRepo fullGameRepo = getFullGameRepo(realm);
         realm.close();
+
         if (fullGameRepo == null) {
             return;
         }
+
         boolean isMenuStage = context.getSharedPreferences(context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).getBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_MENU_STAGE), false);
         boolean isGamePlayingFlipper1 = context.getSharedPreferences(context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).getBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1), false);
         boolean isOnUpdate = context.getSharedPreferences(context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).getBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_ON_UPDATE), false);
-
+        int appWidgetId = context.getSharedPreferences(context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).getInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID), -1);
         int index = context.getSharedPreferences(context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).getInt(context.getString(R.string.PREF_PLAY_GAME_INDEX), 0);
         int nowStage = context.getSharedPreferences(context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).getInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_NO_GAME);
 
+        Log.d(TAG, "index : " + index + " nowStage : " + nowStage + " action : " + action);
         if (isOnUpdate) {
             SharedPreferences.Editor editor = context.getSharedPreferences(
                     context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
-            editor.putBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_ON_UPDATE), true);
+            editor.putBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_ON_UPDATE), false);
             editor.apply();
             if (index == 0) {
-                showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
             } else {
-                showGamePageLayout(context, index, fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGamePageLayout(context, index, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
             }
         }
 
         switch (action) {
             case ACTION_WIDGET_DISPLAY_NEW_GAME:
-                showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 if (isMenuStage) {
-                    flipMenu(context, isMenuStage);
+                    flipMenu(context, isMenuStage, appWidgetId);
                 }
                 break;
             case ACTION_WIDGET_MENU_FLIPPER_BTN_CLICKED:
-                flipMenu(context, isMenuStage);
+                flipMenu(context, isMenuStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_INFO_START_GAME_BTN:
-                showGamePageLayout(context, 1, fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGamePageLayout(context, 1, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "0":
-                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(0).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(0).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "1":
-                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(1).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(1).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "2":
-                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(2).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(2).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "3":
-                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(3).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage);
+                showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(3).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN:
                 switch (nowStage) {
                     case IN_GAME_CLEAR:
-                        flipMenu(context, isMenuStage);
+                        flipMenu(context, isMenuStage, appWidgetId);
                         break;
                     case IN_GAME_OVER:
-                        flipMenu(context, isMenuStage);
+                        flipMenu(context, isMenuStage, appWidgetId);
                         break;
                     case IN_STORY:
-                        showGamePageLayout(context, index + 1, fullGameRepo, isGamePlayingFlipper1, nowStage);
+                        showGamePageLayout(context, index + 1, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                         break;
                 }
                 break;
             case ACTION_WIDGET_MENU_START_GAME_BTN:
-                flipMenu(context, isMenuStage);
-                showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage);
+                flipMenu(context, isMenuStage, appWidgetId);
+                showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
         }
     }
@@ -165,26 +164,19 @@ public class TxTWidget extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
         Log.d(TAG, "OnUpdate");
 
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        List<Integer> nowWidgetIds = realm.where(PlayGameRepo.class).findAll().get(0).getWidgetIds();
-        for (int i : appWidgetIds) {
-            //mAppWidgetIds.add(i);
-            nowWidgetIds.add(appWidgetIds[i]);
-        }
-
-        realm.commitTransaction();
-        realm.close();
-        SharedPreferences.Editor editor = context.getSharedPreferences(
-                context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1), true);
         editor.putInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_NO_GAME);
         editor.putBoolean(context.getString(R.string.PREF_PLAY_GAME_IS_ON_UPDATE), true);
+            editor.putInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID),appWidgetIds[0]);
         editor.apply();
-        setPendingIntents(context);
+        Log.d(TAG, "id : " + sharedPreferences.getInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID), -1) + " " + appWidgetIds[0]);
+        setPendingIntents(context, sharedPreferences.getInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID), -1));
     }
 
-    private void setPendingIntents(Context context) {
+    private void setPendingIntents(Context context, int appWidgetId) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.setOnClickPendingIntent(R.id.widget_game1_info_start_game_btn,
                 getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_INFO_START_GAME_BTN));
@@ -201,7 +193,8 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(SELECTION_IDS1[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
             remoteViews.setOnClickPendingIntent(SELECTION_IDS2[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
         }
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
+        Log.d(TAG, "why ? : " + appWidgetId);
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
     }
 
     private void setPlayGameIndexPreference(Context context, int index) {
@@ -211,11 +204,11 @@ public class TxTWidget extends AppWidgetProvider {
         editor.apply();
     }
 
-    private void changeToPlayLayout(Context context) {
+    private void changeToPlayLayout(Context context, int appWidgetId) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.setViewVisibility(R.id.widget_no_game_lo, View.GONE);
         remoteViews.setViewVisibility(R.id.widget_play_lo, View.VISIBLE);
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                 remoteViews);
     }
 
@@ -223,20 +216,18 @@ public class TxTWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
         Log.d(TAG, "OnDelete");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE);
         for (int i : appWidgetIds) {
-            mAppWidgetIds.remove(i);
+            if (sharedPreferences.getInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID), -1) == i) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID), -1);
+                editor.apply();
+            }
         }
     }
 
-    private int[] intListToIntArray(List<Integer> intList) {
-        int[] returnIntArray = new int[intList.size()];
-        for (int i = 0; i < intList.size(); i++) {
-            returnIntArray[i] = intList.get(i);
-        }
-        return returnIntArray;
-    }
-
-    private void flipMenu(Context context, boolean isMenuStage) {
+    private void flipMenu(Context context, boolean isMenuStage, int appWidgetId) {
         SharedPreferences.Editor editor = context.getSharedPreferences(
                 context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
         if (isMenuStage) {
@@ -247,7 +238,7 @@ public class TxTWidget extends AppWidgetProvider {
         editor.apply();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.showPrevious(R.id.widget_menu_flipper);
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                 remoteViews);
     }
 
@@ -259,12 +250,13 @@ public class TxTWidget extends AppWidgetProvider {
         }
     }
 
-    private void showGameInfoLayout(Context context, FullGameRepo fullGameRepo, boolean isGamePlayingFlipper1, int nowStage) {
+    private void showGameInfoLayout(Context context, FullGameRepo fullGameRepo, boolean isGamePlayingFlipper1, int nowStage, int appWidgetId) {
+        int[] appWidgetIdArray = {appWidgetId};
         setPlayGameIndexPreference(context, 0);
 
         switch (nowStage) {
             case IN_NO_GAME:
-                changeToPlayLayout(context);
+                changeToPlayLayout(context, appWidgetId);
                 break;
             default:
         }
@@ -297,10 +289,10 @@ public class TxTWidget extends AppWidgetProvider {
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
                 Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
-                        R.id.widget_game2_info_image_iv, intListToIntArray(mAppWidgetIds));
+                        R.id.widget_game2_info_image_iv, appWidgetIdArray);
             } else {
                 Picasso.with(context).load(R.drawable.txt_logo6).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_info_image_iv,
-                        intListToIntArray(mAppWidgetIds));
+                        appWidgetIdArray);
             }
         } else {
             remoteViews.setViewVisibility(R.id.widget_game1_selections_lo, View.GONE);
@@ -314,13 +306,13 @@ public class TxTWidget extends AppWidgetProvider {
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGameInfoImageFromLocal(context);
                 Picasso.with(context).load(file).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews,
-                        R.id.widget_game1_info_image_iv, intListToIntArray(mAppWidgetIds));
+                        R.id.widget_game1_info_image_iv, appWidgetIdArray);
             } else {
                 Picasso.with(context).load(R.drawable.txt_logo6).resize(INFO_IMAGE_X, INFO_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_info_image_iv,
-                        intListToIntArray(mAppWidgetIds));
+                        appWidgetIdArray);
             }
         }
-        flipGame(context, isGamePlayingFlipper1);
+        flipGame(context, isGamePlayingFlipper1, appWidgetId);
 
         if (isGamePlayingFlipper1) {
             remoteViews.showNext(R.id.widget_game1_info_description_vf);
@@ -330,37 +322,38 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.showNext(R.id.widget_game2_info_start_game_vf);
         }
 
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                 remoteViews);
     }
 
-    private void showGamePageLayout(Context context, int index, FullGameRepo fullGameRepo, boolean isGamePlayingFlipper1, int nowStage) {
+    private void showGamePageLayout(Context context, int index, FullGameRepo fullGameRepo, boolean isGamePlayingFlipper1, int nowStage, int appWidgetId) {
         setPlayGameIndexPreference(context, index);
 
         switch (nowStage) {
             case IN_NO_GAME:
-                changeToPlayLayout(context);
+                changeToPlayLayout(context, appWidgetId);
                 break;
         }
         Page page = fullGameRepo.getGameInfo().getPages().get(index - 1);
+        Log.d(TAG, "target page : " + page.getPage() + " index : " + index + " nowStage : " + nowStage);
         SharedPreferences.Editor editor = context.getSharedPreferences(
                 context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
         switch (page.getPage()) {
             case PAGE_CHOICE:
                 editor.putInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_SELECTIONS);
-                showGameSelectionPageLayout(context, page, isGamePlayingFlipper1);
+                showGameSelectionPageLayout(context, page, isGamePlayingFlipper1, appWidgetId);
                 break;
             case PAGE_STORY:
                 editor.putInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_STORY);
-                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_NEXT_PAGE), isGamePlayingFlipper1);
+                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_NEXT_PAGE), isGamePlayingFlipper1, appWidgetId);
                 break;
             case PAGE_GAME_OVER:
                 editor.putInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_GAME_OVER);
-                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_GAME_OVER), isGamePlayingFlipper1);
+                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_GAME_OVER), isGamePlayingFlipper1, appWidgetId);
                 break;
             case PAGE_GAME_CLEAR:
                 editor.putInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_GAME_CLEAR);
-                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_GAME_CLEAR), isGamePlayingFlipper1);
+                showGameStoryPageLayout(context, page, context.getString(R.string.TxT_WIDGET_STORY_GAME_CLEAR), isGamePlayingFlipper1, appWidgetId);
                 break;
         }
         editor.apply();
@@ -378,7 +371,8 @@ public class TxTWidget extends AppWidgetProvider {
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private void showGameSelectionPageLayout(Context context, Page page, boolean isGamePlayingFlipper1) {
+    private void showGameSelectionPageLayout(Context context, Page page, boolean isGamePlayingFlipper1, int appWidgetId) {
+        int[] appWidgetIdArray = {appWidgetId};
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
 
         String title = page.getTitle();
@@ -412,11 +406,11 @@ public class TxTWidget extends AppWidgetProvider {
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
-                        R.id.widget_game2_selections_image_iv, intListToIntArray(mAppWidgetIds));
+                        R.id.widget_game2_selections_image_iv, appWidgetIdArray);
             } else {
                 Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_IMAGE_X,
                         PAGE_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_selections_image_iv,
-                        intListToIntArray(mAppWidgetIds));
+                        appWidgetIdArray);
             }
         } else {
             remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
@@ -437,14 +431,14 @@ public class TxTWidget extends AppWidgetProvider {
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_IMAGE_X, PAGE_IMAGE_Y).centerCrop().into(remoteViews,
-                        R.id.widget_game1_selections_image_iv, intListToIntArray(mAppWidgetIds));
+                        R.id.widget_game1_selections_image_iv, appWidgetIdArray);
             } else {
                 Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_IMAGE_X,
                         PAGE_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_selections_image_iv,
-                        intListToIntArray(mAppWidgetIds));
+                        appWidgetIdArray);
             }
         }
-        flipGame(context, isGamePlayingFlipper1);
+        flipGame(context, isGamePlayingFlipper1, appWidgetId);
 
         if (isGamePlayingFlipper1) {
             remoteViews.showNext(R.id.widget_game1_selections_description_vf);
@@ -457,10 +451,11 @@ public class TxTWidget extends AppWidgetProvider {
                 remoteViews.showNext(SELECTION_VFS2[i]);
             }
         }
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
     }
 
-    private void showGameStoryPageLayout(Context context, Page page, String nextBtnStr, boolean isGamePlayingFlipper1) {
+    private void showGameStoryPageLayout(Context context, Page page, String nextBtnStr, boolean isGamePlayingFlipper1, int appWidgetId) {
+        int[] appWidgetIdArray = {appWidgetId};
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
 
         String title = page.getTitle();
@@ -481,11 +476,11 @@ public class TxTWidget extends AppWidgetProvider {
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
-                        R.id.widget_game2_story_image_iv, intListToIntArray(mAppWidgetIds));
+                        R.id.widget_game2_story_image_iv, appWidgetIdArray);
             } else {
                 Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_STORY_IMAGE_X,
                         PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game2_story_image_iv,
-                        intListToIntArray(mAppWidgetIds));
+                        appWidgetIdArray);
             }
         } else {
             remoteViews.setViewVisibility(R.id.widget_game1_info_lo, View.GONE);
@@ -499,14 +494,14 @@ public class TxTWidget extends AppWidgetProvider {
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
                 Picasso.with(context).load(file).resize(PAGE_STORY_IMAGE_X, PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews,
-                        R.id.widget_game1_story_image_iv, intListToIntArray(mAppWidgetIds));
+                        R.id.widget_game1_story_image_iv, appWidgetIdArray);
             } else {
                 Picasso.with(context).load(R.drawable.txt_logo6).resize(PAGE_STORY_IMAGE_X,
                         PAGE_STORY_IMAGE_Y).centerCrop().into(remoteViews, R.id.widget_game1_story_image_iv,
-                        intListToIntArray(mAppWidgetIds));
+                        appWidgetIdArray);
             }
         }
-        flipGame(context, isGamePlayingFlipper1);
+        flipGame(context, isGamePlayingFlipper1, appWidgetId);
 
         if (isGamePlayingFlipper1) {
             remoteViews.showNext(R.id.widget_game1_story_description_vf);
@@ -518,7 +513,7 @@ public class TxTWidget extends AppWidgetProvider {
         turnOnVibrator(context, isVibrateOn);
         playSound(context, sound);
 
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds), remoteViews);
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
     }
 
     private void playSound(Context context, String sound) {
@@ -550,7 +545,7 @@ public class TxTWidget extends AppWidgetProvider {
         }
     }
 
-    private void flipGame(Context context, boolean isGamePlayingFlipper1) {
+    private void flipGame(Context context, boolean isGamePlayingFlipper1, int appWidgetId) {
         if (isGamePlayingFlipper1) {
             SharedPreferences.Editor editor = context.getSharedPreferences(
                     context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
@@ -564,7 +559,7 @@ public class TxTWidget extends AppWidgetProvider {
         }
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.showPrevious(R.id.widget_game_flipper);
-        AppWidgetManager.getInstance(context).updateAppWidget(intListToIntArray(mAppWidgetIds),
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                 remoteViews);
     }
 }

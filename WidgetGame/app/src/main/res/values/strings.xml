@@ -22,6 +22,7 @@
     <string name="PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1" translatable="false">PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1</string>
     <string name="PREF_PLAY_GAME_NOW_STAGE" translatable="false">PREF_PLAY_GAME_NOW_STAGE</string>
     <string name="PREF_PLAY_GAME_IS_ON_UPDATE" translatable="false">PREF_PLAY_GAME_IS_ON_UPDATE</string>
+    <string name="PREF_PLAY_GAME_APP_WIDGET_ID" translatable="false">PREF_PLAY_GAME_APP_WIDGET_ID</string>
 
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>
