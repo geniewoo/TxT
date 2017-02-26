@@ -42,10 +42,10 @@ public class TxTWidget extends AppWidgetProvider {
     private static int mNowStage;
     private static boolean mIsGamePlayingFlipper1;
     private static List<Integer> mAppWidgetIds = new ArrayList<>();
-    private static Realm mRealm = null;
-    private static FullGameRepo mFullGameRepo = null;
     private static HashMap<String, Integer> mSoundMap;
     //to non static
+    private static boolean isOnUpdate = false;
+
     private static final int IN_NO_GAME = 0;
     private static final int IN_INFO = IN_NO_GAME + 1;
     private static final int IN_SELECTIONS = IN_INFO + 1;
@@ -95,25 +95,26 @@ public class TxTWidget extends AppWidgetProvider {
         Log.d(TAG, "OnReceive1");
         super.onReceive(context, intent);
         Log.d(TAG, "OnReceive2");
-
-        if (mRealm == null) {
-            mRealm = Realm.getDefaultInstance();
-        }
         if (mSoundMap == null) {
             Log.d(TAG, "getSoundMap");
             mSoundMap = getSoundMap(context);
         }
-
         String action = intent.getAction();
-        if (mFullGameRepo == null && mRealm.where(PlayGameRepo.class).findAll().size() == 1
-                && mRealm.where(PlayGameRepo.class).findAll().get(0).isPlayable()) {
-            setFullGameRepoMemberField();
+        Realm realm = Realm.getDefaultInstance();
+        FullGameRepo fullGameRepo = getFullGameRepo(realm);
+
+        if (isOnUpdate) {
+            int index = getPlayGameIndexPreference(context);
+            if (index == 0) {
+                showGameInfoLayout(context, fullGameRepo);
+            } else {
+                showGamePageLayout(context, index, fullGameRepo);
+            }
         }
 
         switch (action) {
             case ACTION_WIDGET_DISPLAY_NEW_GAME:
-                setFullGameRepoMemberField();
-                showGameInfoLayout(context);
+                showGameInfoLayout(context, fullGameRepo);
                 if (mIsMenuStage) {
                     flipMenu(context);
                 }
@@ -122,19 +123,19 @@ public class TxTWidget extends AppWidgetProvider {
                 flipMenu(context);
                 break;
             case ACTION_WIDGET_GAME_INFO_START_GAME_BTN:
-                showGamePageLayout(context, 1);
+                showGamePageLayout(context, 1, fullGameRepo);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "0":
-                showGamePageLayout(context, mSelectedTargetIndex[0]);
+                showGamePageLayout(context, mSelectedTargetIndex[0], fullGameRepo);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "1":
-                showGamePageLayout(context, mSelectedTargetIndex[1]);
+                showGamePageLayout(context, mSelectedTargetIndex[1], fullGameRepo);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "2":
-                showGamePageLayout(context, mSelectedTargetIndex[2]);
+                showGamePageLayout(context, mSelectedTargetIndex[2], fullGameRepo);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "3":
-                showGamePageLayout(context, mSelectedTargetIndex[3]);
+                showGamePageLayout(context, mSelectedTargetIndex[3], fullGameRepo);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN:
                 switch (mNowStage) {
@@ -145,13 +146,13 @@ public class TxTWidget extends AppWidgetProvider {
                         flipMenu(context);
                         break;
                     case IN_STORY:
-                        showGamePageLayout(context, getPlayGameIndexPreference(context) + 1);
+                        showGamePageLayout(context, getPlayGameIndexPreference(context) + 1, fullGameRepo);
                         break;
                 }
                 break;
             case ACTION_WIDGET_MENU_START_GAME_BTN:
                 flipMenu(context);
-                showGameInfoLayout(context);
+                showGameInfoLayout(context, fullGameRepo);
                 break;
         }
     }
@@ -160,9 +161,6 @@ public class TxTWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
         Log.d(TAG, "OnUpdate");
-        if (mRealm == null) {
-            mRealm = Realm.getDefaultInstance();
-        }
         if (mSoundMap == null) {
             Log.d(TAG, "getSoundMap");
             mSoundMap = getSoundMap(context);
@@ -173,19 +171,8 @@ public class TxTWidget extends AppWidgetProvider {
         }
         mNowStage = IN_NO_GAME;
         mIsGamePlayingFlipper1 = true;
+        isOnUpdate = true;
         setPendingIntents(context);
-        if (mRealm.where(PlayGameRepo.class).findAll().size() == 1
-                && mRealm.where(PlayGameRepo.class).findAll().get(0).isPlayable()) {
-            if (mFullGameRepo == null) {
-                setFullGameRepoMemberField();
-            }
-            int index = getPlayGameIndexPreference(context);
-            if (index == 0) {
-                showGameInfoLayout(context);
-            } else {
-                showGamePageLayout(context, index);
-            }
-        }
     }
 
     private void setPendingIntents(Context context) {
@@ -246,11 +233,6 @@ public class TxTWidget extends AppWidgetProvider {
         for (int i : appWidgetIds) {
             mAppWidgetIds.remove(new Integer(i));
         }
-        if (mAppWidgetIds.size() == 0 && mRealm != null) {
-            mRealm.close();
-            mRealm = null;
-            setPlayGameIndexPreference(context, 0);
-        }
     }
 
     private int[] intListToIntArray(List<Integer> intList) {
@@ -273,11 +255,11 @@ public class TxTWidget extends AppWidgetProvider {
                 remoteViews);
     }
 
-    private void setFullGameRepoMemberField() {
-        mFullGameRepo = mRealm.copyFromRealm(mRealm.where(PlayGameRepo.class).findAll().get(0).getFullGameRepo());
+    private FullGameRepo getFullGameRepo(Realm realm) {
+        return realm.copyFromRealm(realm.where(PlayGameRepo.class).findAll().get(0).getFullGameRepo());
     }
 
-    private void showGameInfoLayout(Context context) {
+    private void showGameInfoLayout(Context context, FullGameRepo fullGameRepo) {
         setPlayGameIndexPreference(context, 0);
 
         switch (mNowStage) {
@@ -290,10 +272,10 @@ public class TxTWidget extends AppWidgetProvider {
         }
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
-        String title = mFullGameRepo.getGameInfo().getGameTitle();
-        String description = mFullGameRepo.getGameInfo().getGameDescription();
-        String imagePath = mFullGameRepo.getGameInfo().getGameImagePath();
-        String maker = mFullGameRepo.getMaker().getNickName();
+        String title = fullGameRepo.getGameInfo().getGameTitle();
+        String description = fullGameRepo.getGameInfo().getGameDescription();
+        String imagePath = fullGameRepo.getGameInfo().getGameImagePath();
+        String maker = fullGameRepo.getMaker().getNickName();
 
         if (mIsGamePlayingFlipper1) {
             remoteViews.setViewVisibility(R.id.widget_game2_selections_lo, View.GONE);
@@ -303,7 +285,7 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game2_info_title_tv, title);
 
             String descriptionStr = "";
-            for (int i = 0 ; i < description.length() ; i ++) {
+            for (int i = 0; i < description.length(); i++) {
                 descriptionStr += description.charAt(i);
                 remoteViews.setTextViewText(R.id.widget_game2_info_description_tv, descriptionStr);
             }
@@ -350,7 +332,7 @@ public class TxTWidget extends AppWidgetProvider {
                 remoteViews);
     }
 
-    private void showGamePageLayout(Context context, int index) {
+    private void showGamePageLayout(Context context, int index, FullGameRepo fullGameRepo) {
         setPlayGameIndexPreference(context, index);
 
         switch (mNowStage) {
@@ -358,7 +340,7 @@ public class TxTWidget extends AppWidgetProvider {
                 changeToPlayLayout(context);
                 break;
         }
-        Page page = mFullGameRepo.getGameInfo().getPages().get(index - 1);
+        Page page = fullGameRepo.getGameInfo().getPages().get(index - 1);
         switch (page.getPage()) {
             case PAGE_CHOICE:
                 mNowStage = IN_SELECTIONS;
@@ -415,12 +397,12 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game2_selections_description_tv, description);
 
             int i = 0;
-            for ( ; i < selections.size(); i++) {
+            for (; i < selections.size(); i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS2[i], View.VISIBLE);
                 remoteViews.setTextViewText(SELECTION_IDS2[i], selections.get(i).getSelectionText());
                 mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
             }
-            for ( ; i < 4 ; i++) {
+            for (; i < 4; i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS2[i], View.INVISIBLE);
             }
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
@@ -441,12 +423,12 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game1_selections_description_tv, description);
 
             int i = 0;
-            for ( ; i < selections.size(); i++) {
+            for (; i < selections.size(); i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS1[i], View.VISIBLE);
                 remoteViews.setTextViewText(SELECTION_IDS1[i], selections.get(i).getSelectionText());
                 mSelectedTargetIndex[i] = selections.get(i).getNextIndex();
             }
-            for ( ; i < 4 ; i++) {
+            for (; i < 4; i++) {
                 remoteViews.setViewVisibility(SELECTION_IDS1[i], View.INVISIBLE);
             }
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
@@ -463,12 +445,12 @@ public class TxTWidget extends AppWidgetProvider {
 
         if (mIsGamePlayingFlipper1) {
             remoteViews.showNext(R.id.widget_game1_selections_description_vf);
-            for (int i = 0 ; i < selections.size() ; i ++) {
+            for (int i = 0; i < selections.size(); i++) {
                 remoteViews.showNext(SELECTION_VFS1[i]);
             }
         } else {
             remoteViews.showNext(R.id.widget_game2_selections_description_vf);
-            for (int i = 0 ; i < selections.size() ; i ++) {
+            for (int i = 0; i < selections.size(); i++) {
                 remoteViews.showNext(SELECTION_VFS2[i]);
             }
         }
