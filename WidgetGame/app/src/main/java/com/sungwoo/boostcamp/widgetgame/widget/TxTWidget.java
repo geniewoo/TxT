@@ -42,7 +42,6 @@ public class TxTWidget extends AppWidgetProvider {
     private static int mNowStage;
     private static boolean mIsGamePlayingFlipper1;
     private static List<Integer> mAppWidgetIds = new ArrayList<>();
-    private static HashMap<String, Integer> mSoundMap;
     //to non static
     private static boolean isOnUpdate = false;
 
@@ -95,10 +94,6 @@ public class TxTWidget extends AppWidgetProvider {
         Log.d(TAG, "OnReceive1");
         super.onReceive(context, intent);
         Log.d(TAG, "OnReceive2");
-        if (mSoundMap == null) {
-            Log.d(TAG, "getSoundMap");
-            mSoundMap = getSoundMap(context);
-        }
         String action = intent.getAction();
         Realm realm = Realm.getDefaultInstance();
         FullGameRepo fullGameRepo = getFullGameRepo(realm);
@@ -161,10 +156,6 @@ public class TxTWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
         Log.d(TAG, "OnUpdate");
-        if (mSoundMap == null) {
-            Log.d(TAG, "getSoundMap");
-            mSoundMap = getSoundMap(context);
-        }
 
         for (int i : appWidgetIds) {
             mAppWidgetIds.add(i);
@@ -522,7 +513,8 @@ public class TxTWidget extends AppWidgetProvider {
         if (sound.equals(context.getString(R.string.SPINNER_SOUND_DEFAULT))) {
             return;
         }
-        int soundId = mSoundMap.get(sound);
+        HashMap<String, Integer> soundMap = getSoundMap(context);
+        int soundId = soundMap.get(sound);
         try {
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.reset();
