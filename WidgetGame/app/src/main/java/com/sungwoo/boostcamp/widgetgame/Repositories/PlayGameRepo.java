@@ -1,5 +1,6 @@
 package com.sungwoo.boostcamp.widgetgame.Repositories;
 
+import java.util.List;
 import io.realm.RealmObject;
 
 /**
@@ -9,6 +10,15 @@ import io.realm.RealmObject;
 public class PlayGameRepo extends RealmObject {
     private FullGameRepo fullGameRepo;
     private Boolean isPlayable;
+    private List<Integer> widgetIds;
+
+    public List<Integer> getWidgetIds() {
+        return widgetIds;
+    }
+
+    public void setWidgetIds(List<Integer> widgetIds) {
+        this.widgetIds = widgetIds;
+    }
 
     public PlayGameRepo() {
     }

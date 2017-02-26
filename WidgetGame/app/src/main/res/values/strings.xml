@@ -18,6 +18,10 @@
 
     <string name="PREF_PLAY_GAME" translatable="false">PREF_PLAY_GAME</string>
     <string name="PREF_PLAY_GAME_INDEX" translatable="false">PREF_PLAY_GAME_INDEX</string>
+    <string name="PREF_PLAY_GAME_IS_MENU_STAGE" translatable="false">PREF_PLAY_GAME_IS_MENU_STAGE</string>
+    <string name="PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1" translatable="false">PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1</string>
+    <string name="PREF_PLAY_GAME_NOW_STAGE" translatable="false">PREF_PLAY_GAME_NOW_STAGE</string>
+    <string name="PREF_PLAY_GAME_IS_ON_UPDATE" translatable="false">PREF_PLAY_GAME_IS_ON_UPDATE</string>
 
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>
