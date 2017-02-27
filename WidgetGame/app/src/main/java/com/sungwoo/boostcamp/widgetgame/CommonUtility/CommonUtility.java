@@ -1,22 +1,18 @@
 package com.sungwoo.boostcamp.widgetgame.CommonUtility;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
-import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.sungwoo.boostcamp.widgetgame.R;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,30 +21,26 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class CommonUtility {
-    public static final int SAVE_BITMAP_TO_FILE_QUALITY = 100;
 
     private static final String TAG = CommonUtility.class.getSimpleName();
 
-    public static boolean isNetworkAvailableAndShowErrorMessageIfNeeded(Context context) {
+    public static boolean isNetworkAvailableShowErrorMessageIfNeeded(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
-        if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {
-            return true;
-        } else {
-            Toast.makeText(context, R.string.COMMON_NETWORK_IS_NOT_AVAILABLE, Toast.LENGTH_SHORT).show();
+        if (connectivityManager.getActiveNetworkInfo() == null || !connectivityManager.getActiveNetworkInfo().isConnected()) {
+            CommonUtility.showNeutralDialog(context, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_NETWORK_IS_NOT_AVAILABLE_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
+        } else {
+            return true;
         }
-    }
-
-    public static void displayNetworkError(Context context) {
-        Toast.makeText(context, R.string.COMMON_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
     }
 
     public static CommonRepo.UserRepo getUserRepoFromPreference(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.PREF_USER), MODE_PRIVATE);
-        String email = preferences.getString(context.getString(R.string.PREF_EMAIL), "");
-        String password = preferences.getString(context.getString(R.string.PREF_PASSWORD), "");
-        String nickname = preferences.getString(context.getString(R.string.PREF_NICKNAME), "");
-        String imageUrl = preferences.getString(context.getString(R.string.PREF_IMAGE_URL), "");
+
+        String email = preferences.getString(context.getString(R.string.PREF_USER_EMAIL), "");
+        String password = preferences.getString(context.getString(R.string.PREF_USER_PASSWORD), "");
+        String nickname = preferences.getString(context.getString(R.string.PREF_USER_NICKNAME), "");
+        String imageUrl = preferences.getString(context.getString(R.string.PREF_USER_IMAGE_URL), "");
 
         return new CommonRepo.UserRepo(email, password, nickname, imageUrl);
     }
@@ -60,26 +52,49 @@ public class CommonUtility {
         editor.apply();
     }
 
-    public static boolean saveBitmapToFile(File dir, String fileName, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
-        dir.getParentFile().mkdir();
-        dir.mkdir();
-        File imageFile = new File(dir, fileName);
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(imageFile);
-            bitmap.compress(format, quality, fileOutputStream);
-            fileOutputStream.close();
-            return true;
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        return false;
+    public static StringBuffer getServerGameImageFolderPathStringBuffer(Context context, String nickname, String gameTitle, String fileName) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(context.getString(R.string.URL_GAME_IMAGE_SERVER_FOLDER));
+        stringBuffer.append(File.separator);
+        stringBuffer.append(nickname);
+        stringBuffer.append(File.separator);
+        stringBuffer.append(gameTitle);
+        stringBuffer.append(File.separator);
+        stringBuffer.append(fileName);
+        return stringBuffer;
+    }
+
+    public static HashMap<String, Integer> getSoundMap(Context context) {
+        HashMap<String, Integer> soundMap = new HashMap<>();
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_1), R.raw.coins);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_2), R.raw.crash);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_3), R.raw.doorbell);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_4), R.raw.glass);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_5), R.raw.gun);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_6), R.raw.laugh);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_7), R.raw.open);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_8), R.raw.opendoor);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_9), R.raw.ring);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_10), R.raw.shotgun);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_11), R.raw.sword);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_12), R.raw.wind);
+        soundMap.put(context.getString(R.string.SPINNER_SOUND_13), R.raw.witchlaugh);
+        return soundMap;
+    }
+
+    public static void showNeutralDialog(Context context, int titleResId, int contentResId, int neutralBtnResId) {
+        new MaterialDialog.Builder(context)
+                .title(titleResId)
+                .content(contentResId)
+                .neutralText(neutralBtnResId)
+                .show();
+    }
+
+    public static ProgressDialog showProgressDialogAndReturnInself(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        return progressDialog;
     }
 }

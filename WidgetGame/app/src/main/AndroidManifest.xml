@@ -7,13 +7,16 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
+        android:name=".CommonUtility.RealmInit"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +26,21 @@
         </activity>
         <activity android:name=".JoinActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".MakeGame.MakeGameMenuActivity"></activity>
+        <activity android:name=".make_game.MakeGameMenuActivity" />
+        <activity android:name=".make_game.MakeGamePageActivity" />
+        <activity android:name=".make_game.MakeGameInfoActivity" />
+        <activity android:name=".find_game.FindGameActivity" />
+        <activity android:name=".find_game.DownloadGameActivity"></activity>
+        <receiver
+            android:name=".widget.TxTWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.sungwoo.boostcamp.widgetgame.action.DISPLAY_NEW_GAME"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider" />
+        </receiver>
     </application>
 
 </manifest>

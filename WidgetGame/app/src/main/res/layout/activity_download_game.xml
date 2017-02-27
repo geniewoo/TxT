@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_download_game"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/horizontal_4"
+        android:paddingRight="@dimen/horizontal_4"
+        android:paddingTop="@dimen/vertical_2"
+        tools:context="com.sungwoo.boostcamp.widgetgame.find_game.DownloadGameActivity">
+
+        <ImageView
+            android:id="@+id/download_game_image_iv"
+            android:layout_width="240dp"
+            android:layout_height="320dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/vertical_4" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_1"
+            android:layout_marginTop="@dimen/vertical_1">
+
+            <TextView
+                android:id="@+id/download_game_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size7" />
+
+            <TextView
+                android:id="@+id/download_game_stars_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:paddingTop="@dimen/vertical_2"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/text_size2" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_1"
+            android:layout_marginTop="@dimen/vertical_1"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/download_game_maker_image_iv"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/download_game_nickname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/vertical_2"
+                android:textSize="@dimen/text_size4" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
+
+        <TextView
+            android:id="@+id/download_game_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_1"
+            android:layout_marginLeft="@dimen/vertical_2"
+            android:layout_marginRight="@dimen/vertical_2"
+            android:layout_marginTop="@dimen/vertical_1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorDarkGray" />
+
+        <Button
+            android:id="@+id/download_game_down_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/vertical_4"
+            android:background="@drawable/button_selector"
+            android:text="@string/DOWNLOAD_GAME_DOWN" />
+
+    </LinearLayout>
+</ScrollView>

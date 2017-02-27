@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="SPINNER_PAGES">
+        <item>@string/SPINNER_PAGE_1</item>
+        <item>@string/SPINNER_PAGE_2</item>
+        <item>@string/SPINNER_PAGE_3</item>
+        <item>@string/SPINNER_PAGE_4</item>
+    </string-array>
+
+    <string-array name="SPINNER_SOUNDS">
+        <item>@string/SPINNER_SOUND_DEFAULT</item>
+        <item>@string/SPINNER_SOUND_1</item>
+        <item>@string/SPINNER_SOUND_2</item>
+        <item>@string/SPINNER_SOUND_3</item>
+        <item>@string/SPINNER_SOUND_4</item>
+        <item>@string/SPINNER_SOUND_5</item>
+        <item>@string/SPINNER_SOUND_6</item>
+        <item>@string/SPINNER_SOUND_7</item>
+        <item>@string/SPINNER_SOUND_8</item>
+        <item>@string/SPINNER_SOUND_9</item>
+        <item>@string/SPINNER_SOUND_10</item>
+        <item>@string/SPINNER_SOUND_11</item>
+        <item>@string/SPINNER_SOUND_12</item>
+        <item>@string/SPINNER_SOUND_13</item>
+    </string-array>
+
+    <string-array name="MENU_LV_ITEMS">
+        <item>@string/MENU_FIND_GAME</item>
+        <item>@string/MENU_MAKE_GAME</item>
+        <item>@string/MENU_REPORT</item>
+        <item>@string/MENU_LOGOUT</item>
+    </string-array>
+
+    <string-array name="MAKE_MENU_LV_ITEMS">
+        <item>@string/MAKE_NEW_GAME</item>
+        <item>@string/MAKE_CONTINUE_GAME</item>
+        <item>@string/MAKE_SHARE_GAME</item>
+    </string-array>
+</resources>

@@ -23,7 +23,7 @@ public class CommonRepo {
     public class ResultNicknameRepo {
 
         private int code;
-        private String err_msg;
+        private String errorMessage;
         private String nickname;
         private String imageUrl;
 
@@ -35,8 +35,8 @@ public class CommonRepo {
             return code;
         }
 
-        public String getErr_msg() {
-            return err_msg;
+        public String getErrorMessage() {
+            return errorMessage;
         }
 
         public String getNickname() {
@@ -91,6 +91,27 @@ public class CommonRepo {
 
         public void setImageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
+        }
+    }
+
+    static public class MakeGamePreference{
+        private boolean isExist;
+        private int maxIndex;
+
+        public MakeGamePreference() {
+        }
+
+        public MakeGamePreference(boolean isExist, int maxIndex) {
+            this.isExist = isExist;
+            this.maxIndex = maxIndex;
+        }
+
+        public boolean isExist() {
+            return isExist;
+        }
+
+        public int getMaxIndex() {
+            return maxIndex;
         }
     }
 }

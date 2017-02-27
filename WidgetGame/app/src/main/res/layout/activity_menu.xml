@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_menu"
+    android:id="@+id/activity_menu_lo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/horizontal_4"
+    android:paddingRight="@dimen/horizontal_4"
+    android:paddingTop="@dimen/vertical_4"
+    android:paddingBottom="@dimen/vertical_4"
     tools:context="com.sungwoo.boostcamp.widgetgame.MenuActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,45 +23,21 @@
         android:id="@+id/menu_user_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
-    <Button
-        android:id="@+id/menu_find_game_btn"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/vertical_2"/>
+    <View
+        android:layout_marginTop="@dimen/vertical_8"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_margin1"
-        android:layout_marginRight="@dimen/vertical_margin1"
-        android:text="@string/MENU_FIND_GAME"/>
-
-    <Button
-        android:id="@+id/menu_make_game_btn"
+        android:layout_height="1dip"
+        android:background="@color/colorDarkGray" />
+    <ListView
+        android:id="@+id/menu_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_margin1"
-        android:layout_marginRight="@dimen/vertical_margin1"
-        android:text="@string/MENU_MAKE_GAME"/>
-
-    <Button
-        android:id="@+id/menu_played_games_btn"
+        android:layout_height="wrap_content">
+    </ListView>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_margin1"
-        android:layout_marginRight="@dimen/vertical_margin1"
-        android:text="@string/MENU_PLAYED_GAME"/>
-
-    <Button
-        android:id="@+id/menu_report_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_margin1"
-        android:layout_marginRight="@dimen/vertical_margin1"
-        android:text="@string/MENU_REPORT"/>
-
-    <Button
-        android:id="@+id/menu_logout_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/vertical_margin1"
-        android:layout_marginRight="@dimen/vertical_margin1"
-        android:text="@string/MENU_LOGOUT"/>
+        android:layout_height="1dip"
+        android:background="@color/colorDarkGray" />
 
 </LinearLayout>

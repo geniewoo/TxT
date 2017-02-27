@@ -1,17 +1,18 @@
 package com.sungwoo.boostcamp.widgetgame;
 
-import android.nfc.FormatException;
+import android.app.ProgressDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
+import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import java.util.regex.Pattern;
 
@@ -25,6 +26,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class JoinActivity extends AppCompatActivity {
+    public static final int JOIN_SUCCESS_RESULT_CODE = 100;
+
     private static final int JOIN_SUCCESS = 100;
     private static final int JOIN_DUPLICATE_EMAIL = 200;
     private static final int JOIN_DUPLICATE_NICKNAME = 300;
@@ -42,9 +45,9 @@ public class JoinActivity extends AppCompatActivity {
     private static final String TAG = JoinActivity.class.getSimpleName();
 
     //회원가입 스트링 유효성 파악을 위한 패턴들
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_NICKNAME_REGEX = Pattern.compile("^[A-z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NICKNAME_REGEX = Pattern.compile("^[A-Z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +60,13 @@ public class JoinActivity extends AppCompatActivity {
     private boolean validateCredentialLocallyDisplayErrorMessageIfNeeded(String email, String password, String nickname) {   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
 
         if (!isValidEmail(email)) {
-            Toast.makeText(this, R.string.JOIN_EMAIL_IS_WRONG, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_INVALID_EMAIL_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         } else if (!isValidPassword(password)) {
-            Toast.makeText(this, R.string.JOIN_PASSWORD_IS_WRONG, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_INVALID_PASSWORD_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         } else if (!isValidNickname(nickname)) {
-            Toast.makeText(this, R.string.JOIN_NICKNAME_IS_WRONG, Toast.LENGTH_SHORT).show();
+            CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_INVALID_NICKNAME_CONTENT, R.string.DIALOG_CONFIRM);
             return false;
         }
         return true;
@@ -81,60 +84,66 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private boolean isValidEmail(String email) {
-        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
-            return false;
-        return true;
+        return VALID_EMAIL_ADDRESS_REGEX.matcher(email).find();
     }
 
     private boolean isValidPassword(String password) {
-        if (!VALID_PASSWORD_REGEX.matcher(password).find())
-            return false;
-        return true;
+        return VALID_PASSWORD_REGEX.matcher(password).find();
     }
 
     private boolean isValidNickname(String nickname) {
-        if (!VALID_NICKNAME_REGEX.matcher(nickname).find())
-            return false;
-        return true;
+        return VALID_NICKNAME_REGEX.matcher(nickname).find();
     }
 
     private void checkJoinServer(String email, String password, String nickname) {   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
-        if (!CommonUtility.isNetworkAvailableAndShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(JoinActivity.this)) {
             return;
         }
+
+        final ProgressDialog progressDialog = CommonUtility.showProgressDialogAndReturnInself(this);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultCodeRepo> testJoinServerCall = userInformRetrofit.testJoinServer(email, password, nickname);
+        UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
+        Call<CommonRepo.ResultCodeRepo> testJoinServerCall = userInformationRetrofit.testJoinServer(email, password, nickname);
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
-                        Toast.makeText(JoinActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                        setResult(JOIN_SUCCESS_RESULT_CODE);
                         finish();
                         break;
                     case JOIN_DUPLICATE_EMAIL:
-                        Toast.makeText(JoinActivity.this, R.string.JOIN_EMAIL_EXISTS, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_EMAIL_EXISTS_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                     case JOIN_DUPLICATE_NICKNAME:
-                        Toast.makeText(JoinActivity.this, R.string.JOIN_NICKNAME_EXISTS, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_JOIN_NICKNAME_EXISTS_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
                     case JOIN_FORMAT_ERROR:
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_UNKNOWN_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         Log.e(TAG, codeRepo.getErrorMessage());
                         break;
                     case JOIN_SERVER_ERROR:
-                        Toast.makeText(JoinActivity.this, R.string.COMMON_SERVER_ERROR, Toast.LENGTH_SHORT).show();
+                        CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                         break;
+                    default:
+
                 }
             }
 
             @Override
             public void onFailure(Call<CommonRepo.ResultCodeRepo> call, Throwable t) {
-                CommonUtility.displayNetworkError(getApplicationContext());
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
+                CommonUtility.showNeutralDialog(JoinActivity.this, R.string.DIALOG_ERR_TITLE, R.string.DIALOG_COMMON_SERVER_ERROR_CONTENT, R.string.DIALOG_CONFIRM);
                 try {
                     throw t;
                 } catch (Throwable throwable) {

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_make_game_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/vertical_2"
+    android:paddingLeft="@dimen/horizontal_2"
+    android:paddingRight="@dimen/horizontal_2"
+    android:paddingTop="@dimen/vertical_2"
+    tools:context="com.sungwoo.boostcamp.widgetgame.make_game.MakeGameInfoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/make_game_info_title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/MAKE_GAME_INFO_TITLE"
+                android:inputType="text"
+                android:maxLength="16"
+                android:maxLines="1" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vertical_2">
+
+            <EditText
+                android:id="@+id/make_game_info_description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="@string/MAKE_GAME_INFO_DESC"
+                android:inputType="textMultiLine"
+                android:maxLength="400"
+                android:maxLines="10"
+                android:minHeight="180dp"
+                android:textAlignment="textStart" />
+        </android.support.design.widget.TextInputLayout>
+
+        <FrameLayout
+            android:id="@+id/make_game_info_image_fl"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/vertical_2">
+
+            <TextView
+                android:id="@+id/make_game_info_image_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/image_guideline_selector"
+                android:gravity="center"
+                android:text="@string/MAKE_GAME_INFO_IMAGE" />
+
+            <ImageView
+                android:id="@+id/make_game_info_image_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/DESC_MAKE_GAME_INFO_IV" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/make_game_info_start_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/horizontal_4"
+            android:layout_marginRight="@dimen/horizontal_4"
+            android:layout_marginTop="@dimen/vertical_2"
+            android:background="@drawable/button_selector"
+            android:text="@string/MAKE_GAME_INFO_START" />
+
+    </LinearLayout>
+</ScrollView>

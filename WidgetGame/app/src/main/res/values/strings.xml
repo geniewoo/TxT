@@ -1,18 +1,28 @@
 <resources>
     <!-- common -->
-    <string name="app_name">T x T</string>
+    <string name="app_name" translatable="false">T x T</string>
     <string name="COMMON_ERROR">error</string>
-    <string name="COMMON_NETWORK_IS_NOT_AVAILABLE">wifi 혹은 data가 꺼져있습니다</string>
     <string name="COMMON_NETWORK_ERROR">인터넷 접속이 불가능 하거나 서버에 이상이 있습니다 잠시후에 다시 시도해 주세요</string>
-    <string name="COMMON_SERVER_ERROR">서버에 문제가 있습니다</string>
     <string name="FILE_EXPANDER_PNG" translatable="false">.png</string>
 
     <!-- sharedPreference -->
     <string name="PREF_USER" translatable="false">PREF_USER</string>
-    <string name="PREF_EMAIL" translatable="false">PREF_EMAIL</string>
-    <string name="PREF_PASSWORD" translatable="false">PREF_PASSWORD</string>
-    <string name="PREF_NICKNAME" translatable="false">PREF_NICKNAME</string>
-    <string name="PREF_IMAGE_URL" translatable="false">PREF_IMAGE_URL</string>
+    <string name="PREF_USER_EMAIL" translatable="false">PREF_EMAIL</string>
+    <string name="PREF_USER_PASSWORD" translatable="false">PREF_PASSWORD</string>
+    <string name="PREF_USER_NICKNAME" translatable="false">PREF_NICKNAME</string>
+    <string name="PREF_USER_IMAGE_URL" translatable="false">PREF_IMAGE_URL</string>
+
+    <string name="PREF_MAKE_GAME" translatable="false">PREF_MAKE_GAME</string>
+    <string name="PREF_MAKE_GAME_MAX_INDEX" translatable="false">PREF_MAKE_GAME_MAX_INDEX</string>
+    <string name="PREF_MAKE_GAME_IS_EXISTS" translatable="false">PREF_MAKE_GAME_IS_EXISTS</string>
+
+    <string name="PREF_PLAY_GAME" translatable="false">PREF_PLAY_GAME</string>
+    <string name="PREF_PLAY_GAME_INDEX" translatable="false">PREF_PLAY_GAME_INDEX</string>
+    <string name="PREF_PLAY_GAME_IS_MENU_STAGE" translatable="false">PREF_PLAY_GAME_IS_MENU_STAGE</string>
+    <string name="PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1" translatable="false">PREF_PLAY_GAME_IS_PLAYING_GAME_FLIPPER1</string>
+    <string name="PREF_PLAY_GAME_NOW_STAGE" translatable="false">PREF_PLAY_GAME_NOW_STAGE</string>
+    <string name="PREF_PLAY_GAME_IS_ON_UPDATE" translatable="false">PREF_PLAY_GAME_IS_ON_UPDATE</string>
+    <string name="PREF_PLAY_GAME_APP_WIDGET_ID" translatable="false">PREF_PLAY_GAME_APP_WIDGET_ID</string>
 
     <!-- activity_login -->
     <string name="LOGIN_LOGIN">로그인</string>
@@ -23,7 +33,6 @@
     <string name="LOGIN_EMAIL_HINT">abcd1234@efgc.com</string>
 
     <string name="LOGIN_SUCCESS">로그인 성공</string>
-    <string name="LOGIN_FAIL">이메일이나 비밀번호가 맞지 않습니다</string>
 
     <!-- activity_join -->
     <string name="JOIN_EMAIL">이메일</string>
@@ -32,37 +41,156 @@
     <string name="JOIN_SECTIONBAR">|</string>
     <string name="JOIN_JOIN">회원가입</string>
 
-    <string name="JOIN_EMAIL_IS_WRONG">유효하지 않은 이메일 형식입니다</string>
-    <string name="JOIN_PASSWORD_IS_WRONG">영문 + 숫자 /"!@#$%/"의 특수문자 로 6~20자로 작성해 주세요</string>
-    <string name="JOIN_NICKNAME_IS_WRONG">영문 + 한글 + 숫자 + /"_/"의 특수문자로 2~16자로 작성해 주세요</string>
-    <string name="JOIN_SUCCESS">회원가입 성공</string>
-
-    <string name="JOIN_EMAIL_EXISTS">이미 존재하는 이메일 입니다</string>
-    <string name="JOIN_NICKNAME_EXISTS">이미 존재하는 닉네임 입니다</string>
-
     <!-- activity_menu -->
-    <string name="MENU_BACK_PRESSED">한번 더 뒤로가기를 누르면 앱이 종료됩니다.</string>
+    <string name="MENU_BACK_PRESSED">뒤로가기를 두 번 연속으로 누르면 앱이 종료됩니다.</string>
     <string name="MENU_FIND_GAME">게임 찾기</string>
     <string name="MENU_MAKE_GAME">게임 제작</string>
     <string name="MENU_PLAYED_GAME">플레이한 게임</string>
-    <string name="MENU_REPORT">리포트 / 문의</string>
+    <string name="MENU_REPORT">리포트 / 문의 / 라이선스</string>
     <string name="MENU_LOGOUT">로그아웃</string>
+
+    <!-- activity_find_game -->
+    <string name="FIND_NO_GAME">검색된 게임이 없습니다</string>
+
+    <!-- activity_download_game -->
+    <string name="DOWNLOAD_GAME_DOWN"> 게임 다운로드 하기 </string>
+
+    <!-- activity_make_game_menu -->
+    <string name="MAKE_NEW_GAME">새 게임 만들기</string>
+    <string name="MAKE_CONTINUE_GAME">이어 만들기</string>
+    <string name="MAKE_SHARE_GAME">게임 공유하기</string>
+
+    <!-- activity_make_game_info -->
+    <string name="DESC_MAKE_GAME_INFO_IV">게임 대표 이미지를 넣으세요</string>
+    <string name="MAKE_GAME_INFO_TITLE">게임 이름</string>
+    <string name="MAKE_GAME_INFO_DESC">게임 설명</string>
+    <string name="MAKE_GAME_INFO_IMAGE">게임 대표 이미지</string>
+    <string name="MAKE_GAME_INFO_START">제작 시작하기</string>
+
+    <!-- activity_make_game_page -->
+    <string name="MAKE_GAME_PAGE_INDEX_TEXT">페이지 번호</string>
+    <string name="MAKE_GAME_PAGE_MODE_TEXT">페이지 종류</string>
+    <string name="MAKE_GAME_PAGE_SOUND_TEXT">효과음 넣기</string>
+    <string name="MAKE_GAME_PAGE_VIBRATE_TEXT">진동 효과</string>
+    <string name="MAKE_GAME_PAGE_CHANGE_BTN_TEXT">변경</string>
+    <string name="DESC_MAKE_GAME_PAGE_IV">현재 페이지의 이미지를 넣으세요</string>
+    <string name="MAKE_GAME_PAGE_TITLE">페이지 이름</string>
+
+    <string name="SPINNER_PAGE_1" translatable="false">Choice</string>
+    <string name="SPINNER_PAGE_2" translatable="false">Story</string>
+    <string name="SPINNER_PAGE_3" translatable="false">Game Over</string>
+    <string name="SPINNER_PAGE_4" translatable="false">Game Clear</string>
+
+    <string name="SPINNER_SOUND_DEFAULT" translatable="false">none</string>
+    <string name="SPINNER_SOUND_1" translatable="false">coins</string>
+    <string name="SPINNER_SOUND_2" translatable="false">crash</string>
+    <string name="SPINNER_SOUND_3" translatable="false">doorbell</string>
+    <string name="SPINNER_SOUND_4" translatable="false">glass</string>
+    <string name="SPINNER_SOUND_5" translatable="false">gun</string>
+    <string name="SPINNER_SOUND_6" translatable="false">laugh</string>
+    <string name="SPINNER_SOUND_7" translatable="false">open</string>
+    <string name="SPINNER_SOUND_8" translatable="false">opendoor</string>
+    <string name="SPINNER_SOUND_9" translatable="false">ring</string>
+    <string name="SPINNER_SOUND_10" translatable="false">shotgun</string>
+    <string name="SPINNER_SOUND_11" translatable="false">sword</string>
+    <string name="SPINNER_SOUND_12" translatable="false">wind</string>
+    <string name="SPINNER_SOUND_13" translatable="false">witchlaugh</string>
+
+    <string name="SPINNER_VIBRATE_ON">vibrate on</string>
+
+    <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>
+    <string name="MAKE_CONFIRM">페이지 생성</string>
+    <string name="MAKE_DELETE">그만 만들기</string>
+
+    <!-- Receiver TxTWidget -->
+    <string name="TxT_WIDGET_NO_GAME">게임이 없습니다</string>
+    <string name="TxT_WIDGET_GO_DOWNLOAD">게임다운로드 하러가기</string>
+    <string name="TxT_WIDGET_STORY_NEXT_PAGE">다음 페이지로</string>
+    <string name="TxT_WIDGET_STORY_GAME_OVER">다시 하기</string>
+    <string name="TxT_WIDGET_STORY_GAME_CLEAR">종료</string>
+    <string name="TxT_WIDGET_INFO_START_GAME">시작</string>
+    <string name="TxT_WIDGET_MENU_START_GAME">다시 하기</string>
+    <string name="TxT_WIDGET_MENU_OPEN_APP">다른 게임 찾기</string>
+    <string name="TxT_WIDGET_MENU_BACK_TO_LAST_SELECTION">이전 선택지로</string>
 
     <!-- URL -->
     <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
-    <string name="URL_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/</string>
+    <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/profile/</string>
+    <string name="URL_GAME_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images</string>
 
     <!-- server response -->
-    <string name="none">none</string>
+    <string name="SERVER_NO_IMAGE_FILE" translatable="false">none</string>
 
     <!-- local storage -->
+    <string name="LOCAL_STORAGE_MAKE_GAME_DIR" translatable="false">TxT/MakeGame</string>
     <string name="LOCAL_STORAGE_USER_DIR" translatable="false">TxT/User</string>
     <string name="LOCAL_USER_IMAGE_FILE_NAME" translatable="false">userImage.png</string>
+    <string name="LOCAL_MAKE_GAME_INFO_IMAGE_FILE_NAME" translatable="false">gameInfoImage.png</string>
+    <string name="LOCAL_MAKE_GAME_PAGE_IMAGE_FILE_NAME" translatable="false">gamePageImage</string>
+    <string name="LOCAL_NO_IMAGE_FILE" translatable="false">none</string>
+    <string name="LOCAL_STORAGE_PLAY_GAME_DIR" translatable="false">TxT/PlayGame</string>
 
+    <!-- sound -->
+    <string name="RAW_FILE_FOLDER_URI" translatable="false">android.resource://com.sungwoo.boostcamp.widgetgame/</string>
     <!-- Retrofit -->
     <string name="RETROFIT_FILE_FORMAT_IMAGE" translatable="false">image/*</string>
     <string name="RETROFIT_FILE_FORMAT_STRING" translatable="false">string</string>
 
     <!-- error message -->
-    <string name="ERROR_IMAGE_IS_NOT_EXISTS">IMAGE IS NOT EXISTS</string>
+    <string name="ERROR_IMAGE_IS_NOT_EXISTS">이미지가 존재하지 않습니다</string>
+    <string name="INVALID_UPLOAD_CODE">there is invalid upload code</string>
+    <string name="PAGE_INDEX_ERROR">page index error</string>
+    <string name="MAX_INDEX_ERROR">max index error</string>
+
+    <!-- game info values -->
+    <string name="GAME_GENRE_SELECTIONS">SELECTIONS</string>
+
+    <!-- intent extras -->
+    <string name="INTENT_MAKE_NEW_GAME_PAGE" translatable="false">IS_NEW_GAME</string>
+    <string name="INTENT_MAKE_GAME_PAGE_INDEX" translatable="false">PAGE_INDEX</string>-->
+    <string name="INTENT_FIND_GAME_TITLE" translatable="false">FIND_GAME_TITLE</string>
+    <string name="INTENT_FIND_GAME_DESCRIPTION" translatable="false">FIND_GAME_DESCRIPTION</string>
+    <string name="INTENT_FIND_GAME_NICKNAME" translatable="false">FIND_GAME_NICKNAME</string>
+    <string name="INTENT_FIND_GAME_STARS" translatable="false">FIND_GAME_STARS</string>
+    <string name="INTENT_FIND_GAME_IMAGEPATH" translatable="false">FIND_GAME_IMAGEPATH</string>
+    <string name="INTENT_FIND_GAME_MAKER_IMAGEPATH" translatable="false">FIND_GAME_MAKER_IMAGEPATH</string>
+
+    <!-- upload test -->
+    <string name="UPLOAD_GAME_NO_PROBLEM">게임공유하기에 문제가 없습니다</string>
+
+    <!-- dialog -->
+    <string name="DIALOG_ERR_TITLE">에러</string>
+    <string name="DIALOG_SUCCESS_TITLE">성공</string>
+    <string name="DIALOG_ALERT_TITLE">경고</string>
+
+    <string name="DIALOG_COMMON_SERVER_ERROR_CONTENT">서버에 문제가 있습니다</string>
+    <string name="DIALOG_COMMON_NETWORK_IS_NOT_AVAILABLE_CONTENT">wifi 혹은 data 가 꺼져있습니다</string>
+    <string name="DIALOG_COMMON_UNKNOWN_ERROR_CONTENT">알수 없는 에러입니다 리포트 해 주시면 개발에 큰 도움이 됩니다!</string>
+    <string name="DIALOG_SERVER_ERROR_CONTENT">서버 에러입니다 잠시후에 다시 시도해 주세요</string>
+    <string name="DIALOG_IMAGE_SAVE_ERROR_CONTENT">이미지 저장에 실패했습니다 다시 시도해 주세요</string>
+    <string name="DIALOG_JOIN_SUCCESS_CONTENT">회원가입 완료</string>
+    <string name="DIALOG_JOIN_EMAIL_EXISTS_CONTENT">이미 존재하는 이메일 입니다</string>
+    <string name="DIALOG_JOIN_NICKNAME_EXISTS_CONTENT">이미 존재하는 닉네임 입니다</string>
+    <string name="DIALOG_JOIN_INVALID_EMAIL_CONTENT">유효하지 않은 이메일 형식입니다 예) abcde@fghi.com 형식으로 입력해 주세요</string>
+    <string name="DIALOG_JOIN_INVALID_PASSWORD_CONTENT">비밀번호를 영문, 숫자 "!@#$%"의 특수문를 사용하여 6~20자로 작성해 주세요</string>
+    <string name="DIALOG_JOIN_INVALID_NICKNAME_CONTENT">닉네임을 영문, 한글, 숫자와 "_"의 특수문자를 사용하여 2~16자로 작성해 주세요</string>
+    <string name="DIALOG_LOGIN_FAIL_CONTENT">입력한 이메일과 비밀번호에 해당하는 회원정보가 없습니다 확인해 주세요</string>
+    <string name="DIALOG_DOWNLOAD_GAME_SUCCESS_CONTENT">다운로드에 성공했습니다. 이 게임은 바탕화면 위젯에서 플레이 할 수 있습니다. 지금바로 게임하러 가시겠습니까?</string>
+    <string name="DIALOG_DOWNLOAD_GAME_FAILED_CONTENT">다운로드에 실패하였습니다. 다시 시도해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_INFO_INVALID_TITLE">제목은 1자 이상 15자 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_INFO_INVALID_DESCRIPTION">설명은 10자 이상 200자 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_MENU_INVALID_TARGET">최대 페이지를 넘어가는 선택지가 있습니다</string>
+    <string name="DIALOG_MAKE_GAME_MENU_NO_GAME_CLEAR_PAGE">게임클리어 페이지가 존재하지 않습니다</string>
+    <string name="DIALOG_MAKE_GAME_MENU_IS_ALREADY_EXIST">새로 만들기를 하시면 기존에 만들던 게임은 사라집니다 계속 하시겠습니까?</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_TITLE_IS_INVALID">제목은 1자 이상 15자 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_DESCRIPTION_IS_INVALID">내용은 1자 이상 100자 이하로 작성해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_SELECTIONS_ARE_NOT_ENOUGH">선택지는 1개이상 선택해 주세요</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_NO_SELECTIONS_INDEX">선택지를 선택하면 어느 index로 가야하는지 지정되어있지 않습니다</string>
+    <string name="DIALOG_MAKE_GAME_PAGE_NO_SELECTIONS_TEXT">선택지 내용이 없습니다</string>
+    <string name="DIALOG_UPLOAD_SUCCESS">게임 업로드 성공</string>
+    <string name="DIALOG_MAKE_GAME_MENU_SHARE_CONFIRM">정말로 업로드 하시겠습니까? 만약 같은 게임 이름으로 올린 게임이 있다면 나중에 올린 게임만 공유됩니다.</string>
+
+    <string name="DIALOG_CONFIRM">확인</string>
+    <string name="DIALOG_POSITIVE">예</string>
+    <string name="DIALOG_NEGATIVE">아니오</string>
 </resources>
