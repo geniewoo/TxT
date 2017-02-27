@@ -1,17 +1,14 @@
 package com.sungwoo.boostcamp.widgetgame;
 
-import android.nfc.FormatException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformRetrofit;
+import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import java.util.regex.Pattern;
 
@@ -42,9 +39,9 @@ public class JoinActivity extends AppCompatActivity {
     private static final String TAG = JoinActivity.class.getSimpleName();
 
     //회원가입 스트링 유효성 파악을 위한 패턴들
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
-    public static final Pattern VALID_NICKNAME_REGEX = Pattern.compile("^[A-z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_PASSWORD_REGEX = Pattern.compile("^[A-Z0-9!@#$%]{6,20}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NICKNAME_REGEX = Pattern.compile("^[A-Z0-9가-힣_]{2,16}$", Pattern.CASE_INSENSITIVE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +54,13 @@ public class JoinActivity extends AppCompatActivity {
     private boolean validateCredentialLocallyDisplayErrorMessageIfNeeded(String email, String password, String nickname) {   //각 값들을 확인해 이상이 있을 시 토스트알림을 띄워준다
 
         if (!isValidEmail(email)) {
-            Toast.makeText(this, R.string.JOIN_EMAIL_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_JOIN_EMAIL, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isValidPassword(password)) {
-            Toast.makeText(this, R.string.JOIN_PASSWORD_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_JOIN_PASSWORD, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!isValidNickname(nickname)) {
-            Toast.makeText(this, R.string.JOIN_NICKNAME_IS_WRONG, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.INVALID_JOIN_NICKNAME, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -81,40 +78,34 @@ public class JoinActivity extends AppCompatActivity {
     }
 
     private boolean isValidEmail(String email) {
-        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
-            return false;
-        return true;
+        return VALID_EMAIL_ADDRESS_REGEX.matcher(email).find();
     }
 
     private boolean isValidPassword(String password) {
-        if (!VALID_PASSWORD_REGEX.matcher(password).find())
-            return false;
-        return true;
+        return VALID_PASSWORD_REGEX.matcher(password).find();
     }
 
     private boolean isValidNickname(String nickname) {
-        if (!VALID_NICKNAME_REGEX.matcher(nickname).find())
-            return false;
-        return true;
+        return VALID_NICKNAME_REGEX.matcher(nickname).find();
     }
 
     private void checkJoinServer(String email, String password, String nickname) {   //서버에 값들을 보내 중복이 없을 시 회원가입까지, 있으면 오류코드를 받아온다.
-        if (!CommonUtility.isNetworkAvailableAndShowErrorMessageIfNeeded(getApplicationContext())) {
+        if (!CommonUtility.isNetworkAvailableShowErrorMessageIfNeeded(getApplicationContext())) {
             return;
         }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.URL_WIDGET_GAME_SERVER))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        UserInformRetrofit userInformRetrofit = retrofit.create(UserInformRetrofit.class);
-        Call<CommonRepo.ResultCodeRepo> testJoinServerCall = userInformRetrofit.testJoinServer(email, password, nickname);
+        UserInformationRetrofit userInformationRetrofit = retrofit.create(UserInformationRetrofit.class);
+        Call<CommonRepo.ResultCodeRepo> testJoinServerCall = userInformationRetrofit.testJoinServer(email, password, nickname);
         testJoinServerCall.enqueue(new Callback<CommonRepo.ResultCodeRepo>() {
             @Override
             public void onResponse(Call<CommonRepo.ResultCodeRepo> call, Response<CommonRepo.ResultCodeRepo> response) {
                 CommonRepo.ResultCodeRepo codeRepo = response.body();
                 switch (codeRepo.getCode()) {
                     case JOIN_SUCCESS:
-                        Toast.makeText(JoinActivity.this, R.string.LOGIN_SUCCESS, Toast.LENGTH_SHORT).show();//TODO 후에 "가입성공", finish()로 바꿈
+                        Toast.makeText(JoinActivity.this, R.string.JOIN_SUCCESS, Toast.LENGTH_SHORT).show();
                         finish();
                         break;
                     case JOIN_DUPLICATE_EMAIL:

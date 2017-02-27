@@ -9,7 +9,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".CommonUtility.RealmInit"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -17,13 +19,14 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".JoinActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".MakeGame.MakeGameMenuActivity"></activity>
+        <activity android:name=".make_game.MakeGameMenuActivity" />
+        <activity android:name=".make_game.MakeGamePageActivity" />
+        <activity android:name=".make_game.MakeGameInfoActivity"/>
     </application>
 
 </manifest>

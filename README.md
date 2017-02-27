@@ -1,4 +1,6 @@
-# TEXT GAME FOR ANDROID
+﻿# TEXT GAME FOR ANDROID
+
+[![Build Status](https://travis-ci.org/geniewoo/BoostWinter.svg?branch=master)](https://travis-ci.org/geniewoo/BoostWinter)
 
 ### 간단한 설명
 
