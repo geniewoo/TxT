@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
@@ -80,7 +81,7 @@ router.post('/game/images', upload.any(), function(req, res, next) {
                 if (err) {
                     res.json({
                         code: 500,
-                        errorMessage: "server errpr"
+                        errorMessage: "server error"
                     });
                 } else {
                     res.json({
@@ -93,7 +94,7 @@ router.post('/game/images', upload.any(), function(req, res, next) {
 });
 
 router.post('/game/fullGameRepo', function(req, res, next) {
-    var nickname = req.body.maker.nickname;
+    var nickname = req.body.maker.nickName;
     var title = req.body.gameInfo.gameTitle;
     var _id = nickname + "+_+" + title;
 
