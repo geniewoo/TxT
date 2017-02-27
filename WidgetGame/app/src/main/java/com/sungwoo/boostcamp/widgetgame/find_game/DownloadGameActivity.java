@@ -4,14 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -24,6 +21,7 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.DownloadGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 import com.sungwoo.boostcamp.widgetgame.Repositories.PlayGameRepo;
+import com.sungwoo.boostcamp.widgetgame.Repositories.SelectionHistory;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.GameInformationRetrofit;
 import com.sungwoo.boostcamp.widgetgame.widget.TxTWidget;
 
@@ -34,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -155,7 +154,7 @@ public class DownloadGameActivity extends AppCompatActivity {
                     switch (response.body().getCode()) {
                         case GET_GAME_SUCCESS:
                             FullGameRepo fullGameRepo = response.body().getFullGameRepo();
-                            mPlayGameRepo = new PlayGameRepo(fullGameRepo, false);
+                            mPlayGameRepo = new PlayGameRepo(fullGameRepo, false, new RealmList<SelectionHistory>());
                             downloadGameImages();
                             break;
                         case GET_GAME_NO_RESULT:

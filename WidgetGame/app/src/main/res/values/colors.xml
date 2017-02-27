@@ -3,8 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#f90</color>
+    <color name="colorNonAccent">#aaa</color>
     <color name="colorBlueButton">#33a</color>
     <color name="colorGray">#888</color>
+    <color name="colorWhite">#fff</color>
+    <color name="colorSelected">#666</color>
     <color name="colorDarkGray">#555</color>
     <color name="colorDDarkGray">#333</color>
 </resources>

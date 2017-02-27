@@ -292,12 +292,23 @@
                                         android:layout_marginRight="2dp"
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_left_in_with_offset1">
-
-                                        <Button
-                                            android:id="@+id/widget_game1_selection1"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game1_selection1_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game1_selection1_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game1_selection1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
 
                                     <ViewFlipper
@@ -308,12 +319,24 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_right_in_with_offset2">
 
-                                        <Button
-                                            android:id="@+id/widget_game1_selection2"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game1_selection2_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game1_selection2_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game1_selection2"
+                                                android:textColor="@color/colorGray"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
                                 </LinearLayout>
 
@@ -335,12 +358,23 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_left_in_with_offset3">
 
-                                        <Button
-                                            android:id="@+id/widget_game1_selection3"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game1_selection3_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game1_selection3_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game1_selection3"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
 
                                     <ViewFlipper
@@ -351,12 +385,23 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_right_in_with_offset4">
 
-                                        <Button
-                                            android:id="@+id/widget_game1_selection4"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game1_selection4_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game1_selection4_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game1_selection4"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
                                 </LinearLayout>
                             </RelativeLayout>
@@ -580,11 +625,23 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_left_in_with_offset1">
 
-                                        <Button
-                                            android:id="@+id/widget_game2_selection1"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game2_selection1_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game2_selection1_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game2_selection1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
 
                                     <ViewFlipper
@@ -595,12 +652,23 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_right_in_with_offset2">
 
-                                        <Button
-                                            android:id="@+id/widget_game2_selection2"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game2_selection2_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game2_selection2_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game2_selection2"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
                                 </LinearLayout>
 
@@ -622,12 +690,23 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_left_in_with_offset3">
 
-                                        <Button
-                                            android:id="@+id/widget_game2_selection3"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game2_selection3_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game2_selection3_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game2_selection3"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
 
                                     <ViewFlipper
@@ -638,12 +717,23 @@
                                         android:layout_weight="1"
                                         android:inAnimation="@anim/slide_right_in_with_offset4">
 
-                                        <Button
-                                            android:id="@+id/widget_game2_selection4"
+                                        <FrameLayout
+                                            android:id="@+id/widget_game2_selection4_lo"
                                             android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:background="@drawable/button_selector" />
+                                            android:layout_height="match_parent">
+                                            <Button
+                                                android:id="@+id/widget_game2_selection4_selected"
+                                                android:textColor="@color/colorSelected"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selected_selector" />
+
+                                            <Button
+                                                android:id="@+id/widget_game2_selection4"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/button_selector" />
+                                        </FrameLayout>
                                     </ViewFlipper>
                                 </LinearLayout>
                             </RelativeLayout>
@@ -675,6 +765,14 @@
                         android:layout_marginTop="@dimen/vertical_2"
                         android:background="@drawable/button_selector"
                         android:text="@string/TxT_WIDGET_MENU_OPEN_APP" />
+
+                    <Button
+                        android:id="@+id/widget_menu_back_to_before_selected_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vertical_2"
+                        android:background="@drawable/button_selector"
+                        android:text="@string/TxT_WIDGET_MENU_BACK_TO_LAST_SELECTION" />
                 </LinearLayout>
             </ViewFlipper>
         </RelativeLayout>

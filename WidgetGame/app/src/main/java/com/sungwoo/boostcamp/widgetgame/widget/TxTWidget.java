@@ -21,6 +21,7 @@ import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Page;
 import com.sungwoo.boostcamp.widgetgame.Repositories.PlayGameRepo;
 import com.sungwoo.boostcamp.widgetgame.Repositories.Selection;
+import com.sungwoo.boostcamp.widgetgame.Repositories.SelectionHistory;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 import static com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility.getSoundMap;
 
@@ -67,6 +69,8 @@ public class TxTWidget extends AppWidgetProvider {
             "com.sungwoo.boostcamp.widgetgame.action.NO_GAME_START_APP_BTN";
     public static final String ACTION_WIDGET_MENU_START_APP_BTN =
             "com.sungwoo.boostcamp.widgetgame.action.MENU_START_APP_BTN";
+    public static final String ACTION_WIDGET_MENU_BACK_TO_BEFORE_SELECTED_BTN =
+            "com.sungwoo.boostcamp.widgetgame.action.MENU_BACK_TO_BEFORE_SELECTED_BTN";
 
     private static final String PAGE_CHOICE = "Choice";
     private static final String PAGE_STORY = "Story";
@@ -77,6 +81,10 @@ public class TxTWidget extends AppWidgetProvider {
     private static final int[] SELECTION_IDS2 = {R.id.widget_game2_selection1, R.id.widget_game2_selection2, R.id.widget_game2_selection3, R.id.widget_game2_selection4};
     private static final int[] SELECTION_VFS1 = {R.id.widget_game1_selection1_vf, R.id.widget_game1_selection2_vf, R.id.widget_game1_selection3_vf, R.id.widget_game1_selection4_vf};
     private static final int[] SELECTION_VFS2 = {R.id.widget_game2_selection1_vf, R.id.widget_game2_selection2_vf, R.id.widget_game2_selection3_vf, R.id.widget_game2_selection4_vf};
+    private static final int[] SELECTION_LOS1 = {R.id.widget_game1_selection1_lo, R.id.widget_game1_selection2_lo, R.id.widget_game1_selection3_lo, R.id.widget_game1_selection4_lo};
+    private static final int[] SELECTION_LOS2 = {R.id.widget_game2_selection1_lo, R.id.widget_game2_selection2_lo, R.id.widget_game2_selection3_lo, R.id.widget_game2_selection4_lo};
+    private static final int[] SELECTION_SEL_IDS1 = {R.id.widget_game1_selection1_selected, R.id.widget_game1_selection2_selected, R.id.widget_game1_selection3_selected, R.id.widget_game1_selection4_selected};
+    private static final int[] SELECTION_SEL_IDS2 = {R.id.widget_game2_selection1_selected, R.id.widget_game2_selection2_selected, R.id.widget_game2_selection3_selected, R.id.widget_game2_selection4_selected};
 
     private static final long[] VIBRATOR_PATTERN = {0, 300, 150, 400};
 
@@ -128,15 +136,19 @@ public class TxTWidget extends AppWidgetProvider {
                 showGamePageLayout(context, 1, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "0":
+                saveSelectionsAndHistory(index, 0);
                 showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(0).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "1":
+                saveSelectionsAndHistory(index, 1);
                 showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(1).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "2":
+                saveSelectionsAndHistory(index, 2);
                 showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(2).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + "3":
+                saveSelectionsAndHistory(index, 3);
                 showGamePageLayout(context, fullGameRepo.getGameInfo().getPages().get(index - 1).getSelections().get(3).getNextIndex(), fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
                 break;
             case ACTION_WIDGET_GAME_PLAYING_NO_SELECTION_NEXT_BTN:
@@ -155,6 +167,15 @@ public class TxTWidget extends AppWidgetProvider {
             case ACTION_WIDGET_MENU_START_GAME_BTN:
                 flipMenu(context, isMenuStage, appWidgetId);
                 showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
+                break;
+            case ACTION_WIDGET_MENU_BACK_TO_BEFORE_SELECTED_BTN:
+                int beforeIndex = backToBeforeSelectionAndGetIndex();
+                flipMenu(context, isMenuStage, appWidgetId);
+                if (beforeIndex == 0) {
+                    showGameInfoLayout(context, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
+                } else {
+                    showGamePageLayout(context, beforeIndex, fullGameRepo, isGamePlayingFlipper1, nowStage, appWidgetId);
+                }
                 break;
         }
     }
@@ -176,6 +197,30 @@ public class TxTWidget extends AppWidgetProvider {
         setPendingIntents(context, sharedPreferences.getInt(context.getString(R.string.PREF_PLAY_GAME_APP_WIDGET_ID), -1));
     }
 
+    private int backToBeforeSelectionAndGetIndex() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RealmList<SelectionHistory> selections = realm.where(PlayGameRepo.class).findAll().get(0).getSelectionHistories();
+        int returnInt;
+        if (selections.size() < 1) {
+            returnInt = 0;
+        } else {
+            returnInt = selections.get(selections.size()-1).getHistory();
+        }
+        selections.deleteLastFromRealm();
+        realm.commitTransaction();
+        realm.close();
+        return returnInt;
+    }
+
+    private void saveSelectionsAndHistory(int index, int selected) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(PlayGameRepo.class).findAll().get(0).getFullGameRepo().getGameInfo().getPages().get(index - 1).getSelections().get(selected).setSelected(true);
+        realm.where(PlayGameRepo.class).findAll().get(0).getSelectionHistories().add(new SelectionHistory(index));
+        realm.commitTransaction();
+        realm.close();
+    }
     private void setPendingIntents(Context context, int appWidgetId) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         remoteViews.setOnClickPendingIntent(R.id.widget_game1_info_start_game_btn,
@@ -189,9 +234,12 @@ public class TxTWidget extends AppWidgetProvider {
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_game, getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_START_GAME_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_menu_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_MENU_START_APP_BTN));
         remoteViews.setOnClickPendingIntent(R.id.widget_no_game_start_app, getTxTAppPendingIntent(context, ACTION_WIDGET_NO_GAME_START_APP_BTN));
+        remoteViews.setOnClickPendingIntent(R.id.widget_menu_back_to_before_selected_btn, getTxTWidgetPendingIntent(context, ACTION_WIDGET_MENU_BACK_TO_BEFORE_SELECTED_BTN));
         for (int i = 0; i < 4; i++) {
             remoteViews.setOnClickPendingIntent(SELECTION_IDS1[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
             remoteViews.setOnClickPendingIntent(SELECTION_IDS2[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
+            remoteViews.setOnClickPendingIntent(SELECTION_SEL_IDS1[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
+            remoteViews.setOnClickPendingIntent(SELECTION_SEL_IDS2[i], getTxTWidgetPendingIntent(context, ACTION_WIDGET_GAME_PLAYING_SELECTION_BTN + i));
         }
         Log.d(TAG, "why ? : " + appWidgetId);
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
@@ -260,6 +308,11 @@ public class TxTWidget extends AppWidgetProvider {
                 break;
             default:
         }
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(PlayGameRepo.class).findAll().get(0).setSelectionHistories(new RealmList<SelectionHistory>());
+        realm.commitTransaction();
+        realm.close();
         SharedPreferences.Editor editor = context.getSharedPreferences(
                 context.getString(R.string.PREF_PLAY_GAME), Context.MODE_PRIVATE).edit();
         editor.putInt(context.getString(R.string.PREF_PLAY_GAME_NOW_STAGE), IN_INFO);
@@ -315,11 +368,11 @@ public class TxTWidget extends AppWidgetProvider {
         flipGame(context, isGamePlayingFlipper1, appWidgetId);
 
         if (isGamePlayingFlipper1) {
-            remoteViews.showNext(R.id.widget_game1_info_description_vf);
-            remoteViews.showNext(R.id.widget_game1_info_start_game_vf);
-        } else {
             remoteViews.showNext(R.id.widget_game2_info_description_vf);
             remoteViews.showNext(R.id.widget_game2_info_start_game_vf);
+        } else {
+            remoteViews.showNext(R.id.widget_game1_info_description_vf);
+            remoteViews.showNext(R.id.widget_game1_info_start_game_vf);
         }
 
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
@@ -396,12 +449,21 @@ public class TxTWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_game2_selections_description_tv, description);
 
             int i = 0;
+
             for (; i < selections.size(); i++) {
-                remoteViews.setViewVisibility(SELECTION_IDS2[i], View.VISIBLE);
-                remoteViews.setTextViewText(SELECTION_IDS2[i], selections.get(i).getSelectionText());
+                remoteViews.setViewVisibility(SELECTION_LOS2[i], View.VISIBLE);
+                if (selections.get(i).isSelected()) {
+                    remoteViews.setViewVisibility(SELECTION_IDS2[i], View.GONE);
+                    remoteViews.setViewVisibility(SELECTION_SEL_IDS2[i], View.VISIBLE);
+                    remoteViews.setTextViewText(SELECTION_SEL_IDS2[i], selections.get(i).getSelectionText());
+                } else {
+                    remoteViews.setViewVisibility(SELECTION_SEL_IDS2[i], View.GONE);
+                    remoteViews.setViewVisibility(SELECTION_IDS2[i], View.VISIBLE);
+                    remoteViews.setTextViewText(SELECTION_IDS2[i], selections.get(i).getSelectionText());
+                }
             }
             for (; i < 4; i++) {
-                remoteViews.setViewVisibility(SELECTION_IDS2[i], View.INVISIBLE);
+                remoteViews.setViewVisibility(SELECTION_LOS2[i], View.INVISIBLE);
             }
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -422,11 +484,19 @@ public class TxTWidget extends AppWidgetProvider {
 
             int i = 0;
             for (; i < selections.size(); i++) {
-                remoteViews.setViewVisibility(SELECTION_IDS1[i], View.VISIBLE);
-                remoteViews.setTextViewText(SELECTION_IDS1[i], selections.get(i).getSelectionText());
+                remoteViews.setViewVisibility(SELECTION_LOS1[i], View.VISIBLE);
+                if (selections.get(i).isSelected()) {
+                    remoteViews.setViewVisibility(SELECTION_IDS1[i], View.GONE);
+                    remoteViews.setViewVisibility(SELECTION_SEL_IDS1[i], View.VISIBLE);
+                    remoteViews.setTextViewText(SELECTION_SEL_IDS1[i], selections.get(i).getSelectionText());
+                } else {
+                    remoteViews.setViewVisibility(SELECTION_SEL_IDS1[i], View.GONE);
+                    remoteViews.setViewVisibility(SELECTION_IDS1[i], View.VISIBLE);
+                    remoteViews.setTextViewText(SELECTION_IDS1[i], selections.get(i).getSelectionText());
+                }
             }
             for (; i < 4; i++) {
-                remoteViews.setViewVisibility(SELECTION_IDS1[i], View.INVISIBLE);
+                remoteViews.setViewVisibility(SELECTION_LOS1[i], View.INVISIBLE);
             }
             if (!imagePath.equals(context.getString(R.string.LOCAL_NO_IMAGE_FILE))) {
                 File file = ImageUtility.getPlayGamePageImageFromLocal(context, page.getIndex());
@@ -440,15 +510,16 @@ public class TxTWidget extends AppWidgetProvider {
         }
         flipGame(context, isGamePlayingFlipper1, appWidgetId);
 
+        Log.d(TAG, "flipper1 : " + isGamePlayingFlipper1);
         if (isGamePlayingFlipper1) {
-            remoteViews.showNext(R.id.widget_game1_selections_description_vf);
-            for (int i = 0; i < selections.size(); i++) {
-                remoteViews.showNext(SELECTION_VFS1[i]);
-            }
-        } else {
             remoteViews.showNext(R.id.widget_game2_selections_description_vf);
             for (int i = 0; i < selections.size(); i++) {
                 remoteViews.showNext(SELECTION_VFS2[i]);
+            }
+        } else {
+            remoteViews.showNext(R.id.widget_game1_selections_description_vf);
+            for (int i = 0; i < selections.size(); i++) {
+                remoteViews.showNext(SELECTION_VFS1[i]);
             }
         }
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
@@ -502,13 +573,13 @@ public class TxTWidget extends AppWidgetProvider {
             }
         }
         flipGame(context, isGamePlayingFlipper1, appWidgetId);
-
+        Log.d(TAG, "flipper1 : " + isGamePlayingFlipper1);
         if (isGamePlayingFlipper1) {
-            remoteViews.showNext(R.id.widget_game1_story_description_vf);
-            remoteViews.showNext(R.id.widget_game1_story_next_vf);
-        } else {
             remoteViews.showNext(R.id.widget_game2_story_description_vf);
             remoteViews.showNext(R.id.widget_game2_story_next_vf);
+        } else {
+            remoteViews.showNext(R.id.widget_game1_story_description_vf);
+            remoteViews.showNext(R.id.widget_game1_story_next_vf);
         }
         turnOnVibrator(context, isVibrateOn);
         playSound(context, sound);
