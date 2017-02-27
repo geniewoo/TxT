@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -336,22 +335,10 @@ public class MakeGamePageActivity extends AppCompatActivity {
     }
 
     @OnItemSelected(R.id.make_page_sp)
-    public void onMakePageSpItemSelected(int position) {
+    public void onMakePageSpItemSelected() {
         if(mMakePageSp.getSelectedItem().toString().equals(getString(R.string.SPINNER_PAGE_1))) {
-            /*for (int i = 0 ; i < mMakePageSelectionsLo.getChildCount() ; i ++) {
-                LinearLayout layout = (LinearLayout)mMakePageSelectionsLo.getChildAt(i);
-                for (int j = 0 ; j < layout.getChildCount() ; j ++) {
-                    layout.getChildAt(j).setEnabled(true);
-                }
-            }*/
             mMakePageSelectionsLo.setVisibility(View.VISIBLE);
         } else {
-            /*for (int i = 0 ; i < mMakePageSelectionsLo.getChildCount() ; i ++) {
-                LinearLayout layout = (LinearLayout)mMakePageSelectionsLo.getChildAt(i);
-                for (int j = 0 ; j < layout.getChildCount() ; j ++) {
-                    layout.getChildAt(j).setEnabled(false);
-                }
-            }*/
             mMakePageSelectionsLo.setVisibility(View.GONE);
         }
     }

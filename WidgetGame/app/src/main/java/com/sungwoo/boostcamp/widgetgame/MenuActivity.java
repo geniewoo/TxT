@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.CommonUtility;
 import com.sungwoo.boostcamp.widgetgame.CommonUtility.ImageUtility;
+import com.sungwoo.boostcamp.widgetgame.LicnseAndReport.LicenseAndReport;
 import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
 import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 import com.sungwoo.boostcamp.widgetgame.find_game.FindGameActivity;
@@ -89,6 +90,8 @@ public class MenuActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(getApplicationContext(), LicenseAndReport.class);
+                        startActivity(intent);
                         break;
                     case 3:
                         CommonUtility.deleteAllUserPreference(getApplicationContext());

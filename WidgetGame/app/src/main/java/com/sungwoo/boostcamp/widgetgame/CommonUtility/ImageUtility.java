@@ -3,29 +3,14 @@ package com.sungwoo.boostcamp.widgetgame.CommonUtility;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.sungwoo.boostcamp.widgetgame.R;
-import com.sungwoo.boostcamp.widgetgame.Repositories.CommonRepo;
-import com.sungwoo.boostcamp.widgetgame.Repositories.FullGameRepo;
-import com.sungwoo.boostcamp.widgetgame.RetrofitRequests.UserInformationRetrofit;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 /**
  * Created by psw10 on 2017-02-16.

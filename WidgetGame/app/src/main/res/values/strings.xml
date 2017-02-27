@@ -101,7 +101,10 @@
     <string name="MAKE_IMAGE_SELECT">IMAGE SELECT</string>
     <string name="MAKE_CONFIRM">페이지 생성</string>
     <string name="MAKE_DELETE">그만 만들기</string>
-
+    <!-- active license and report -->
+    <string name="LICENSE_AND_REPORT_SEND_REPORT">문의 / 버그 리포트 보내기</string>
+    <string name="LICENSE_AND_REPORT_REPORT_CONTENT">문의 / 버그 리포트 내용</string>
+    <string name="LICENSE_AND_REPORT_SHOW_LICENSE">오픈소스 라이선스</string>
     <!-- Receiver TxTWidget -->
     <string name="TxT_WIDGET_NO_GAME">게임이 없습니다</string>
     <string name="TxT_WIDGET_GO_DOWNLOAD">게임다운로드 하러가기</string>

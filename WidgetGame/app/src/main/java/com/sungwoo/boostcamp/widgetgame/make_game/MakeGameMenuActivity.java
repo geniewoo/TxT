@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -157,7 +156,7 @@ public class MakeGameMenuActivity extends AppCompatActivity {
                     return OVER_PAGE_INDEX;
                 }
             }
-            if (isAtLeastOneClearGamePage == false && page.getPage().equals(getString(R.string.SPINNER_PAGE_4))) {
+            if (!isAtLeastOneClearGamePage && page.getPage().equals(getString(R.string.SPINNER_PAGE_4))) {
                 isAtLeastOneClearGamePage = true;
             }
         }
