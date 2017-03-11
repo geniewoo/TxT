@@ -117,9 +117,9 @@
     <string name="TxT_WIDGET_MENU_BACK_TO_LAST_SELECTION">이전 선택지로</string>
 
     <!-- URL -->
-    <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://121.137.62.163:3000"</string>
-    <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images/profile/</string>
-    <string name="URL_GAME_IMAGE_SERVER_FOLDER" translatable="false">http://121.137.62.163:3000/images</string>
+    <string name="URL_WIDGET_GAME_SERVER" translatable="false">"http://182.222.244.148:3000"</string>
+    <string name="URL_PROFILE_IMAGE_SERVER_FOLDER" translatable="false">http://182.222.244.148:3000/images/profile/</string>
+    <string name="URL_GAME_IMAGE_SERVER_FOLDER" translatable="false">http://182.222.244.148:3000/images</string>
 
     <!-- server response -->
     <string name="SERVER_NO_IMAGE_FILE" translatable="false">none</string>

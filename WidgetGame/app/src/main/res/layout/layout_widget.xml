@@ -332,7 +332,6 @@
 
                                             <Button
                                                 android:id="@+id/widget_game1_selection2"
-                                                android:textColor="@color/colorGray"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
                                                 android:background="@drawable/button_selector" />

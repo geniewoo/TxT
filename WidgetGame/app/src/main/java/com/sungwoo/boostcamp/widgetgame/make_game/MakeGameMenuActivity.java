@@ -145,6 +145,9 @@ public class MakeGameMenuActivity extends AppCompatActivity {
     }
 
     private int checkValidateGame() {
+        if (mRealm.where(MakeGameRepo.class).findAll().size() != 1) {
+            return NO_GAME_CLEAR_PAGE;
+        }
         MakeGameRepo makeGameRepo = mRealm.where(MakeGameRepo.class).findAll().get(0);
         RealmList<Page> pages = makeGameRepo.getGameInfo().getPages();
         boolean isAtLeastOneClearGamePage = false;
