@@ -20,8 +20,8 @@ before_script:
   - chmod +x WidgetGame/gradlew
 
 script: 
-  - ./WidgetGame/gradlew
-  - ./WidgetGame/assemble
+  - cd /WidgetGame/gradlew
+  - assemble
 
 licenses:
   - 'android-sdk-preview-license-.+'
